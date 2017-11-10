@@ -1,0 +1,32 @@
+{
+  "web": {
+    "entry": {
+      "init": [
+        "./src/boot/client/polyfills"
+      ],
+      "app": "./src/boot/client/app",
+      "html-app": "./src/boot/client/html-app",
+      "showcase": "./src/boot/client/showcase"
+    },
+    "dll": {
+      "dll": [
+        "./src/boot/client/vendor",
+        "./src/boot/client/polyfills"
+      ]
+    },
+    "externals": {},
+    "static": [
+      "static"
+    ],
+    "port": 3100
+  },
+  "server": {
+    "entry": "./src/boot/server",
+    "port": 4100
+  },
+  "libs": {
+    "entry": {
+      "open-react-modal": {}
+    }
+  }
+}

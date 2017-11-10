@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "allowJs": false,
+    "downlevelIteration": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "app": [
+        "app"
+      ],
+      "app/*": [
+        "app/*"
+      ],
+      "contents/*": [
+        "contents/*"
+      ],
+      "messages/*": [
+        "messages/*"
+      ],
+      "open-react-modal": [
+        "library/open-react-modal"
+      ]
+    }
+  }
+}
