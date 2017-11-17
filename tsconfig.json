@@ -28,8 +28,20 @@
       "messages/*": [
         "messages/*"
       ],
-      "open-react-modal": [
-        "library/open-react-modal"
+      "ssenkit.autocomplete-text-input": [
+        "library/ssenkit.autocomplete-text-input"
+      ],
+      "ssenkit.date-select": [
+        "library/ssenkit.date-select"
+      ],
+      "ssenkit.dropdown-anchor": [
+        "library/ssenkit.dropdown-anchor"
+      ],
+      "ssenkit.modal": [
+        "library/ssenkit.modal"
+      ],
+      "ssenkit.restricted-text-input": [
+        "library/ssenkit.restricted-text-input"
       ]
     }
   }

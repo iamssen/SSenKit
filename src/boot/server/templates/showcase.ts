@@ -7,8 +7,15 @@ export default ({body, initialState, styleTags}: TemplateParams) => `
     <meta charset=UTF-8>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/"/>
+    
     <link rel="stylesheet" type="text/css" href="showcase.css?1"/>
+    <link rel="stylesheet" type="text/css" href="libs/jquery-ui.css"/>
+    
+    <script src="libs/jquery.js"></script>
+    <script src="libs/jquery-ui.js"></script>
+    
     <title>Title...</title>
+    
     ${ typeof styleTags === 'string' ? styleTags : '' }
   </head>
   

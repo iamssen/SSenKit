@@ -1,0 +1,33 @@
+:global .FromToDateTimeDownDownSelector {
+  > [role="container"] {
+    padding: 10px;
+    width: 500px;
+    //height: 380px;
+    background-color: #ffffff;
+    
+    font-size: .875rem; // style copied from FlatKit Dropdown
+    color: rgba(0, 0, 0, .87);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    //z-index: 1000;
+  
+    > [role="selector"] {
+      > .FromToDateTimeSelector {
+        display: flex;
+      }
+    
+      > [role="buttons"] {
+        text-align: center;
+        //padding-right: 10px;
+      
+        button {
+          cursor: pointer;
+        
+          &:not(:first-of-type) {
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

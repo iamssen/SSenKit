@@ -1,0 +1,15 @@
+:global {
+  ul.SingleAutoCompleteTextInputSample-menu {
+    border: 2px solid blue;
+    background-color: #ffffff;
+    
+    .ui-state-focus, .ui-state-active {
+      margin: 0;
+      background-color: #eeeeee;
+    }
+  }
+  
+  input.SingleAutoCompleteTextInputSample-input {
+    border: 2px solid red;
+  }
+}
