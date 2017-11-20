@@ -35,7 +35,7 @@
   },
   "upstream": {
     "git": "https://github.com/iamssen/seed.git",
-    "hash": "631bfd78c6476d92d42d405cbc490b9ef38d6f93"
+    "hash": "8bf88bf67d5a2f41518d08a0773579424034df14"
   },
   "bugs": {
     "url": "https://github.com/iamssen/seed/issues"

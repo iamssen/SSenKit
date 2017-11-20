@@ -26,7 +26,11 @@
   },
   "libs": {
     "entry": {
-      "open-react-modal": {}
+      "ssenkit.autocomplete-text-input": {},
+      "ssenkit.dropdown-anchor": {},
+      "ssenkit.date-select": {},
+      "ssenkit.modal": {},
+      "ssenkit.restricted-text-input": {}
     }
   }
 }
