@@ -1,0 +1,43 @@
+{
+  "style": {
+    "themes": {
+      "module": {
+        "cssModule": true
+      }
+    }
+  },
+  "web": {
+    "entry": {
+      "init": [
+        "./src/_boot/client/polyfills"
+      ],
+      "app": "./src/_boot/client/app",
+      "html-app": "./src/_boot/client/html-app"
+    },
+    "dll": {
+      "name": "dll",
+      "entry": [
+        "./src/_boot/client/vendor",
+        "./src/_boot/client/polyfills"
+      ]
+    },
+    "externals": {},
+    "static": [
+      "static"
+    ],
+    "port": 3300
+  },
+  "server": {
+    "entry": "./src/_boot/server",
+    "port": 4300
+  },
+  "libs": {
+    "entry": {
+      "ssenkit.autocomplete-text-input": {},
+      "ssenkit.date-select": {},
+      "ssenkit.dropdown-anchor": {},
+      "ssenkit.modal": {},
+      "ssenkit.restricted-text-input": {}
+    }
+  }
+}

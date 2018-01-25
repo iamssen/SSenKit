@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "allowJs": false,
+    "downlevelIteration": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "*": [
+        "*",
+        "_library/*"
+      ]
+    }
+  }
+}

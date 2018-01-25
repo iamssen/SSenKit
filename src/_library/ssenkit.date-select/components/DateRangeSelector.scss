@@ -1,0 +1,27 @@
+.DateRangeSelector {
+  display: inline-block;
+  min-width: 470px;
+  
+  > [role="tab"] {
+    margin-bottom: 0.6rem;
+  }
+  
+  > [role="selector"] {
+    > .FromToDateTimeSelector {
+      display: flex;
+    }
+    
+    > [role="buttons"] {
+      text-align: center;
+      //padding-right: 10px;
+      
+      button {
+        cursor: pointer;
+        
+        &:not(:first-of-type) {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+  }
+}

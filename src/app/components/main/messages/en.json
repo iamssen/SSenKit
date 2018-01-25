@@ -1,0 +1,10 @@
+{
+  "app": {
+    "main": {
+      "sign-button": {
+        "login": "Login",
+        "logout": "Logout"
+      }
+    }
+  }
+}

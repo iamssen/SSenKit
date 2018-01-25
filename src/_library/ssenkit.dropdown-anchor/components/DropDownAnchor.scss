@@ -1,0 +1,17 @@
+.DropDownAnchor {
+  position: relative;
+  display: inline-block;
+  
+  > [role="toggle"] {
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  > [role="container"] {
+    position: absolute;
+    z-index: 1000;
+    //padding: 0;
+    //border: 0;
+    box-shadow: 1px 1px 2px 0 rgba(110,110,110,0.1);
+  }
+}

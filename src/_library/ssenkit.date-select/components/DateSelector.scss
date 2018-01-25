@@ -1,0 +1,127 @@
+.DateSelector {
+  table {
+    th, td {
+      border: 0;
+      padding: 0;
+    }
+    
+    tr td {
+      background: transparent;
+    }
+    
+    tr:hover td {
+      background: transparent;
+    }
+  }
+  
+  $calendarWidth: 230px;
+  //$backgroundColor: #fcfcfc;
+  
+  display: inline-block;
+  min-width: $calendarWidth;
+  //border: 1px solid black;
+  
+  div[role="header"] {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-around;
+    //text-align: center;
+    
+    //position: relative;
+    
+    button {
+      cursor: pointer;
+      //transform: translateY(-2px);
+      
+      font-size: 0.8rem;
+      
+      border: 0 !important;
+      background-color: transparent;
+      
+      color: #000000;
+      
+      &:disabled {
+        color: #eeeeee;
+        background-color: transparent !important;
+      }
+    }
+    
+    .MonthSelector {
+      display: inline-block;
+      
+      select {
+        font-size: 0.8rem;
+        width: 70px;
+        height: 20px;
+        
+        color: #55595c; // style from FlatKit <select/>
+        background: #ffffff none;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, .15);
+        
+        &:last-child {
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+  
+  table[role="body"] {
+    width: $calendarWidth;
+    margin: auto;
+    border-collapse: collapse;
+    //border: 1px solid black;
+    
+    th, td {
+      //width: 26px;
+      height: 32px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 0.8rem;
+      
+      &:first-of-type {
+        color: #fd6162; // sunday red
+      }
+    }
+    
+    th {
+      font-weight: normal;
+      color: #9a999e;
+    }
+    
+    td {
+      //border-left: 1px solid #eeeeee;
+      //border-top: 1px solid #eeeeee;
+      cursor: pointer;
+      color: #515328;
+      
+      &:hover {
+        color: #515328;
+        background-color: #f0f1f5;
+      }
+      
+      &.before-month, &.after-month {
+        opacity: 0.2;
+      }
+      
+      &.today {
+        color: #2b8afe;
+        font-weight: bold;
+        background-color: #ebeefa;
+        border: 1px solid #2e8bfd;
+      }
+      
+      &.selected {
+        cursor: default;
+        color: #ffffff;
+        background-color: #2e8bfd;
+      }
+      
+      &.disabled {
+        cursor: default;
+        text-decoration: line-through;
+        opacity: 0.2;
+      }
+    }
+  }
+}
