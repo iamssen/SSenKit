@@ -23,7 +23,7 @@ class Component extends React.Component<Props & InternalProps, State> {
       <Link to="/ssenkit/dropdown-anchor">Dropdown Anchor</Link>,
       <Link to="/ssenkit/modal">Modal</Link>,
       <Link to="/ssenkit/restricted-text-input">Restricted Text Input</Link>,
-    ];
+    ].map((comp, i) => React.cloneElement(comp, {key: 'router-nav-' + i}));
   }
 }
 

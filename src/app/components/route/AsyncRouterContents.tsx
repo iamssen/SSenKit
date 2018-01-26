@@ -23,7 +23,7 @@ class Component extends React.Component<Props & InternalProps, State> {
       routerStore.getRoute('/ssenkit/dropdown-anchor'),
       routerStore.getRoute('/ssenkit/modal'),
       routerStore.getRoute('/ssenkit/restricted-text-input'),
-    ];
+    ].map((comp, i) => React.cloneElement(comp, {key: 'router-' + i}));
   }
 }
 
