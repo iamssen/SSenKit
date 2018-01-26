@@ -33,11 +33,12 @@
   },
   "libs": {
     "entry": {
+      "ssenkit.dropdown-anchor": {},
       "ssenkit.autocomplete-text-input": {},
       "ssenkit.date-select": {},
-      "ssenkit.dropdown-anchor": {},
       "ssenkit.modal": {},
-      "ssenkit.restricted-text-input": {}
+      "ssenkit.restricted-text-input": {},
+      "ssenkit.router-store": {}
     }
   }
 }
