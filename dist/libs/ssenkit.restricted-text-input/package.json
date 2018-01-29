@@ -1,7 +1,7 @@
 {
-  "name": "ssenkit.modal",
-  "version": "1.0.3",
-  "description": "React에서 Modal 창을 여는데 사용됩니다.",
+  "name": "ssenkit.restricted-text-input",
+  "version": "1.0.0",
+  "description": "입력제한이 있는 Text Input",
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"
@@ -13,7 +13,7 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "react": ">=16",
-    "react-dom": ">=16"
+    "d3-array": "^1.2.1",
+    "react": ">=15"
   }
 }

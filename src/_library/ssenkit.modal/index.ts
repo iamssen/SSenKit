@@ -1,5 +1,5 @@
 export {
-  default,
+  Modal as default,
   openModal,
   ModalContentProps,
 } from './components';

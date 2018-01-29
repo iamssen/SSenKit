@@ -1,0 +1,30 @@
+.DateTimeSelector {
+  display: inline-block;
+  min-width: 182px;
+  //border: 1px solid black;
+  
+  > div[role="inputs"] {
+    margin: 0 auto 0.6rem auto;
+    display: flex;
+    
+    input {
+      width: 70px; // ??? flex에 의해서 무시되는 속성이지만, 넣지 않으면 width가 넘쳐버린다
+      text-align: center;
+      
+      &:first-of-type {
+        flex: 4;
+      }
+      
+      &:last-of-type {
+        flex: 3;
+        margin-left: 2px;
+      }
+    }
+  }
+  
+  > .DateSelector {
+    margin: 0 auto;
+    display: block;
+    //border: 1px solid black;
+  }
+}
