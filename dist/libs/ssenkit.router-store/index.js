@@ -77,66 +77,41 @@ module.exports = require("react-router");
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
-// EXTERNAL MODULE: external "react"
-var external__react_ = __webpack_require__(0);
-var external__react__default = /*#__PURE__*/__webpack_require__.n(external__react_);
-
-// EXTERNAL MODULE: external "react-router"
-var external__react_router_ = __webpack_require__(1);
-var external__react_router__default = /*#__PURE__*/__webpack_require__.n(external__react_router_);
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.router-store/components/render.ts
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-var render_RouterRenderContainer = /** @class */ (function (_super) {
-    __extends(RouterRenderContainer, _super);
-    function RouterRenderContainer() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            Component: null,
-        };
-        return _this;
-    }
-    RouterRenderContainer.prototype.render = function () {
-        return this.state.Component
-            ? external__react_["createElement"](this.state.Component, this.props.props)
-            : null;
-    };
-    RouterRenderContainer.prototype.componentWillMount = function () {
-        var _this = this;
-        this.props.load.then(function (_a) {
-            var Component = _a.default;
-            _this.setState({ Component: Component });
-        });
-    };
-    return RouterRenderContainer;
-}(external__react_["Component"]));
-/* harmony default export */ var render = (function (load) {
-    return function (props) { return external__react_["createElement"](render_RouterRenderContainer, {
-        props: props,
-        load: load(),
-    }); };
-});;
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.router-store/components/async-router-store.ts
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(3));
 
 
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
 
-var async_router_store_default_1 = /** @class */ (function () {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var async_router_store_1 = __webpack_require__(4);
+exports.AsyncRouterStore = async_router_store_1.default;
+var sync_router_store_1 = __webpack_require__(6);
+exports.SyncRouterStore = sync_router_store_1.default;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var react_router_1 = __webpack_require__(1);
+var render_1 = __webpack_require__(5);
+var default_1 = /** @class */ (function () {
     function default_1(config) {
         var _this = this;
         this.config = config;
@@ -147,7 +122,7 @@ var async_router_store_default_1 = /** @class */ (function () {
                     props.path = config.path;
                     props.exact = config.exact === true;
                     props.strict = config.strict === true;
-                    return Object(external__react_router_["matchPath"])(location, props) !== null;
+                    return react_router_1.matchPath(location, props) !== null;
                 });
                 if (config) {
                     config.component().then(function (_a) {
@@ -172,9 +147,9 @@ var async_router_store_default_1 = /** @class */ (function () {
                     props.component = _this.preloadIndex.get(config);
                 }
                 else {
-                    props.render = render(config.component);
+                    props.render = render_1.default(config.component);
                 }
-                return external__react_["createElement"](external__react_router_["Route"], props);
+                return React.createElement(react_router_1.Route, props);
             }
             else {
                 throw new Error("Can't find matched path. " + path);
@@ -184,12 +159,68 @@ var async_router_store_default_1 = /** @class */ (function () {
     }
     return default_1;
 }());
-/* harmony default export */ var async_router_store = (async_router_store_default_1);
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.router-store/components/sync-router-store.ts
+exports.default = default_1;
 
 
-var sync_router_store_default_1 = /** @class */ (function () {
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var RouterRenderContainer = /** @class */ (function (_super) {
+    __extends(RouterRenderContainer, _super);
+    function RouterRenderContainer() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
+            Component: null,
+        };
+        return _this;
+    }
+    RouterRenderContainer.prototype.render = function () {
+        return this.state.Component
+            ? React.createElement(this.state.Component, this.props.props)
+            : null;
+    };
+    RouterRenderContainer.prototype.componentWillMount = function () {
+        var _this = this;
+        this.props.load.then(function (_a) {
+            var Component = _a.default;
+            _this.setState({ Component: Component });
+        });
+    };
+    return RouterRenderContainer;
+}(React.Component));
+exports.default = (function (load) {
+    return function (props) { return React.createElement(RouterRenderContainer, {
+        props: props,
+        load: load(),
+    }); };
+});
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var react_router_1 = __webpack_require__(1);
+var default_1 = /** @class */ (function () {
     function default_1(config) {
         var _this = this;
         this.config = config;
@@ -201,7 +232,7 @@ var sync_router_store_default_1 = /** @class */ (function () {
                 props.exact = config.exact === true;
                 props.strict = config.strict === true;
                 props.component = config.component;
-                return external__react_["createElement"](external__react_router_["Route"], props);
+                return React.createElement(react_router_1.Route, props);
             }
             else {
                 throw new Error("Can't find matched path. " + path);
@@ -210,16 +241,7 @@ var sync_router_store_default_1 = /** @class */ (function () {
     }
     return default_1;
 }());
-/* harmony default export */ var sync_router_store = (sync_router_store_default_1);
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.router-store/components/index.ts
-
-
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.router-store/index.ts
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AsyncRouterStore", function() { return async_router_store; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "SyncRouterStore", function() { return sync_router_store; });
-
+exports.default = default_1;
 
 
 /***/ })

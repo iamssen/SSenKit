@@ -26,4 +26,8 @@ export default new AsyncRouterStore([
     path: '/ssenkit/restricted-text-input',
     component: () => System.import('ssenkit/router-components/restricted-text-input'),
   },
+  {
+    path: '/ssenkit/recontext',
+    component: () => System.import('ssenkit/router-components/recontext'),
+  },
 ]);

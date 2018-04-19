@@ -29,5 +29,6 @@ interface Window {
 declare class System {
   // tslint:disable
   static import(path: string): Promise<any>;
+  
   // tslint:enable
 }

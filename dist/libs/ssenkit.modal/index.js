@@ -77,24 +77,42 @@ module.exports = require("react-dom");
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
-// EXTERNAL MODULE: ./src/_library/ssenkit.modal/components/index.scss
-var components = __webpack_require__(3);
-var components_default = /*#__PURE__*/__webpack_require__.n(components);
+Object.defineProperty(exports, "__esModule", { value: true });
+var components_1 = __webpack_require__(3);
+exports.default = components_1.Modal;
+exports.openModal = components_1.openModal;
 
-// EXTERNAL MODULE: external "react"
-var external__react_ = __webpack_require__(0);
-var external__react__default = /*#__PURE__*/__webpack_require__.n(external__react_);
 
-// EXTERNAL MODULE: external "react-dom"
-var external__react_dom_ = __webpack_require__(1);
-var external__react_dom__default = /*#__PURE__*/__webpack_require__.n(external__react_dom_);
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// CONCATENATED MODULE: ./src/_library/ssenkit.modal/components/Modal.tsx
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(4);
+var Modal_1 = __webpack_require__(5);
+exports.Modal = Modal_1.default;
+var openModal_1 = __webpack_require__(6);
+exports.openModal = openModal_1.default;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -105,9 +123,10 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-var Modal_Component = /** @class */ (function (_super) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(1);
+var Component = /** @class */ (function (_super) {
     __extends(Component, _super);
     function Component() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -138,7 +157,7 @@ var Modal_Component = /** @class */ (function (_super) {
     };
     Component.prototype.render = function () {
         return this.state.modalContainer
-            ? external__react_dom_["createPortal"]((external__react_["createElement"]("div", { style: this.props.dimStyle }, external__react_["cloneElement"](this.props.children, { closeModal: this.closeModal }))), this.state.modalContainer)
+            ? ReactDOM.createPortal((React.createElement("div", { style: this.props.dimStyle }, React.cloneElement(this.props.children, { closeModal: this.closeModal }))), this.state.modalContainer)
             : null;
     };
     Component.displayName = 'Modal';
@@ -148,13 +167,20 @@ var Modal_Component = /** @class */ (function (_super) {
         },
     };
     return Component;
-}(external__react_["Component"]));
-/* harmony default export */ var Modal = (Modal_Component);
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.modal/components/openModal.tsx
+}(React.Component));
+exports.default = Component;
 
 
-/* harmony default export */ var openModal = (function (content, options) {
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(1);
+function default_1(content, options) {
     if (options === void 0) { options = {}; }
     if (!options.dimStyle) {
         options.dimStyle = {
@@ -170,28 +196,13 @@ var Modal_Component = /** @class */ (function (_super) {
     var closeModal = function () {
         container.removeChild(modalContainer);
     };
-    external__react_dom_["render"]((external__react_["createElement"]("div", { style: options.dimStyle },
-        external__react_["cloneElement"](content, { closeModal: closeModal }),
+    ReactDOM.render((React.createElement("div", { style: options.dimStyle },
+        React.cloneElement(content, { closeModal: closeModal }),
         ";")), modalContainer);
     return closeModal;
-});
+}
+exports.default = default_1;
 
-// CONCATENATED MODULE: ./src/_library/ssenkit.modal/components/index.ts
-
-
-
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.modal/index.ts
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "default", function() { return Modal; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "openModal", function() { return openModal; });
-
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ])));

@@ -65,14 +65,10 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_array__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_array___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_d3_array__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -103,9 +99,10 @@ var __spread = (this && this.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-
-
-var availableInputKeyCodes = __spread(Object(__WEBPACK_IMPORTED_MODULE_0_d3_array__["range"])(35, 40 + 1), [
+Object.defineProperty(exports, "__esModule", { value: true });
+var d3_array_1 = __webpack_require__(1);
+var React = __webpack_require__(2);
+var availableInputKeyCodes = __spread(d3_array_1.range(35, 40 + 1), [
     8,
     46,
     9,
@@ -147,7 +144,7 @@ var Component = /** @class */ (function (_super) {
     }
     Component.prototype.render = function () {
         var _this = this;
-        return __WEBPACK_IMPORTED_MODULE_1_react__["cloneElement"](this.props.children, {
+        return React.cloneElement(this.props.children, {
             ref: function (r) { return _this.input = r; },
             defaultValue: this.props.value,
             onChange: this.onChange,
@@ -162,11 +159,11 @@ var Component = /** @class */ (function (_super) {
     };
     Component.displayName = 'Component9929265';
     Component.defaultProps = {
-        children: __WEBPACK_IMPORTED_MODULE_1_react__["createElement"]("input", { type: "text" }),
+        children: React.createElement("input", { type: "text" }),
     };
     return Component;
-}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (Component);
+}(React.Component));
+exports.default = Component;
 
 
 /***/ }),

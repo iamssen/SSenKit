@@ -33,6 +33,7 @@
   },
   "libs": {
     "entry": {
+      "recontext": {},
       "ssenkit.dropdown-anchor": {},
       "ssenkit.autocomplete-text-input": {},
       "ssenkit.date-select": {},

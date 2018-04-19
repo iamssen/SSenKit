@@ -10,5 +10,5 @@ export interface Props {
     disableAfter: moment.MomentInput;
     onClick: (date: moment.Moment) => void;
 }
-declare const _default: ({date, selectedDay, startDay, endDay, today, disableBefore, disableAfter, onClick}: Props) => JSX.Element;
+declare const _default: ({ date, selectedDay, startDay, endDay, today, disableBefore, disableAfter, onClick }: Props) => JSX.Element;
 export default _default;

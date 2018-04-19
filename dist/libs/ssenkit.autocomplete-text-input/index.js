@@ -71,16 +71,36 @@ module.exports = require("react");
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
-// EXTERNAL MODULE: external "react"
-var external__react_ = __webpack_require__(0);
-var external__react__default = /*#__PURE__*/__webpack_require__.n(external__react_);
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(2));
 
-// CONCATENATED MODULE: ./src/_library/ssenkit.autocomplete-text-input/components/MultipleAutoCompleteTextInput.tsx
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var MultipleAutoCompleteTextInput_1 = __webpack_require__(3);
+exports.MultipleAutoCompleteTextInput = MultipleAutoCompleteTextInput_1.default;
+var SingleAutoCompleteTextInput_1 = __webpack_require__(4);
+exports.SingleAutoCompleteTextInput = SingleAutoCompleteTextInput_1.default;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -91,11 +111,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
 function split(val) {
     return val.split(/,\s*/);
 }
-var MultipleAutoCompleteTextInput_default_1 = /** @class */ (function (_super) {
+var default_1 = /** @class */ (function (_super) {
     __extends(default_1, _super);
     function default_1() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -121,7 +142,7 @@ var MultipleAutoCompleteTextInput_default_1 = /** @class */ (function (_super) {
     }
     default_1.prototype.render = function () {
         var _this = this;
-        return external__react_["cloneElement"](this.props.children, {
+        return React.cloneElement(this.props.children, {
             ref: function (r) { return _this.input = r; },
             defaultValue: this.props.value,
             onChange: this.onInputChange,
@@ -177,14 +198,20 @@ var MultipleAutoCompleteTextInput_default_1 = /** @class */ (function (_super) {
     };
     default_1.defaultProps = {
         minLength: 2,
-        children: external__react_["createElement"]("input", { type: "text" }),
+        children: React.createElement("input", { type: "text" }),
     };
     return default_1;
-}(external__react_["Component"]));
-/* harmony default export */ var MultipleAutoCompleteTextInput = (MultipleAutoCompleteTextInput_default_1);
+}(React.Component));
+exports.default = default_1;
 
-// CONCATENATED MODULE: ./src/_library/ssenkit.autocomplete-text-input/components/SingleAutoCompleteTextInput.tsx
-var SingleAutoCompleteTextInput___extends = (this && this.__extends) || (function () {
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
@@ -194,9 +221,10 @@ var SingleAutoCompleteTextInput___extends = (this && this.__extends) || (functio
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-var SingleAutoCompleteTextInput_default_1 = /** @class */ (function (_super) {
-    SingleAutoCompleteTextInput___extends(default_1, _super);
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var default_1 = /** @class */ (function (_super) {
+    __extends(default_1, _super);
     function default_1() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.lastDisaptchedText = '';
@@ -221,7 +249,7 @@ var SingleAutoCompleteTextInput_default_1 = /** @class */ (function (_super) {
     }
     default_1.prototype.render = function () {
         var _this = this;
-        return external__react_["cloneElement"](this.props.children, {
+        return React.cloneElement(this.props.children, {
             ref: function (r) { return _this.input = r; },
             defaultValue: this.props.value,
             onChange: this.onInputChange,
@@ -269,20 +297,11 @@ var SingleAutoCompleteTextInput_default_1 = /** @class */ (function (_super) {
     };
     default_1.defaultProps = {
         minLength: 2,
-        children: external__react_["createElement"]("input", { type: "text" }),
+        children: React.createElement("input", { type: "text" }),
     };
     return default_1;
-}(external__react_["Component"]));
-/* harmony default export */ var SingleAutoCompleteTextInput = (SingleAutoCompleteTextInput_default_1);
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.autocomplete-text-input/components/index.ts
-
-
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.autocomplete-text-input/index.tsx
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "MultipleAutoCompleteTextInput", function() { return MultipleAutoCompleteTextInput; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "SingleAutoCompleteTextInput", function() { return SingleAutoCompleteTextInput; });
-
+}(React.Component));
+exports.default = default_1;
 
 
 /***/ })

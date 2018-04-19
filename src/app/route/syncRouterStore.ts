@@ -26,4 +26,8 @@ export default new SyncRouterStore([
     path: '/ssenkit/restricted-text-input',
     component: require('ssenkit/router-components/restricted-text-input').default,
   },
+  {
+    path: '/ssenkit/recontext',
+    component: require('ssenkit/router-components/recontext').default,
+  },
 ]);

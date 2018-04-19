@@ -65,24 +65,32 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
-// EXTERNAL MODULE: external "react"
-var external__react_ = __webpack_require__(1);
-var external__react__default = /*#__PURE__*/__webpack_require__.n(external__react_);
+Object.defineProperty(exports, "__esModule", { value: true });
+var components_1 = __webpack_require__(1);
+exports.default = components_1.DropDownAnchor;
 
-// EXTERNAL MODULE: external "react-dom"
-var external__react_dom_ = __webpack_require__(2);
-var external__react_dom__default = /*#__PURE__*/__webpack_require__.n(external__react_dom_);
 
-// EXTERNAL MODULE: ./src/_library/ssenkit.dropdown-anchor/components/DropDownAnchor.scss
-var DropDownAnchor = __webpack_require__(3);
-var DropDownAnchor_default = /*#__PURE__*/__webpack_require__.n(DropDownAnchor);
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// CONCATENATED MODULE: ./src/_library/ssenkit.dropdown-anchor/components/DropDownAnchor.tsx
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var DropDownAnchor_1 = __webpack_require__(2);
+exports.DropDownAnchor = DropDownAnchor_1.default;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -93,10 +101,11 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
-var DropDownAnchor_default_1 = /** @class */ (function (_super) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(3);
+var ReactDOM = __webpack_require__(4);
+__webpack_require__(5);
+var default_1 = /** @class */ (function (_super) {
     __extends(default_1, _super);
     function default_1() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -120,7 +129,7 @@ var DropDownAnchor_default_1 = /** @class */ (function (_super) {
             }
         };
         _this.outboundClickHandler = function (event) {
-            var contents = external__react_dom_["findDOMNode"](_this.contentContainer);
+            var contents = ReactDOM.findDOMNode(_this.contentContainer);
             var contentsBound = contents.getBoundingClientRect();
             var clientX = event.clientX, clientY = event.clientY;
             var toClose = clientX < contentsBound.left ||
@@ -158,15 +167,15 @@ var DropDownAnchor_default_1 = /** @class */ (function (_super) {
         buttonProps['aria-expanded'] = this.state.open;
         var contentElement;
         if (this.state.open) {
-            contentElement = (external__react_["createElement"]("div", { ref: function (r) { return _this.contentContainer = r; }, role: "container" }, external__react_["cloneElement"](this.props.children, { close: this.close })));
+            contentElement = (React.createElement("div", { ref: function (r) { return _this.contentContainer = r; }, role: "container" }, React.cloneElement(this.props.children, { close: this.close })));
             if (!this.props.useOutboundClick)
                 buttonProps.onClick = this.openerCloseHandler;
         }
         else {
             buttonProps.onClick = this.openerOpenHandler;
         }
-        return (external__react_["createElement"]("div", { className: 'DropDownAnchor ' + this.props.className },
-            external__react_["cloneElement"](this.props.button, buttonProps),
+        return (React.createElement("div", { className: 'DropDownAnchor ' + this.props.className },
+            React.cloneElement(this.props.button, buttonProps),
             contentElement));
     };
     default_1.prototype.componentDidUpdate = function () {
@@ -181,8 +190,8 @@ var DropDownAnchor_default_1 = /** @class */ (function (_super) {
     default_1.prototype.updateContentContainerPosition = function () {
         var documentWidth = window.innerWidth;
         var documentHeight = window.innerHeight;
-        var button = external__react_dom_["findDOMNode"](this.anchorButton);
-        var contents = external__react_dom_["findDOMNode"](this.contentContainer);
+        var button = ReactDOM.findDOMNode(this.anchorButton);
+        var contents = ReactDOM.findDOMNode(this.contentContainer);
         if (!button)
             return;
         var buttonBound = button.getBoundingClientRect();
@@ -227,31 +236,24 @@ var DropDownAnchor_default_1 = /** @class */ (function (_super) {
         useOutboundClick: false,
     };
     return default_1;
-}(external__react_["Component"]));
-/* harmony default export */ var components_DropDownAnchor = (DropDownAnchor_default_1);
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.dropdown-anchor/components/index.ts
-
-
-// CONCATENATED MODULE: ./src/_library/ssenkit.dropdown-anchor/index.ts
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "default", function() { return components_DropDownAnchor; });
-
+}(React.Component));
+exports.default = default_1;
 
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("react");
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dom");
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
