@@ -107,11 +107,10 @@ var ReactDOM = __webpack_require__(4);
 __webpack_require__(5);
 var default_1 = /** @class */ (function (_super) {
     __extends(default_1, _super);
-    function default_1() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            open: false,
-        };
+    function default_1(props) {
+        var _this = _super.call(this, props) || this;
+        _this.contentContainerRef = React.createRef();
+        _this.anchorButtonRef = React.createRef();
         // ---------------------------------------------
         // outbound click
         // ---------------------------------------------
@@ -129,7 +128,9 @@ var default_1 = /** @class */ (function (_super) {
             }
         };
         _this.outboundClickHandler = function (event) {
-            var contents = ReactDOM.findDOMNode(_this.contentContainer);
+            if (!_this.contentContainerRef.current)
+                return;
+            var contents = ReactDOM.findDOMNode(_this.contentContainerRef.current);
             var contentsBound = contents.getBoundingClientRect();
             var clientX = event.clientX, clientY = event.clientY;
             var toClose = clientX < contentsBound.left ||
@@ -158,16 +159,18 @@ var default_1 = /** @class */ (function (_super) {
             if (_this.state.open)
                 _this.closeContentContainer();
         };
+        _this.state = {
+            open: false,
+        };
         return _this;
     }
     default_1.prototype.render = function () {
-        var _this = this;
-        var buttonProps = { ref: function (r) { return _this.anchorButton = r; } };
+        var buttonProps = { ref: this.anchorButtonRef };
         buttonProps['role'] = 'toggle';
         buttonProps['aria-expanded'] = this.state.open;
-        var contentElement;
+        var contentElement = null;
         if (this.state.open) {
-            contentElement = (React.createElement("div", { ref: function (r) { return _this.contentContainer = r; }, role: "container" }, React.cloneElement(this.props.children, { close: this.close })));
+            contentElement = (React.createElement("div", { ref: this.contentContainerRef, role: "container" }, React.cloneElement(this.props.children, { close: this.close })));
             if (!this.props.useOutboundClick)
                 buttonProps.onClick = this.openerCloseHandler;
         }
@@ -188,10 +191,12 @@ var default_1 = /** @class */ (function (_super) {
         this.unsubscribeOutboundClick();
     };
     default_1.prototype.updateContentContainerPosition = function () {
+        if (!this.anchorButtonRef.current || !this.contentContainerRef.current)
+            return;
         var documentWidth = window.innerWidth;
         var documentHeight = window.innerHeight;
-        var button = ReactDOM.findDOMNode(this.anchorButton);
-        var contents = ReactDOM.findDOMNode(this.contentContainer);
+        var button = ReactDOM.findDOMNode(this.anchorButtonRef.current);
+        var contents = ReactDOM.findDOMNode(this.contentContainerRef.current);
         if (!button)
             return;
         var buttonBound = button.getBoundingClientRect();
@@ -236,7 +241,7 @@ var default_1 = /** @class */ (function (_super) {
         useOutboundClick: false,
     };
     return default_1;
-}(React.Component));
+}(React.PureComponent));
 exports.default = default_1;
 
 

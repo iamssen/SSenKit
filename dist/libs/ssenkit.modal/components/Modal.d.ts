@@ -7,5 +7,5 @@ export interface Props {
     dimStyle?: React.CSSProperties;
     children: React.ReactElement<ModalContentProps>;
 }
-declare const _default: React.ComponentClass<Props>;
+declare const _default: React.ComponentType<Props>;
 export default _default;

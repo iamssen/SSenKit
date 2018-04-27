@@ -182,8 +182,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var RouterRenderContainer = /** @class */ (function (_super) {
     __extends(RouterRenderContainer, _super);
-    function RouterRenderContainer() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function RouterRenderContainer(props) {
+        var _this = _super.call(this, props) || this;
         _this.state = {
             Component: null,
         };
@@ -194,7 +194,7 @@ var RouterRenderContainer = /** @class */ (function (_super) {
             ? React.createElement(this.state.Component, this.props.props)
             : null;
     };
-    RouterRenderContainer.prototype.componentWillMount = function () {
+    RouterRenderContainer.prototype.componentDidMount = function () {
         var _this = this;
         this.props.load.then(function (_a) {
             var Component = _a.default;
@@ -202,7 +202,7 @@ var RouterRenderContainer = /** @class */ (function (_super) {
         });
     };
     return RouterRenderContainer;
-}(React.Component));
+}(React.PureComponent));
 exports.default = (function (load) {
     return function (props) { return React.createElement(RouterRenderContainer, {
         props: props,

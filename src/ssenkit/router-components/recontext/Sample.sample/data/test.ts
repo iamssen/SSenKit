@@ -14,20 +14,27 @@ module test {
   
   export type Store = State & Actions;
   
-  export const createStore: Recontext.CreateStore<State, Actions> = Recontext.createStore<State, Actions>(setState => ({
-    updateX: ({y}) => x => {
-      setState({
-        x,
-        z: x + y,
-      });
+  export const createStore: Recontext.CreateStore<State, Actions> = Recontext.createStore<State, Actions>(
+    {
+      x: 1,
+      y: 2,
+      z: 3,
     },
-    updateY: ({x}) => y => {
-      setState({
-        y,
-        z: x + y,
-      });
-    },
-  }));
+    setState => ({
+      updateX: ({y}) => x => {
+        setState({
+          x,
+          z: x + y,
+        });
+      },
+      updateY: ({x}) => y => {
+        setState({
+          y,
+          z: x + y,
+        });
+      },
+    }),
+  );
 }
 
 export default test;

@@ -14,7 +14,7 @@ export default class {
   }
   
   getRoute = (path: string) => {
-    const config: SyncRouterStoreConfig = this.config.find(config => config.path === path);
+    const config: SyncRouterStoreConfig | undefined = this.config.find(config => config.path === path);
     
     if (config) {
       const props: RouteProps = {};

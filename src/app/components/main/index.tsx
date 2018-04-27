@@ -14,25 +14,27 @@ interface State {
 }
 
 class Component extends React.Component<Props & InternalProps, State> {
-  static displayName: string = 'Component57762622';
+  static displayName: string = 'app.components.main';
   
   render() {
     return (
-      <div>
-        <div>
-          <LanguageChangeButton/>
-          <SignButton/>
-        </div>
-        <div>
-          <RouterNavigation/>
-        </div>
-        <div>
-          {this.props.children}
-          {this.props.routerContents}
-        </div>
-      </div>
+      <React.StrictMode>
+        <React.Fragment>
+          <div>
+            <LanguageChangeButton/>
+            <SignButton/>
+          </div>
+          <div>
+            <RouterNavigation/>
+          </div>
+          <div>
+            {this.props.children}
+            {this.props.routerContents}
+          </div>
+        </React.Fragment>
+      </React.StrictMode>
     );
   }
 }
 
-export default Component as React.ComponentClass<Props>;
+export default Component as React.ComponentType<Props>;

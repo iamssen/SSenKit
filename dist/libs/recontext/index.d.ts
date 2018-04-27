@@ -18,12 +18,12 @@ export declare class Provider<ContextState, Props = {}, State = {}> extends Reac
     }>): void;
     componentWillUnmount(): void;
     protected setContextState: (stateOrProducer: Partial<ContextState> | ((contextState: ContextState) => Partial<ContextState>)) => void;
-    protected dispatch: (action: Action<ContextState>) => () => void;
-    protected subscribe: (subscription: (prevState: ContextState, state: ContextState) => void) => () => void;
+    protected dispatch: (action: Action<ContextState>) => Teardown;
+    protected subscribe: (subscription: (state: ContextState, prevState: ContextState) => void) => Teardown;
     updateStore: (prevStore: any, nextStore: any) => void;
 }
-export declare type CreateStore<State, Actions> = (provider: Provider<{}>, initialState: State) => State & Actions;
+export declare type CreateStore<State, Actions> = (provider: Provider<{}>, initialState?: Partial<State>) => State & Actions;
 export declare type ActionsInput<State, Actions> = {
     [A in keyof Actions]: (state: State) => Actions[A];
 };
-export declare function createStore<State, Actions>(config: (setState: (state: Partial<State>) => void) => ActionsInput<State, Actions>): ((provider: Provider<{}>, initialState: State) => State & Actions);
+export declare function createStore<State, Actions>(defaultInitialState: State, config: (setState: (state: Partial<State>) => State & Actions) => ActionsInput<State, Actions>): CreateStore<State, Actions>;

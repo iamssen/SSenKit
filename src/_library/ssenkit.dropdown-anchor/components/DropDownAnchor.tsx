@@ -6,7 +6,7 @@ import DropDownContentProps from './DropDownContentProps';
 
 export interface Props {
   className?: string;
-  children?: React.ReactElement<DropDownContentProps>;
+  children: React.ReactElement<DropDownContentProps>;
   button: React.ReactElement<DropDownAnchorButtonProps>;
   useAlternatePosition?: boolean;
   useOutboundClick?: boolean;
@@ -15,34 +15,39 @@ export interface Props {
 }
 
 export interface State {
-  open?: boolean;
+  open: boolean;
 }
 
-export default class extends React.Component<Props, State> {
-  private contentContainer: HTMLElement;
-  private anchorButton: HTMLElement;
-  private outboundClickSubscription: (event: MouseEvent) => void;
+export default class extends React.PureComponent<Props, State> {
+  private contentContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
+  private anchorButtonRef: React.RefObject<React.ReactInstance> = React.createRef();
   
-  static defaultProps: object = {
+  private outboundClickSubscription: ((event: MouseEvent) => void) | null;
+  
+  static defaultProps: Partial<Props> = {
     className: '',
     useAlternatePosition: true,
     useOutboundClick: false,
   };
   
-  state: State = {
-    open: false,
-  };
+  constructor(props: Props) {
+    super(props);
+    
+    this.state = {
+      open: false,
+    };
+  }
   
   render() {
-    const buttonProps: DropDownAnchorButtonProps & {ref?: (r: HTMLElement) => void} = {ref: r => this.anchorButton = r};
+    const buttonProps: DropDownAnchorButtonProps & {ref: React.RefObject<React.ReactInstance>} = {ref: this.anchorButtonRef};
     buttonProps['role'] = 'toggle';
     buttonProps['aria-expanded'] = this.state.open;
     
-    let contentElement: JSX.Element;
+    let contentElement: JSX.Element | null = null;
     
     if (this.state.open) {
       contentElement = (
-        <div ref={r => this.contentContainer = r} role="container">
+        <div ref={this.contentContainerRef} role="container">
           {React.cloneElement(this.props.children as JSX.Element, {close: this.close})}
         </div>
       );
@@ -72,11 +77,13 @@ export default class extends React.Component<Props, State> {
   }
   
   updateContentContainerPosition() {
+    if (!this.anchorButtonRef.current || !this.contentContainerRef.current) return;
+    
     const documentWidth: number = window.innerWidth;
     const documentHeight: number = window.innerHeight;
     
-    const button: HTMLElement = ReactDOM.findDOMNode(this.anchorButton) as HTMLElement;
-    const contents: HTMLElement = ReactDOM.findDOMNode(this.contentContainer) as HTMLElement;
+    const button: HTMLElement = ReactDOM.findDOMNode(this.anchorButtonRef.current) as HTMLElement;
+    const contents: HTMLElement = ReactDOM.findDOMNode(this.contentContainerRef.current) as HTMLElement;
     
     if (!button) return;
     
@@ -120,7 +127,9 @@ export default class extends React.Component<Props, State> {
   };
   
   outboundClickHandler = (event: MouseEvent) => {
-    const contents: HTMLElement = ReactDOM.findDOMNode(this.contentContainer) as HTMLElement;
+    if (!this.contentContainerRef.current) return;
+    
+    const contents: HTMLElement = ReactDOM.findDOMNode(this.contentContainerRef.current) as HTMLElement;
     const contentsBound: ClientRect = contents.getBoundingClientRect();
     
     const {clientX, clientY} = event;

@@ -14,9 +14,13 @@ export default function (content: React.ReactElement<ModalContentProps>, options
     };
   }
   
-  const container: Element = typeof options.container === 'string'
+  const container: Element | null = typeof options.container === 'string'
     ? document.querySelector(options.container)
     : document.body;
+  
+  if (!container) {
+    throw new Error(`Container "${options.container}" not found.`);
+  }
   
   const modalContainer: Element = document.createElement('div');
   modalContainer.setAttribute('class', '__ssenkit_modal_container__');

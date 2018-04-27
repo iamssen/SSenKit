@@ -26,18 +26,19 @@ interface InternalProps {
 interface State {
 }
 
-class Component extends React.Component<Props & InternalProps, State> {
+class Component extends React.PureComponent<Props & InternalProps, State> {
   static displayName: string = 'Component9929265';
   
-  private input: HTMLInputElement;
+  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  //private input: HTMLInputElement;
   
   static defaultProps: Partial<Props> = {
     children: <input type="text"/>,
   };
   
   render() {
-    return React.cloneElement(this.props.children, {
-      ref: r => this.input = r,
+    return React.cloneElement(this.props.children as JSX.Element, {
+      ref: this.inputRef,
       defaultValue: this.props.value,
       onChange: this.onChange,
       onKeyPress: this.onKeyPress,
@@ -50,7 +51,7 @@ class Component extends React.Component<Props & InternalProps, State> {
   };
   
   onKeyPress = (event: React.KeyboardEvent<{value: string}>) => {
-    const selectAll: boolean = event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true);
+    const selectAll: boolean = event.keyCode === 65 && (event.ctrlKey || event.metaKey);
     
     if (selectAll
       || availableInputKeyCodes.indexOf(event.keyCode) !== -1
@@ -67,22 +68,24 @@ class Component extends React.Component<Props & InternalProps, State> {
     }
   };
   
-  componentWillReceiveProps(nextProps: Readonly<Props>) {
-    if (this.input && this.input.value !== nextProps.value) {
-      this.input.value = nextProps.value;
+  componentDidUpdate() {
+    if (this.inputRef.current && this.inputRef.current.value !== this.props.value) {
+      this.inputRef.current.value = this.props.value;
     }
   }
   
-  //get text(): string {
-  //  return this.input.value;
-  //}
-  //
-  //set text(value: string) {
-  //  if (this.input) {
-  //    this.input.value = value;
-  //    this.props.onChange(value);
-  //  }
-  //}
+  get text(): string {
+    return this.inputRef.current
+      ? this.inputRef.current.value
+      : '';
+  }
+  
+  set text(value: string) {
+    if (this.inputRef.current) {
+      this.inputRef.current.value = value;
+      this.props.onChange(value);
+    }
+  }
 }
 
-export default Component as React.ComponentClass<Props>;
+export default Component as React.ComponentType<Props>;

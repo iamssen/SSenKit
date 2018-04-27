@@ -27,8 +27,8 @@ describe('Collection.Indexed', () => {
     expect(
       indexed
         .interleave(
-          List<number>([7, 8, 9]),
-          List<number>([100, 200]),
+          List<number>([7, 8, 9]) as Collection<number, number>,
+          List<number>([100, 200]) as Collection<number, number>,
         )
         .toJS(),
     ).toEqual([1, 7, 100, 2, 8, 200]);
@@ -46,8 +46,8 @@ describe('Collection.Indexed', () => {
     expect(
       indexed
         .zip(
-          List<number>([7, 8, 9]),
-          List<number>([100, 200]),
+          List<number>([7, 8, 9]) as Collection<number, number>,
+          List<number>([100, 200]) as Collection<number, number>,
         )
         .toJS(),
     ).toEqual([[1, 7, 100], [2, 8, 200]]);
@@ -61,9 +61,9 @@ describe('Collection.Indexed', () => {
           (...values: (string | number)[]) => {
             return values.join(':');
           },
-          List<number>([100, 200]),
-          List<string>(['x', 'y']),
-          List<string>(['!', '@']),
+          List<number>([100, 200]) as Collection<number, number>,
+          List<string>(['x', 'y']) as Collection<number, string>,
+          List<string>(['!', '@']) as Collection<number, string>,
         )
         .toJS(),
     ).toEqual(['1:100:x:!', '2:200:y:@']);
@@ -74,9 +74,9 @@ describe('Collection.Indexed', () => {
           (...values: number[]) => {
             return values.reduce((sum: number, v: number) => sum + v, 0);
           },
-          List<number>([10, 20, 30]),
-          List<number>([100, 200, 300]),
-          List<number>([1000, 2000, 3000]),
+          List<number>([10, 20, 30]) as Collection<number, number>,
+          List<number>([100, 200, 300]) as Collection<number, number>,
+          List<number>([1000, 2000, 3000]) as Collection<number, number>,
         )
         .toJS(),
     ).toEqual([1111, 2222, 3333]);

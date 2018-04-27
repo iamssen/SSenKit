@@ -13,6 +13,7 @@ type ContextState = Recontext.ContextState<{
   test: test.Store;
 }>;
 
+// @ts-ignore
 const {Provider: ReactProvider, Consumer} = React.createContext<ContextState>();
 
 class Provider extends Recontext.Provider<ContextState> {
@@ -68,13 +69,17 @@ class Provider extends Recontext.Provider<ContextState> {
 }
 
 function withConsumer<Props>(Component: React.ComponentType<Props>): React.ComponentType<Props & ContextState> {
-  return (props: Props) => (
-    <Consumer>
-      {
-        state => <Component {...state} {...props}/>
-      }
-    </Consumer>
-  );
+  return class extends React.PureComponent<Props & ContextState> {
+    render() {
+      return (
+        <Consumer>
+          {
+            state => <Component {...state} {...this.props}/>
+          }
+        </Consumer>
+      );
+    }
+  };
 }
 
 export {

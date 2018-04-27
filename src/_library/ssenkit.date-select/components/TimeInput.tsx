@@ -1,5 +1,6 @@
 import { range } from 'd3-array';
 import * as React from 'react';
+import { ContextState, withConsumer } from '../context';
 
 const availableKeyCodes: number[] = [
   ...range(35, 40 + 1), // arrow keys
@@ -14,47 +15,68 @@ const availableKeyCodes: number[] = [
 ];
 
 export interface Props {
-  className?: string;
   time: string; // of "HH:mm:ss"
   onChange: (time: string) => void;
 }
 
-export interface State {
-  timeString?: string;
+interface InternalProps extends ContextState {
 }
 
-export default class extends React.Component<Props, State> {
-  private input: HTMLInputElement;
+interface State {
+  time: string; // of "HH:mm:ss
+}
+
+class Component extends React.Component<Props & InternalProps, State> {
+  static displayName: string = 'TimeInput';
   
-  static defaultProps: object = {
-    className: '',
-  };
+  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   
-  state: State = {
-    timeString: '00:00:00',
-  };
+  constructor(props: Props & InternalProps) {
+    super(props);
+    
+    this.state = {
+      time: props.time,
+    };
+  }
   
   render() {
     return (
-      <input ref={r => this.input = r}
+      <input ref={this.inputRef}
              type="text"
-             className={'TimeInput form-control' + this.props.className}
-             defaultValue={this.state.timeString}
+             className={'TimeInput ' + this.props.config.timeInputClassName}
+             defaultValue={this.state.time}
              onBlur={this.onBlur}
              onKeyDown={this.onKeyDown}/>
     );
   }
   
-  onBlur = (event: React.FocusEvent<{value: string}>) => {
-    this.commitString(this.state.timeString, event.currentTarget.value);
+  static getDerivedStateFromProps(nextProps: Props & InternalProps): Partial<State> {
+    return {
+      time: nextProps.time,
+    };
+  }
+  
+  componentDidUpdate() {
+    if (this.inputRef.current && this.inputRef.current.value !== this.state.time) {
+      this.inputRef.current.value = this.state.time;
+    }
+  }
+  
+  shouldComponentUpdate(nextProps: Readonly<Props & InternalProps>, nextState: Readonly<State>): boolean {
+    return this.state.time !== nextState.time;
+  }
+  
+  private onBlur = (event: React.FocusEvent<{value: string}>) => {
+    this.commitString(this.state.time, event.currentTarget.value);
   };
   
-  onKeyDown = (event: React.KeyboardEvent<{value: string}>) => {
+  private onKeyDown = (event: React.KeyboardEvent<{value: string}>) => {
     if (event.keyCode === 13) {
-      this.commitString(this.state.timeString, event.currentTarget.value);
+      this.commitString(this.state.time, event.currentTarget.value);
       return;
     }
-    const selectAll: boolean = event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true);
+    
+    const selectAll: boolean = event.keyCode === 65 && (event.ctrlKey || event.metaKey);
     if (selectAll || availableKeyCodes.indexOf(event.keyCode) !== -1) return;
     event.preventDefault();
   };
@@ -63,13 +85,17 @@ export default class extends React.Component<Props, State> {
     if (prevTimeString === nextTimeString) return;
     
     if (nextTimeString.trim() === '') {
-      this.setState({timeString: '00:00:00'});
+      this.setState({
+        time: '00:00:00',
+      });
       this.props.onChange('00:00:00');
       return;
     }
     
     if (!/^([0-9]{2}):([0-9]{2}):([0-9]{2})$/.test(nextTimeString)) {
-      this.input.value = prevTimeString;
+      if (this.inputRef.current) {
+        this.inputRef.current.value = prevTimeString;
+      }
       return;
     }
     
@@ -82,33 +108,16 @@ export default class extends React.Component<Props, State> {
       && !isNaN(mm) && mm >= 0 && HH < 60
       && !isNaN(ss) && ss >= 0 && ss < 60
     ) {
-      this.setState({timeString: nextTimeString});
+      this.setState({
+        time: nextTimeString,
+      });
       this.props.onChange(nextTimeString);
     } else {
-      this.input.value = prevTimeString;
-    }
-  }
-  
-  componentWillMount() {
-    this.propsToState({} as Props, this.props);
-  }
-  
-  componentWillReceiveProps(nextProps: Props) {
-    this.propsToState(this.props, nextProps);
-  }
-  
-  private propsToState(prevProps: Props, nextProps: Props) {
-    const state: State = {};
-    let changed: boolean = false;
-    
-    if (prevProps.time !== nextProps.time) {
-      state.timeString = nextProps.time;
-      if (this.input) this.input.value = nextProps.time;
-      changed = true;
-    }
-    
-    if (changed) {
-      this.setState(state);
+      if (this.inputRef.current) {
+        this.inputRef.current.value = prevTimeString;
+      }
     }
   }
 }
+
+export default withConsumer(Component) as React.ComponentType<Props>;

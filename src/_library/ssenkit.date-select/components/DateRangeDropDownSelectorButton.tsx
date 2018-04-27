@@ -3,7 +3,7 @@ import * as React from 'react';
 import { DateRange, From, FromTo, isFrom, isFromTo, isLatest, Latest } from '../types';
 import { DateRangeDropDownSelectorButtonProps } from './DateRangeDropDownSelectorButtonProps';
 
-export function dateRangeToString(dateRange: DateRange, format: string): string {
+export function dateRangeToString(dateRange: DateRange | undefined, format: string): string {
   if (!dateRange) return '-';
   
   if (typeof dateRange.description === 'string') {
@@ -29,18 +29,25 @@ export function dateRangeToString(dateRange: DateRange, format: string): string 
   throw new Error('알 수 없는 DateRange 형식. description도 없고, FromTo나 From도 아니다.');
 }
 
-class Component extends React.Component<DateRangeDropDownSelectorButtonProps, {}> {
+class Component extends React.PureComponent<DateRangeDropDownSelectorButtonProps, {}> {
   static displayName: string = 'DateRangeDropDownSelectorButton';
   
   render() {
     const {dateRange, progressiveDateRange, children, ...props} = this.props;
-    const isProgressive: boolean = progressiveDateRange !== null && progressiveDateRange !== undefined;
+    
     return (
-      <button className="btn btn-sm white dropdown-toggle" aria-busy={isProgressive} {...props}>
-        {dateRangeToString(isProgressive ? progressiveDateRange : dateRange, 'YYYY년 MM월 DD일 HH:mm:ss')}
+      <button className="btn btn-sm white dropdown-toggle"
+              aria-busy={progressiveDateRange !== null && progressiveDateRange !== undefined}
+              {...props}>
+        {
+          dateRangeToString(
+            progressiveDateRange || dateRange,
+            'YYYY년 MM월 DD일 HH:mm:ss',
+          )
+        }
       </button>
     );
   }
 };
 
-export default Component as React.ComponentClass<DateRangeDropDownSelectorButtonProps>;
+export default Component as React.ComponentType<DateRangeDropDownSelectorButtonProps>;

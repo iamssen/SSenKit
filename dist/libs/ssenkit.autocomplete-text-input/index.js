@@ -120,6 +120,7 @@ var default_1 = /** @class */ (function (_super) {
     __extends(default_1, _super);
     function default_1() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.inputRef = React.createRef();
         _this.lastDisaptchedText = '';
         _this.onInputChange = function (event) {
             _this.dispatchChange(event.currentTarget.value);
@@ -130,7 +131,9 @@ var default_1 = /** @class */ (function (_super) {
             }
         };
         _this.onBlur = function (event) {
-            _this.dispatchChange(event.currentTarget['value']);
+            if (event.currentTarget && typeof event.currentTarget['value'] === 'string') {
+                _this.dispatchChange(event.currentTarget['value']);
+            }
         };
         _this.dispatchChange = function (text) {
             if (_this.lastDisaptchedText !== text) {
@@ -141,9 +144,8 @@ var default_1 = /** @class */ (function (_super) {
         return _this;
     }
     default_1.prototype.render = function () {
-        var _this = this;
         return React.cloneElement(this.props.children, {
-            ref: function (r) { return _this.input = r; },
+            ref: this.inputRef,
             defaultValue: this.props.value,
             onChange: this.onInputChange,
             onKeyDown: this.onInputSubmit,
@@ -151,6 +153,8 @@ var default_1 = /** @class */ (function (_super) {
     };
     default_1.prototype.componentDidMount = function () {
         var _this = this;
+        if (!this.inputRef.current)
+            return;
         var self = this;
         var options = {
             minLength: this.props.minLength,
@@ -183,7 +187,7 @@ var default_1 = /** @class */ (function (_super) {
                 classes['ui-autocomplete'] = this.props.menuClassName;
             options['classes'] = classes;
         }
-        $(this.input)
+        $(this.inputRef.current)
             .on('keydown', function (event) {
             if (event.keyCode === $.ui.keyCode.TAB && $(_this).autocomplete('instance').menu.active) {
                 event.preventDefault();
@@ -191,9 +195,9 @@ var default_1 = /** @class */ (function (_super) {
         })
             .autocomplete(options);
     };
-    default_1.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.input.value !== nextProps.value) {
-            this.input.value = nextProps.value;
+    default_1.prototype.componentDidUpdate = function () {
+        if (this.inputRef.current && this.inputRef.current.value !== this.props.value) {
+            this.inputRef.current.value = this.props.value || '';
         }
     };
     default_1.defaultProps = {
@@ -201,7 +205,7 @@ var default_1 = /** @class */ (function (_super) {
         children: React.createElement("input", { type: "text" }),
     };
     return default_1;
-}(React.Component));
+}(React.PureComponent));
 exports.default = default_1;
 
 
@@ -227,6 +231,7 @@ var default_1 = /** @class */ (function (_super) {
     __extends(default_1, _super);
     function default_1() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.inputRef = React.createRef();
         _this.lastDisaptchedText = '';
         _this.onInputChange = function (event) {
             _this.dispatchChange(event.currentTarget.value);
@@ -237,7 +242,9 @@ var default_1 = /** @class */ (function (_super) {
             }
         };
         _this.onBlur = function (event) {
-            _this.dispatchChange(event.currentTarget['value']);
+            if (event.currentTarget && typeof event.currentTarget['value'] === 'string') {
+                _this.dispatchChange(event.currentTarget['value']);
+            }
         };
         _this.dispatchChange = function (text) {
             if (_this.lastDisaptchedText !== text) {
@@ -248,9 +255,8 @@ var default_1 = /** @class */ (function (_super) {
         return _this;
     }
     default_1.prototype.render = function () {
-        var _this = this;
         return React.cloneElement(this.props.children, {
-            ref: function (r) { return _this.input = r; },
+            ref: this.inputRef,
             defaultValue: this.props.value,
             onChange: this.onInputChange,
             onKeyDown: this.onInputSubmit,
@@ -258,6 +264,8 @@ var default_1 = /** @class */ (function (_super) {
     };
     default_1.prototype.componentDidMount = function () {
         var _this = this;
+        if (!this.inputRef.current)
+            return;
         var self = this;
         var options = {
             minLength: this.props.minLength,
@@ -282,7 +290,7 @@ var default_1 = /** @class */ (function (_super) {
                 classes['ui-autocomplete'] = this.props.menuClassName;
             options['classes'] = classes;
         }
-        $(this.input)
+        $(this.inputRef.current)
             .on('keydown', function (event) {
             if (event.keyCode === $.ui.keyCode.TAB && $(_this).autocomplete('instance').menu.active) {
                 event.preventDefault();
@@ -290,9 +298,9 @@ var default_1 = /** @class */ (function (_super) {
         })
             .autocomplete(options);
     };
-    default_1.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.input.value !== nextProps.value) {
-            this.input.value = nextProps.value;
+    default_1.prototype.componentDidUpdate = function () {
+        if (this.inputRef.current && this.inputRef.current.value !== this.props.value) {
+            this.inputRef.current.value = this.props.value || '';
         }
     };
     default_1.defaultProps = {
@@ -300,7 +308,7 @@ var default_1 = /** @class */ (function (_super) {
         children: React.createElement("input", { type: "text" }),
     };
     return default_1;
-}(React.Component));
+}(React.PureComponent));
 exports.default = default_1;
 
 

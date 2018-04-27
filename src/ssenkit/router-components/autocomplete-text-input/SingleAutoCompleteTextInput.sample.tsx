@@ -32,7 +32,7 @@ function split(val: string): string[] {
 }
 
 function extractLast(term: string): string {
-  return split(term).pop();
+  return split(term).pop() || '';
 }
 
 function source(request: {term: string}, response: (data: object) => void) {
@@ -43,7 +43,7 @@ interface State {
   text: string;
 }
 
-export default class extends React.Component<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = {
     text: '',
   };

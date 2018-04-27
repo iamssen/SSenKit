@@ -1,7 +1,7 @@
 {
   "name": "ssenkit.date-select",
-  "version": "1.0.0",
-  "description": "React에서 사용될 수 있는 Date Selector Set 입니다.",
+  "version": "2.0.0",
+  "description": "Date Selector Set for React",
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"
@@ -13,10 +13,10 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "react": ">=15",
-    "react-dom": ">=15",
-    "d3-array": "^1.2.1",
-    "moment": "^2.19.2",
-    "ssenkit.dropdown-anchor": "^1.0.0"
+    "react": ">=16.3",
+    "react-dom": ">=16.3",
+    "d3-array": ">=1.2.1",
+    "moment": ">=2.19.2",
+    "ssenkit.dropdown-anchor": ">=1.0.0"
   }
 }

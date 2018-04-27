@@ -1,14 +1,14 @@
-import { DateRange, DateRangeDropDownSelector } from 'ssenkit.date-select';
 import * as moment from 'moment';
 import * as React from 'react';
+import { DateRange, DateRangeDropDownSelector } from 'ssenkit.date-select';
 
 interface State {
   dateRange: DateRange;
-  disableBefore?: moment.MomentInput;
-  disableAfter?: moment.MomentInput;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
 }
 
-export default class extends React.Component<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = {
     dateRange: {
       from: moment().subtract(3, 'days').toDate(),

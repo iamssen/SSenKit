@@ -44,7 +44,7 @@ export class Provider<ContextState, Props = {}, State = {}> extends React.Compon
     });
   };
   
-  protected dispatch = (action: Action<ContextState>) => {
+  protected dispatch: (action: Action<ContextState>) => Teardown = action => {
     const teardown: Teardown | void = action(this.state.contextState);
     
     if (typeof teardown === 'function') {
@@ -66,10 +66,10 @@ export class Provider<ContextState, Props = {}, State = {}> extends React.Compon
     }
   };
   
-  protected subscribe = (subscription: (prevState: ContextState, state: ContextState) => void) => {
-    if (this.subscriptions.has(subscription)) return;
-    
-    this.subscriptions.add(subscription);
+  protected subscribe: (subscription: (state: ContextState, prevState: ContextState) => void) => Teardown = subscription => {
+    if (!this.subscriptions.has(subscription)) {
+      this.subscriptions.add(subscription);
+    }
     
     return () => {
       this.subscriptions.delete(subscription);
@@ -78,7 +78,7 @@ export class Provider<ContextState, Props = {}, State = {}> extends React.Compon
   
   // tslint:disable
   updateStore = (prevStore, nextStore) => {
-    const key: string = Object.keys(this.state.contextState).find(key => {
+    const key: string | undefined = Object.keys(this.state.contextState).find(key => {
       return prevStore === this.state.contextState[key];
     });
     
@@ -95,15 +95,15 @@ export class Provider<ContextState, Props = {}, State = {}> extends React.Compon
   // tslint:enable
 }
 
-export type CreateStore<State, Actions> = (provider: Provider<{}>, initialState: State) => State & Actions;
+export type CreateStore<State, Actions> = (provider: Provider<{}>, initialState?: Partial<State>) => State & Actions;
 
 export type ActionsInput<State, Actions> = {
   [A in keyof Actions]: (state: State) => Actions[A];
 }
 
-export function createStore<State, Actions>(config: (setState: (state: Partial<State>) => void) => ActionsInput<State, Actions>): ((provider: Provider<{}>, initialState: State) => State & Actions) {
+export function createStore<State, Actions>(defaultInitialState: State, config: (setState: (state: Partial<State>) => State & Actions) => ActionsInput<State, Actions>): CreateStore<State, Actions> {
   return (provider, initialState) => {
-    let state: State = initialState;
+    let state: State = Object.assign({}, defaultInitialState, initialState || {});
     let store: State & Actions;
     let actionsInput: ActionsInput<State, Actions>;
     
@@ -114,7 +114,7 @@ export function createStore<State, Actions>(config: (setState: (state: Partial<S
       }, {}) as Actions;
     }
     
-    function setState(update: Partial<State>) {
+    function setState(update: Partial<State>): State & Actions {
       const nextState: State = Object.assign({}, state, update);
       const nextActions: Actions = createActions(nextState);
       
@@ -124,6 +124,8 @@ export function createStore<State, Actions>(config: (setState: (state: Partial<S
       provider.updateStore(prevStore, nextStore);
       state = nextState;
       store = nextStore;
+      
+      return nextStore;
     }
     
     actionsInput = config(setState);

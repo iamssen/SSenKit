@@ -5,29 +5,13 @@ import { DateRange } from '../types';
 import { DatePresetSelectorProps } from './DatePresetSelectorProps';
 import './DateRangeSelector.scss';
 export interface Props {
-    className?: string;
     dateRange: DateRange;
     onChange: (progressiveDateRange: DateRange) => void;
     onCancel: () => void;
     onComplete: (dateRange: DateRange) => void;
-    disableBefore?: moment.MomentInput;
-    disableAfter?: moment.MomentInput;
+    disableBefore?: moment.Moment | Date;
+    disableAfter?: moment.Moment | Date;
     children?: React.ReactElement<DatePresetSelectorProps>;
 }
-export interface State {
-    tabIndex?: number;
-    dateRange?: DateRange;
-}
-export default class  extends React.Component<Props, State> {
-    static defaultProps: object;
-    render(): JSX.Element;
-    onTabChange: (tabIndex: number) => void;
-    onDateCancel: () => void;
-    onDateComplete: (dateRange: DateRange) => void;
-    onDateChange: (dateRange: DateRange) => void;
-    componentWillMount(): void;
-    componentWillReceiveProps(nextProps: Props): void;
-    private propsToState(prevProps, nextProps);
-    private getTabIndex(dateRange);
-    shouldComponentUpdate(nextProps: Props, nextState: State): boolean;
-}
+declare const _default: React.ComponentType<Props>;
+export default _default;

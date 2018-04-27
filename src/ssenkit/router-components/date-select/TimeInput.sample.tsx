@@ -6,7 +6,7 @@ interface State {
   time: string;
 }
 
-export default class extends React.Component<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = {
     time: moment().format('HH:mm:ss'),
   };

@@ -113,11 +113,12 @@ var Component = /** @class */ (function (_super) {
     __extends(Component, _super);
     function Component() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.inputRef = React.createRef();
         _this.onChange = function (event) {
             _this.props.onChange(event.target.value);
         };
         _this.onKeyPress = function (event) {
-            var selectAll = event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true);
+            var selectAll = event.keyCode === 65 && (event.ctrlKey || event.metaKey);
             if (selectAll
                 || availableInputKeyCodes.indexOf(event.keyCode) !== -1
                 || _this.props.availableCharacterPattern.test(String.fromCharCode(event.charCode)))
@@ -131,38 +132,43 @@ var Component = /** @class */ (function (_super) {
             }
         };
         return _this;
-        //get text(): string {
-        //  return this.input.value;
-        //}
-        //
-        //set text(value: string) {
-        //  if (this.input) {
-        //    this.input.value = value;
-        //    this.props.onChange(value);
-        //  }
-        //}
     }
     Component.prototype.render = function () {
-        var _this = this;
         return React.cloneElement(this.props.children, {
-            ref: function (r) { return _this.input = r; },
+            ref: this.inputRef,
             defaultValue: this.props.value,
             onChange: this.onChange,
             onKeyPress: this.onKeyPress,
             onKeyDown: this.onKeyDown,
         });
     };
-    Component.prototype.componentWillReceiveProps = function (nextProps) {
-        if (this.input && this.input.value !== nextProps.value) {
-            this.input.value = nextProps.value;
+    Component.prototype.componentDidUpdate = function () {
+        if (this.inputRef.current && this.inputRef.current.value !== this.props.value) {
+            this.inputRef.current.value = this.props.value;
         }
     };
+    Object.defineProperty(Component.prototype, "text", {
+        get: function () {
+            return this.inputRef.current
+                ? this.inputRef.current.value
+                : '';
+        },
+        set: function (value) {
+            if (this.inputRef.current) {
+                this.inputRef.current.value = value;
+                this.props.onChange(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Component.displayName = 'Component9929265';
+    //private input: HTMLInputElement;
     Component.defaultProps = {
         children: React.createElement("input", { type: "text" }),
     };
     return Component;
-}(React.Component));
+}(React.PureComponent));
 exports.default = Component;
 
 

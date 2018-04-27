@@ -1,5 +1,4 @@
 import produce from 'immer';
-import { observable } from 'mobx';
 
 describe('immer', () => {
   it('Test Set, Map', () => {
@@ -53,15 +52,15 @@ describe('immer', () => {
     })).toEqual('accc');
   });
   
-  it('Test mobx', () => {
-    // 끙... MobX에서는 사용할 수 없을 것 같다.
-    const arr: string[] = observable(['a', 'b', 'c']);
-    console.log('immer.test.ts..()', arr);
-    
-    //expect(produce(arr, draft => {
-    //  draft.push('d');
-    //})).toEqual(['a', 'b', 'c', 'd']);
-  });
+  //it('Test mobx', () => {
+  //  // 끙... MobX에서는 사용할 수 없을 것 같다.
+  //  const arr: string[] = observable(['a', 'b', 'c']);
+  //  console.log('immer.test.ts..()', arr);
+  //
+  //  //expect(produce(arr, draft => {
+  //  //  draft.push('d');
+  //  //})).toEqual(['a', 'b', 'c', 'd']);
+  //});
   
   it('Test deep', () => {
     const arr: (string | string[])[] = ['a', ['b', 'c']];

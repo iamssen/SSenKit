@@ -14,11 +14,11 @@ export interface Props {
   
   minLength?: number;
   source: (request: {term: string}, response: (data: object) => void) => void;
-  children?: JSX.Element;
+  children?: React.ReactElement<React.InputHTMLAttributes<HTMLInputElement>>;
 }
 
-export default class extends React.Component<Props, {}> {
-  private input: HTMLInputElement;
+export default class extends React.PureComponent<Props, {}> {
+  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   private lastDisaptchedText: string = '';
   
   static defaultProps: Partial<Props> = {
@@ -27,8 +27,8 @@ export default class extends React.Component<Props, {}> {
   };
   
   render() {
-    return React.cloneElement(this.props.children, {
-      ref: r => this.input = r,
+    return React.cloneElement(this.props.children as JSX.Element, {
+      ref: this.inputRef,
       defaultValue: this.props.value,
       onChange: this.onInputChange,
       onKeyDown: this.onInputSubmit,
@@ -36,6 +36,8 @@ export default class extends React.Component<Props, {}> {
   }
   
   componentDidMount() {
+    if (!this.inputRef.current) return;
+    
     const self: this = this;
     
     const options: JQueryUI.AutocompleteOptions = {
@@ -71,13 +73,19 @@ export default class extends React.Component<Props, {}> {
       options['classes'] = classes;
     }
     
-    $(this.input)
+    $(this.inputRef.current)
       .on('keydown', event => {
         if (event.keyCode === $.ui.keyCode.TAB && $(this).autocomplete('instance').menu.active) {
           event.preventDefault();
         }
       })
       .autocomplete(options);
+  }
+  
+  componentDidUpdate() {
+    if (this.inputRef.current && this.inputRef.current.value !== this.props.value) {
+      this.inputRef.current.value = this.props.value || '';
+    }
   }
   
   onInputChange = (event: React.KeyboardEvent<{value: string}>) => {
@@ -91,7 +99,9 @@ export default class extends React.Component<Props, {}> {
   };
   
   onBlur = (event: Event) => {
-    this.dispatchChange(event.currentTarget['value']);
+    if (event.currentTarget && typeof event.currentTarget['value'] === 'string') {
+      this.dispatchChange(event.currentTarget['value']);
+    }
   };
   
   dispatchChange = (text: string) => {
@@ -100,10 +110,4 @@ export default class extends React.Component<Props, {}> {
       this.lastDisaptchedText = text;
     }
   };
-  
-  componentWillReceiveProps(nextProps: Readonly<Props>) {
-    if (this.input.value !== nextProps.value) {
-      this.input.value = nextProps.value;
-    }
-  }
 }

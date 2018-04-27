@@ -10,14 +10,15 @@ export interface Props {
     source: (request: {
         term: string;
     }, response: (data: object) => void) => void;
-    children?: JSX.Element;
+    children?: React.ReactElement<React.InputHTMLAttributes<HTMLInputElement>>;
 }
-export default class  extends React.Component<Props, {}> {
-    private input;
+export default class  extends React.PureComponent<Props, {}> {
+    private inputRef;
     private lastDisaptchedText;
     static defaultProps: Partial<Props>;
     render(): React.ReactElement<any>;
     componentDidMount(): void;
+    componentDidUpdate(): void;
     onInputChange: (event: React.KeyboardEvent<{
         value: string;
     }>) => void;
@@ -26,5 +27,4 @@ export default class  extends React.Component<Props, {}> {
     }>) => void;
     onBlur: (event: Event) => void;
     dispatchChange: (text: string) => void;
-    componentWillReceiveProps(nextProps: Readonly<Props>): void;
 }

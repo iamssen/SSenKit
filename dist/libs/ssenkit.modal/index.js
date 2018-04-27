@@ -128,13 +128,13 @@ var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(1);
 var Component = /** @class */ (function (_super) {
     __extends(Component, _super);
-    function Component() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            modalContainer: null,
-        };
+    function Component(props) {
+        var _this = _super.call(this, props) || this;
         _this.closeModal = function () {
             _this.props.onClose();
+        };
+        _this.state = {
+            modalContainer: null,
         };
         return _this;
     }
@@ -142,6 +142,9 @@ var Component = /** @class */ (function (_super) {
         this.container = typeof this.props.container === 'string'
             ? document.querySelector(this.props.container)
             : document.body;
+        if (!this.container) {
+            throw new Error("Container \"" + this.props.container + "\" not found.");
+        }
         var modalContainer = document.createElement('div');
         modalContainer.setAttribute('class', '__ssenkit_modal_container__');
         this.container.appendChild(modalContainer);
@@ -150,7 +153,7 @@ var Component = /** @class */ (function (_super) {
         });
     };
     Component.prototype.componentWillUnmount = function () {
-        if (this.state.modalContainer) {
+        if (this.container && this.state.modalContainer) {
             this.container.removeChild(this.state.modalContainer);
             this.container = null;
         }
@@ -167,7 +170,7 @@ var Component = /** @class */ (function (_super) {
         },
     };
     return Component;
-}(React.Component));
+}(React.PureComponent));
 exports.default = Component;
 
 
@@ -190,6 +193,9 @@ function default_1(content, options) {
     var container = typeof options.container === 'string'
         ? document.querySelector(options.container)
         : document.body;
+    if (!container) {
+        throw new Error("Container \"" + options.container + "\" not found.");
+    }
     var modalContainer = document.createElement('div');
     modalContainer.setAttribute('class', '__ssenkit_modal_container__');
     container.appendChild(modalContainer);

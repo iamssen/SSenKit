@@ -13,7 +13,7 @@ interface InternalProps {
 interface State {
 }
 
-class Component extends React.Component<Props & InternalProps, State> {
+class Component extends React.PureComponent<Props & InternalProps, State> {
   static displayName: string = 'Sample.sample';
   
   render() {
@@ -29,4 +29,4 @@ class Component extends React.Component<Props & InternalProps, State> {
   }
 }
 
-export default Component as React.ComponentClass<Props>;
+export default Component as React.ComponentType<Props>;

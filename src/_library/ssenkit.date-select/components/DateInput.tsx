@@ -1,7 +1,7 @@
 import { range } from 'd3-array';
 import * as moment from 'moment';
 import * as React from 'react';
-import isSame from './isSame';
+import { ContextState, withConsumer } from '../context';
 
 const format: string = 'YYYY-MM-DD';
 const availableKeyCodes: number[] = [
@@ -19,17 +19,18 @@ const availableKeyCodes: number[] = [
 ];
 
 export interface Props {
-  className?: string;
-  
-  date: moment.MomentInput;
+  date: moment.Moment | Date;
   onChange: (date: Date) => void;
   
-  disableBefore?: moment.MomentInput;
-  disableAfter?: moment.MomentInput;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
 }
 
-export interface State {
-  dateString?: string;
+interface InternalProps extends ContextState {
+}
+
+interface State {
+  dateString: string;
 }
 
 function getFormat(dateString: string): string {
@@ -45,26 +46,44 @@ function getFormat(dateString: string): string {
   return 'YYYY-MM-DD';
 }
 
-export default class extends React.Component<Props, State> {
-  private input: HTMLInputElement;
+class Component extends React.Component<Props & InternalProps, State> {
+  static displayName: string = 'DateInput';
   
-  static defaultProps: Partial<Props> = {
-    className: '',
-  };
+  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   
-  state: State = {
-    dateString: '',
-  };
+  constructor(props: Props & InternalProps) {
+    super(props);
+    
+    this.state = {
+      dateString: moment(props.date).format(format),
+    };
+  }
   
   render() {
     return (
-      <input ref={r => this.input = r}
+      <input ref={this.inputRef}
              type="text"
-             className={'DateInput form-control' + this.props.className}
+             className={'DateInput ' + this.props.config.dateInputClassName}
              defaultValue={this.state.dateString}
              onBlur={this.onBlur}
              onKeyDown={this.onKeyDown}/>
     );
+  }
+  
+  static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> | null {
+    return {
+      dateString: moment(nextProps.date).format(format),
+    };
+  }
+  
+  componentDidUpdate() {
+    if (this.inputRef.current && this.inputRef.current.value !== this.state.dateString) {
+      this.inputRef.current.value = this.state.dateString;
+    }
+  }
+  
+  shouldComponentUpdate(nextProps: Readonly<Props & InternalProps>, nextState: Readonly<State>) {
+    return this.state.dateString !== nextState.dateString;
   }
   
   onBlur = (event: React.FocusEvent<{value: string}>) => {
@@ -76,7 +95,7 @@ export default class extends React.Component<Props, State> {
       this.commitString(this.state.dateString, event.currentTarget.value);
       return;
     }
-    const selectAll: boolean = event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true);
+    const selectAll: boolean = event.keyCode === 65 && (event.ctrlKey || event.metaKey);
     if (selectAll || availableKeyCodes.indexOf(event.keyCode) !== -1) return;
     event.preventDefault();
     event.stopPropagation();
@@ -86,38 +105,28 @@ export default class extends React.Component<Props, State> {
     if (prevDateString === nextDateString) return;
     
     const nextDate: moment.Moment = moment(nextDateString.replace(/\s/g, ''), getFormat(nextDateString), true);
-    const isBefore: boolean = this.props.disableBefore && nextDate.isBefore(this.props.disableBefore);
-    const isAfter: boolean = this.props.disableAfter && nextDate.isAfter(this.props.disableAfter);
     
-    if (nextDate.isValid() && !isBefore && !isAfter) {
-      this.setState({dateString: nextDateString});
+    const isBefore: boolean = this.props.disableBefore
+      ? nextDate.isBefore(this.props.disableBefore)
+      : false;
+    
+    const isAfter: boolean = this.props.disableAfter
+      ? nextDate.isAfter(this.props.disableAfter)
+      : false;
+    
+    const isValid: boolean = nextDate.isValid() && !isBefore && !isAfter;
+    
+    if (isValid) {
+      this.setState({
+        dateString: nextDateString,
+      });
       this.props.onChange(nextDate.toDate());
     } else {
-      this.input.value = prevDateString;
-    }
-  }
-  
-  componentWillMount() {
-    this.propsToState({} as Props, this.props);
-  }
-  
-  componentWillReceiveProps(nextProps: Props) {
-    this.propsToState(this.props, nextProps);
-  }
-  
-  private propsToState(prevProps: Props, nextProps: Props) {
-    const state: State = {};
-    let changed: boolean = false;
-    
-    if ((moment.isMoment(nextProps.date) || moment.isDate(nextProps.date)) && !isSame(prevProps.date, nextProps.date, 'day')) {
-      const dateString: string = moment(nextProps.date).format(format);
-      state.dateString = dateString;
-      if (this.input) this.input.value = dateString;
-      changed = true;
-    }
-    
-    if (changed) {
-      this.setState(state);
+      if (this.inputRef.current) {
+        this.inputRef.current.value = prevDateString;
+      }
     }
   }
 }
+
+export default withConsumer(Component) as React.ComponentType<Props>;

@@ -1,6 +1,6 @@
 {
   "name": "ssenkit.router-store",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "react-router helper",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "react": ">=15",
+    "react": ">=16.3",
     "react-router": ">= 4"
   }
 }

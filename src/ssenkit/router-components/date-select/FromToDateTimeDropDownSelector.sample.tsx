@@ -6,7 +6,7 @@ interface State {
   fromTo: FromTo;
 }
 
-export default class extends React.Component<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = {
     fromTo: {
       from: moment().subtract(4, 'days').startOf('day').toDate(),

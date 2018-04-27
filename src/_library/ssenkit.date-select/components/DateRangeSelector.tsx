@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import * as React from 'react';
+import { ContextState, withConsumer } from '../context';
 import { DateRange, FromTo, isFromTo } from '../types';
 import { DatePresetSelectorProps } from './DatePresetSelectorProps';
 import './DateRangeSelector.scss';
@@ -7,110 +8,141 @@ import DefaultDateList from './DefaultDateList';
 import FromToDateTimeSelector from './FromToDateTimeSelector';
 
 export interface Props {
-  className?: string;
-  
   dateRange: DateRange;
   onChange: (progressiveDateRange: DateRange) => void;
   onCancel: () => void;
   onComplete: (dateRange: DateRange) => void;
   
-  disableBefore?: moment.MomentInput;
-  disableAfter?: moment.MomentInput;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
   
   children?: React.ReactElement<DatePresetSelectorProps>;
 }
 
-export interface State {
-  tabIndex?: number;
-  dateRange?: DateRange;
+interface InternalProps extends ContextState {
 }
 
-export default class extends React.Component<Props, State> {
-  static defaultProps: object = {
-    className: '',
-    date: {from: moment().startOf('day').toDate()},
+interface State {
+  tabIndex: number;
+  prevDateRange: DateRange;
+  progressiveDateRange: DateRange;
+}
+
+function getTabIndex(dateRange: DateRange): number {
+  return isFromTo(dateRange) && !dateRange.description ? 1 : 0;
+}
+
+class Component extends React.Component<Props & InternalProps, State> {
+  static displayName: string = 'DateRangeSelector';
+  
+  static defaultProps: Partial<Props> = {
     children: <DefaultDateList/>,
   };
   
+  constructor(props: Props & InternalProps) {
+    super(props);
+    
+    this.state = {
+      tabIndex: getTabIndex(props.dateRange),
+      prevDateRange: props.dateRange,
+      progressiveDateRange: props.dateRange,
+    };
+  }
+  
   render() {
-    let selector: JSX.Element, tab: JSX.Element;
-    const {tabIndex, dateRange} = this.state;
-    
-    if (tabIndex === 0) {
-      tab = (
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <a className="nav-link" onClick={() => this.onTabChange(1)}>
-              기간 입력
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link active">
-              기간 리스트
-            </a>
-          </li>
-        </ul>
-      );
-      
-      selector = React.cloneElement(this.props.children as JSX.Element, {
-        dateRange: this.state.dateRange,
-        onSelect: this.onDateComplete,
-      });
-    } else {
-      tab = (
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <a className="nav-link active">
-              기간 입력
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" onClick={() => this.onTabChange(0)}>
-              기간 리스트
-            </a>
-          </li>
-        </ul>
-      );
-      
-      selector = (
-        <div role="selector">
-          <FromToDateTimeSelector fromTo={dateRange as FromTo}
-                                  disableBefore={this.props.disableBefore}
-                                  disableAfter={this.props.disableAfter || moment().endOf('day').toDate()}
-                                  onChange={this.onDateChange}/>
-          <div role="buttons">
-            <button className="btn outline-1" onClick={this.onDateCancel}>취소</button>
-            <button className="btn light-blue" onClick={() => this.onDateComplete(dateRange)}>적용</button>
-          </div>
-        </div>
-      );
-    }
-    
     return (
-      <div className={'DateRangeSelector ' + this.props.className}>
-        <div role="tab" className="b-b b-primary nav-active-primary">
-          {tab}
+      <div className={'DateRangeSelector ' + this.props.config.dateRangeSelectorClassName}>
+        <div role="tab">
+          {
+            this.state.tabIndex === 0
+              ? (
+                <ul>
+                  <li aria-selected="false" onClick={() => this.onTabChange(1)}>
+                    {this.props.config.dateRangeSelectorDateTabLabel}
+                  </li>
+                  <li aria-selected="true">
+                    {this.props.config.dateRangeSelectorListTabLabel}
+                  </li>
+                </ul>
+              )
+              : (
+                <ul>
+                  <li aria-selected="true">
+                    {this.props.config.dateRangeSelectorDateTabLabel}
+                  </li>
+                  <li aria-selected="false" onClick={() => this.onTabChange(0)}>
+                    {this.props.config.dateRangeSelectorListTabLabel}
+                  </li>
+                </ul>
+              )
+          }
         </div>
-        {selector}
+        {
+          this.state.tabIndex === 0
+            ? React.cloneElement(this.props.children as JSX.Element, {
+              dateRange: this.state.progressiveDateRange,
+              onSelect: this.onDateComplete,
+            })
+            : (
+              <div role="selector">
+                <FromToDateTimeSelector fromTo={this.state.progressiveDateRange as FromTo}
+                                        disableBefore={this.props.disableBefore}
+                                        disableAfter={this.props.disableAfter || moment().endOf('day').toDate()}
+                                        onChange={this.onDateChange}/>
+                <div role="buttons">
+                  {
+                    React.cloneElement(this.props.config.dateRangeSelectorCancleButton, {
+                      onClick: this.onDateCancel,
+                    })
+                  }
+                  {
+                    React.cloneElement(this.props.config.dateRangeSelectorApplyButton, {
+                      onClick: () => this.onDateComplete(this.state.progressiveDateRange),
+                    })
+                  }
+                </div>
+              </div>
+            )
+        }
       </div>
     );
   }
   
-  onTabChange = (tabIndex: number) => {
-    const state: State = {tabIndex};
-    
-    if (tabIndex === 1) {
-      state.dateRange = {
-        from: moment().startOf('day').toDate(),
-        to: moment().toDate(),
+  static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> | null {
+    if (prevState.prevDateRange !== nextProps.dateRange) {
+      return {
+        prevDateRange: nextProps.dateRange,
+        progressiveDateRange: nextProps.dateRange,
+        tabIndex: getTabIndex(nextProps.dateRange),
       };
     }
     
-    this.setState(state);
+    return null;
+  }
+  
+  shouldComponentUpdate(nextProps: Props & InternalProps, nextState: State) {
+    return this.state.progressiveDateRange !== nextState.progressiveDateRange
+      || this.state.tabIndex !== nextState.tabIndex;
+  }
+  
+  onTabChange = (tabIndex: number) => {
+    if (tabIndex === 1) {
+      this.onDateChange({
+        from: moment().startOf('day').toDate(),
+        to: moment().toDate(),
+      });
+    }
+    
+    this.setState({
+      tabIndex,
+    });
   };
   
   onDateCancel = () => {
     this.props.onCancel();
+    this.setState({
+      progressiveDateRange: this.props.dateRange,
+    });
   };
   
   onDateComplete = (dateRange: DateRange) => {
@@ -119,39 +151,10 @@ export default class extends React.Component<Props, State> {
   
   onDateChange = (dateRange: DateRange) => {
     this.props.onChange(dateRange);
-    this.setState({dateRange});
+    this.setState({
+      progressiveDateRange: dateRange,
+    });
   };
-  
-  componentWillMount() {
-    this.propsToState({} as Props, this.props);
-  }
-  
-  componentWillReceiveProps(nextProps: Props) {
-    this.propsToState(this.props, nextProps);
-  }
-  
-  private propsToState(prevProps: Props, nextProps: Props) {
-    if (prevProps.dateRange !== nextProps.dateRange) {
-      const prevState: State = this.state || {};
-      const state: State = {};
-      state.dateRange = nextProps.dateRange;
-      
-      const nextTabIndex: number = this.getTabIndex(nextProps.dateRange);
-      
-      if (prevState.tabIndex !== nextTabIndex) {
-        state.tabIndex = nextTabIndex;
-      }
-      
-      this.setState(state);
-    }
-  }
-  
-  private getTabIndex(dateRange: DateRange): number {
-    return isFromTo(dateRange) && !dateRange.description ? 1 : 0;
-  }
-  
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
-    const prevState: State = this.state;
-    return prevState.dateRange !== nextState.dateRange || prevState.tabIndex !== nextState.tabIndex;
-  }
 }
+
+export default withConsumer(Component) as React.ComponentType<Props>;

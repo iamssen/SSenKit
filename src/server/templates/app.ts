@@ -9,6 +9,7 @@ export default ({body, initialState}: TemplateParams) => `
     <base href="/"/>
     <link rel="stylesheet" type="text/css" href="libs/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="app.css?1"/>
+    <link rel="stylesheet" type="text/css" href="app.module.css?1"/>
     <script src="libs/jquery.js"></script>
     <script src="libs/jquery-ui.js"></script>
     <title>Title...</title>

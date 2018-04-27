@@ -22,7 +22,7 @@ export type AMap = Map<keyof A, string | List<BMap>>;
 
 describe('Collection', () => {
   it('Reading Values', () => {
-    const x: Collection<number, number> = List<number>([1, 2, 3]);
+    const x: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     
     expect(x.get(0)).toEqual(1);
     expect(x.get(1)).toEqual(2);
@@ -87,7 +87,7 @@ describe('Collection', () => {
   });
   
   it('Conversion to JavaScript types', () => {
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     expect(indexed.toArray()).toEqual([1, 2, 3]);
     expect(indexed.toObject()).toEqual({'0': 1, '1': 2, '2': 3}); // Index가 문자로 된 Object가 만들어진다
     expect(indexed.toJSON()).toEqual([1, 2, 3]);
@@ -143,7 +143,7 @@ describe('Collection', () => {
     // 단순히 K, V 중 하나를 Filtering 하는 용도나
     // Iterator를 받아들이는 외부 API들과의 연동에 사용할만 하겠다.
     
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     
     const indexedKeysIterator: IterableIterator<number> = indexed.keys();
     expect(indexedKeysIterator.next()).toEqual({done: false, value: 0});
@@ -188,7 +188,7 @@ describe('Collection', () => {
     // Iterator와 유사하지만 Seq를 내보내준다.
     // Immutable 특성이 필요하다면 쓸만 하겠다.
     
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     
     const indexedKeySeq: Seq.Indexed<number> = indexed.keySeq();
     expect(indexedKeySeq.get(0)).toEqual(0);
@@ -224,7 +224,7 @@ describe('Collection', () => {
   });
   
   it('Conversion to Collections', () => {
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     const keyed: Collection.Keyed<string, number> = Map<number>({a: 1, b: 2, c: 3});
     const set: Collection.Set<number> = Set<number>([1, 2, 3]);
     
@@ -244,7 +244,7 @@ describe('Collection', () => {
   });
   
   it('Conversion to Seq', () => {
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     const keyed: Collection.Keyed<string, number> = Map<number>({a: 1, b: 2, c: 3});
     const set: Collection.Set<number> = Set<number>([1, 2, 3]);
     
@@ -268,7 +268,7 @@ describe('Collection', () => {
     // map, filter, sort 모두 잘 작동된다.
     // 사용에 주저할 필요가 없다. 심리적인 장벽을 허물자.
     
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     
     expect(
       indexed
@@ -382,7 +382,7 @@ describe('Collection', () => {
   });
   
   it('Side Effect', () => {
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     const keyed: Collection.Keyed<string, number> = Map<number>({a: 1, b: 2, c: 3});
     const set: Collection.Set<number> = Set<number>([1, 2, 3]);
     
@@ -407,7 +407,7 @@ describe('Collection', () => {
   
   it('Creating Subsets', () => {
     // 순서를 기준으로 하기 때문에 Keyed나 Set은 의미가 없을 것 같다.
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     
     // 잘라내기
     expect(indexed.slice(2).equals(List<number>([3]))).toBeTruthy();
@@ -455,7 +455,7 @@ describe('Collection', () => {
   });
   
   it('Combination', () => {
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     const keyed: Collection.Keyed<string, number> = Map<number>({a: 1, b: 2, c: 3});
     
     // 다른 List를 concat 할 수 있고
@@ -571,7 +571,7 @@ describe('Collection', () => {
     // K 기준, V 기준 검색이 모두 가능하고,
     // 돌려받을 값도 K, V, [K, V] 모두 가능
     
-    const indexed: Collection<number, number> = List<number>([1, 2, 3]);
+    const indexed: Collection<number, number> = List<number>([1, 2, 3]) as Collection<number, number>;
     const keyed: Collection.Keyed<string, number> = Map<number>({a: 1, b: 2, c: 3});
     
     expect(indexed.find(

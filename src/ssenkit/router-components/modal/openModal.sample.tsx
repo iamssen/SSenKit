@@ -6,7 +6,7 @@ const Content: React.StatelessComponent<ModalContentProps> = ({closeModal}) => {
   return (
     <div className={styles.main}>
       <h1>HELLO?</h1>
-      <button onClick={() => closeModal()}>Close Modal</button>
+      <button onClick={() => closeModal && closeModal()}>Close Modal</button>
     </div>
   );
 };
@@ -22,7 +22,7 @@ interface InternalProps {
 interface State {
 }
 
-class Component extends React.Component<Props & InternalProps, State> {
+class Component extends React.PureComponent<Props & InternalProps, State> {
   static displayName: string = 'openModal.sample';
   
   render() {
@@ -38,4 +38,4 @@ class Component extends React.Component<Props & InternalProps, State> {
   };
 }
 
-export default Component as React.ComponentClass<Props>;
+export default Component as React.ComponentType<Props>;

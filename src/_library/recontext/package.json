@@ -1,6 +1,6 @@
 {
   "name": "recontext",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "A react state manager using the new react context api",
   "repository": {
     "type": "git",

@@ -1,5 +1,7 @@
 /// <reference types="react" />
+import * as React from 'react';
 import { DatePresetSelectorProps } from './DatePresetSelectorProps';
 import './DefaultDateList.scss';
-declare const _default: ({ dateRange, onSelect }: DatePresetSelectorProps) => JSX.Element;
-export default _default;
+export default class  extends React.PureComponent<DatePresetSelectorProps, {}> {
+    render(): JSX.Element;
+}

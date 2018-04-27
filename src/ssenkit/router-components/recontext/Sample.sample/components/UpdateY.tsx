@@ -10,7 +10,7 @@ interface InternalProps extends ContextState {
 interface State {
 }
 
-class Component extends React.Component<Props & InternalProps, State> {
+class Component extends React.PureComponent<Props & InternalProps, State> {
   static displayName: string = 'UpdateX';
   
   render() {

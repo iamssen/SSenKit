@@ -6,7 +6,7 @@ interface State {
   date: Date;
 }
 
-export default class extends React.Component<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = {
     date: new Date,
   };

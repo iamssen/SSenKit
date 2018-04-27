@@ -1,15 +1,15 @@
-import { DateRange, DateRangeSelector } from 'ssenkit.date-select';
 import * as moment from 'moment';
 import * as React from 'react';
+import { DateRange, DateRangeSelector } from 'ssenkit.date-select';
 
 interface State {
-  progressiveDateRange: DateRange;
+  progressiveDateRange: DateRange | null;
   dateRange: DateRange;
-  disableBefore?: moment.MomentInput;
-  disableAfter?: moment.MomentInput;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
 }
 
-export default class extends React.Component<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = {
     progressiveDateRange: null,
     dateRange: {
@@ -28,21 +28,32 @@ export default class extends React.Component<{}, State> {
                            onChange={this.onChange}
                            onCancel={this.onCancel}
                            onComplete={this.onComplete}/>
-        <span>Progressive: {JSON.stringify(this.state.progressiveDateRange)}</span>
-        <span>Selected: {JSON.stringify(this.state.dateRange)}</span>
+        <div>
+          Progressive: {JSON.stringify(this.state.progressiveDateRange)}
+        </div>
+        <div>
+          Selected: {JSON.stringify(this.state.dateRange)}
+        </div>
       </div>
     );
   }
   
   onChange = (dateRange: DateRange) => {
-    this.setState({progressiveDateRange: dateRange});
+    this.setState({
+      progressiveDateRange: dateRange,
+    });
   };
   
   onComplete = (dateRange: DateRange) => {
-    this.setState({dateRange, progressiveDateRange: null});
+    this.setState({
+      dateRange,
+      progressiveDateRange: null,
+    });
   };
   
   onCancel = () => {
-    this.setState({progressiveDateRange: null});
+    this.setState({
+      progressiveDateRange: null,
+    });
   };
 }

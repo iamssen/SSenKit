@@ -124,9 +124,9 @@ var Provider = /** @class */ (function (_super) {
             }
         };
         _this.subscribe = function (subscription) {
-            if (_this.subscriptions.has(subscription))
-                return;
-            _this.subscriptions.add(subscription);
+            if (!_this.subscriptions.has(subscription)) {
+                _this.subscriptions.add(subscription);
+            }
             return function () {
                 _this.subscriptions.delete(subscription);
             };
@@ -186,9 +186,9 @@ var Provider = /** @class */ (function (_super) {
     return Provider;
 }(React.Component));
 exports.Provider = Provider;
-function createStore(config) {
+function createStore(defaultInitialState, config) {
     return function (provider, initialState) {
-        var state = initialState;
+        var state = Object.assign({}, defaultInitialState, initialState || {});
         var store;
         var actionsInput;
         function createActions(state) {
@@ -205,6 +205,7 @@ function createStore(config) {
             provider.updateStore(prevStore, nextStore);
             state = nextState;
             store = nextStore;
+            return nextStore;
         }
         actionsInput = config(setState);
         store = Object.assign({}, state, createActions(state));

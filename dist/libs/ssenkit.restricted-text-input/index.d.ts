@@ -7,5 +7,5 @@ export interface Props {
     availableCharacterPattern: RegExp;
     children?: JSX.Element;
 }
-declare const _default: React.ComponentClass<Props>;
+declare const _default: React.ComponentType<Props>;
 export default _default;

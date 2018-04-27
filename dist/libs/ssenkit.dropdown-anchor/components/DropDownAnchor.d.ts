@@ -5,7 +5,7 @@ import DropDownAnchorButtonProps from './DropDownAnchorButtonProps';
 import DropDownContentProps from './DropDownContentProps';
 export interface Props {
     className?: string;
-    children?: React.ReactElement<DropDownContentProps>;
+    children: React.ReactElement<DropDownContentProps>;
     button: React.ReactElement<DropDownAnchorButtonProps>;
     useAlternatePosition?: boolean;
     useOutboundClick?: boolean;
@@ -13,14 +13,14 @@ export interface Props {
     onClose?: () => void;
 }
 export interface State {
-    open?: boolean;
+    open: boolean;
 }
-export default class  extends React.Component<Props, State> {
-    private contentContainer;
-    private anchorButton;
+export default class  extends React.PureComponent<Props, State> {
+    private contentContainerRef;
+    private anchorButtonRef;
     private outboundClickSubscription;
-    static defaultProps: object;
-    state: State;
+    static defaultProps: Partial<Props>;
+    constructor(props: Props);
     render(): JSX.Element;
     componentDidUpdate(): void;
     componentWillUnmount(): void;

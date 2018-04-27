@@ -19,7 +19,7 @@ export default class {
   
   preload = (location: string) => {
     return new Promise((resolve, reject) => {
-      const config: AsyncRouterStoreConfig = this.config.find(config => {
+      const config: AsyncRouterStoreConfig | undefined = this.config.find(config => {
         const props: RouteProps = {};
         props.path = config.path;
         props.exact = config.exact === true;
@@ -39,7 +39,7 @@ export default class {
   };
   
   getRoute = (path: string) => {
-    const config: AsyncRouterStoreConfig = this.config.find(config => config.path === path);
+    const config: AsyncRouterStoreConfig | undefined = this.config.find(config => config.path === path);
     
     if (config) {
       const props: RouteProps = {};

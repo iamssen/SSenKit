@@ -1,87 +1,53 @@
 import { range } from 'd3-array';
 import * as moment from 'moment';
 import * as React from 'react';
-import DayCell, { Props as DayCellProps } from './DayCell';
-import isSame from './isSame';
-import toMoment from './toMoment';
-import MonthSelector from './MonthSelector';
+import { ContextState, withConsumer } from '../context';
 import './DateSelector.scss';
+import DayCell, { Props as DayCellProps } from './DayCell';
+import MonthSelector from './MonthSelector';
 
 export interface Props {
-  className?: string;
-  
-  date: moment.MomentInput;
+  date: moment.Moment | Date;
   onChange: (date: Date) => void;
   
-  disableBefore?: moment.MomentInput;
-  disableAfter?: moment.MomentInput;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
 }
 
-export interface State {
-  view?: moment.Moment;
-  selected?: moment.Moment;
-  disableBefore?: moment.Moment;
-  disableAfter?: moment.Moment;
+interface InternalProps extends ContextState {
 }
 
-interface PrevMonthButtonProps {
-  date: moment.Moment;
-  disableBefore: moment.MomentInput;
-  onClick: (date: moment.Moment) => void;
-}
-
-interface NextMonthButtonProps {
-  date: moment.Moment;
-  disableAfter: moment.MomentInput;
-  onClick: (date: moment.Moment) => void;
-}
-
-interface ButtonProps {
-  onClick?: () => void;
-  disabled?: boolean;
-}
-
-const PrevMonthButton: React.StatelessComponent<PrevMonthButtonProps> = ({date, disableBefore, onClick}: PrevMonthButtonProps) => {
-  const disabled: boolean = disableBefore && date.isSameOrBefore(disableBefore, 'month');
-  const props: ButtonProps = {};
+interface State {
+  view: moment.Moment; // Month on calendar
+  date: moment.Moment; // Selected day
   
-  if (!disabled) {
-    props.onClick = () => onClick(date.clone().subtract(1, 'month'));
-  } else {
-    props.disabled = true;
+  disableBefore: moment.Moment;
+  disableAfter: moment.Moment;
+}
+
+const defaultDisableBefore: moment.Moment = moment().subtract(10, 'years').startOf('year');
+const defaultDisableAfter: moment.Moment = moment().add(10, 'years').endOf('year');
+
+class Component extends React.Component<Props & InternalProps, State> {
+  static displayName: string = 'DateSelector';
+  
+  constructor(props: Props & InternalProps) {
+    super(props);
+    
+    this.state = {
+      view: moment(props.date),
+      date: moment(props.date),
+      disableBefore: props.disableBefore
+        ? moment(props.disableBefore)
+        : defaultDisableBefore,
+      disableAfter: props.disableAfter
+        ? moment(props.disableAfter)
+        : defaultDisableAfter,
+    };
   }
-  
-  return (
-    <button {...props}>
-      <span className="fa fa-chevron-left" title="Previous Month"/>
-    </button>
-  );
-};
-
-const NextMonthButton: React.StatelessComponent<NextMonthButtonProps> = ({date, disableAfter, onClick}: NextMonthButtonProps) => {
-  const disabled: boolean = disableAfter && date.isSameOrAfter(disableAfter, 'month');
-  const props: ButtonProps = {};
-  
-  if (!disabled) {
-    props.onClick = () => onClick(date.clone().add(1, 'month'));
-  } else {
-    props.disabled = true;
-  }
-  
-  return (
-    <button {...props}>
-      <span className="fa fa-chevron-right" title="Next Month"/>
-    </button>
-  );
-};
-
-export default class extends React.Component<Props, State> {
-  static defaultProps: object = {
-    className: '',
-  };
   
   render() {
-    const {view, selected: selectedDay, disableBefore, disableAfter} = this.state;
+    const {view, date: selectedDay, disableBefore, disableAfter} = this.state;
     const today: moment.Moment = moment();
     const startDayOfMonth: moment.Moment = view.clone().startOf('month');
     const endDayOfMonth: moment.Moment = view.clone().endOf('month');
@@ -93,28 +59,35 @@ export default class extends React.Component<Props, State> {
     
     while (itr.isSameOrBefore(endDayOfMonth.clone().endOf('week'), 'day')) {
       // Create Day Cell
-      row.push(<DayCell key={itr.format('YYYYMMDD')}
-                        date={itr.clone()}
-                        selectedDay={selectedDay}
-                        startDay={startDayOfMonth}
-                        endDay={endDayOfMonth}
-                        today={today}
-                        disableBefore={disableBefore}
-                        disableAfter={disableAfter}
-                        onClick={this.onDayClick}/>);
+      row.push(
+        <DayCell key={itr.format('YYYYMMDD')}
+                 date={itr.clone()}
+                 selectedDay={selectedDay}
+                 startDay={startDayOfMonth}
+                 endDay={endDayOfMonth}
+                 today={today}
+                 disableBefore={disableBefore}
+                 disableAfter={disableAfter}
+                 onClick={this.onDayClick}/>,
+      );
       
       // Week break
       if (itr.day() === 6) {
-        rows.push(<tr key={itr.format('W')}>{row}</tr>);
+        rows.push((
+          <tr key={itr.format('W')}>
+            {row}
+          </tr>
+        ));
+        
         row = [];
       }
       
       itr.add(1, 'day');
     }
     
-    range(rows.length, 6).forEach(() => {
+    range(rows.length, 6).forEach(i => {
       rows.push(
-        <tr>
+        <tr key={'blank-week-' + i}>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
@@ -127,78 +100,96 @@ export default class extends React.Component<Props, State> {
     });
     
     return (
-      <div className={'DateSelector ' + this.props.className}>
+      <div className={'DateSelector ' + this.props.config.dateSelectorClassName}>
         <div role="header">
           <PrevMonthButton date={view}
                            disableBefore={disableBefore}
-                           onClick={this.changeView}/>
+                           onClick={this.changeView}>
+            {this.props.config.dateSelectorPrevMonthButton}
+          </PrevMonthButton>
+          
           <MonthSelector date={view}
                          disableBefore={disableBefore}
                          disableAfter={disableAfter}
                          onChange={this.onMonthChange}/>
+          
           <NextMonthButton date={view}
                            disableAfter={disableAfter}
-                           onClick={this.changeView}/>
+                           onClick={this.changeView}>
+            {this.props.config.dateSelectorNextMonthButton}
+          </NextMonthButton>
         </div>
+        
         <table role="body">
           <thead>
           <tr>
-            <th>일</th>
-            <th>월</th>
-            <th>화</th>
-            <th>수</th>
-            <th>목</th>
-            <th>금</th>
-            <th>토</th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('sun')}
+            </th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('mon')}
+            </th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('tue')}
+            </th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('wed')}
+            </th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('thu')}
+            </th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('fri')}
+            </th>
+            <th>
+              {this.props.config.dateSelectorDayLabelFunction('sat')}
+            </th>
           </tr>
           </thead>
-          <tbody>{rows}</tbody>
+          
+          <tbody>
+          {rows}
+          </tbody>
         </table>
       </div>
     );
   }
   
-  componentWillMount() {
-    this.propsToState({} as Props, this.props);
-  }
-  
-  componentWillReceiveProps(nextProps: Readonly<Props>) {
-    this.propsToState(this.props, nextProps);
-  }
-  
-  propsToState(prevProps: Props, nextProps: Props) {
-    const state: State = {};
-    let changed: boolean = false;
+  static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> {
+    const state: Partial<State> = {};
     
-    if (!isSame(prevProps.date, nextProps.date, 'day')) {
-      state.view = toMoment(nextProps.date, () => moment(new Date));
-      state.selected = toMoment(nextProps.date);
-      changed = true;
+    if (!prevState.date.isSame(nextProps.date, 'day')) {
+      state.view = moment(nextProps.date);
+      state.date = moment(nextProps.date);
     }
     
-    if (!isSame(prevProps.disableBefore, nextProps.disableBefore, 'day')) {
-      state.disableBefore = toMoment(nextProps.disableBefore);
-      changed = true;
+    
+    if (!prevState.disableBefore.isSame(nextProps.disableBefore, 'day')) {
+      state.disableBefore = nextProps.disableBefore
+        ? moment(nextProps.disableBefore)
+        : defaultDisableBefore;
     }
     
-    if (!isSame(prevProps.disableAfter, nextProps.disableAfter, 'day')) {
-      state.disableAfter = toMoment(nextProps.disableAfter);
-      changed = true;
+    if (!prevState.disableAfter.isSame(nextProps.disableAfter, 'day')) {
+      state.disableAfter = nextProps.disableAfter
+        ? moment(nextProps.disableAfter)
+        : defaultDisableAfter;
     }
     
-    if (changed) this.setState(state);
+    return state;
   }
   
-  shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>) {
-    const prevState: State = this.state;
-    return prevState.view !== nextState.view
-      || prevState.selected !== nextState.selected
-      || prevState.disableBefore !== nextState.disableBefore
-      || prevState.disableAfter !== nextState.disableAfter;
+  shouldComponentUpdate(nextProps: Readonly<Props & InternalProps>, nextState: Readonly<State>) {
+    return this.state.view !== nextState.view
+      || this.state.date !== nextState.date
+      || this.state.disableBefore !== nextState.disableBefore
+      || this.state.disableAfter !== nextState.disableAfter;
   }
   
   changeView = (newMonth: moment.Moment) => {
-    this.setState({view: newMonth});
+    this.setState({
+      view: newMonth,
+    });
   };
   
   onMonthChange = (year: number, month: number) => {
@@ -210,4 +201,52 @@ export default class extends React.Component<Props, State> {
   onDayClick = (newDate: moment.Moment) => {
     this.props.onChange(newDate.toDate());
   };
+}
+
+export default withConsumer(Component) as React.ComponentType<Props>;
+
+interface PrevMonthButtonProps {
+  date: moment.Moment;
+  disableBefore: moment.Moment | Date | undefined;
+  onClick: (date: moment.Moment) => void;
+  children: React.ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>;
+}
+
+interface NextMonthButtonProps {
+  date: moment.Moment;
+  disableAfter: moment.Moment | Date | undefined;
+  onClick: (date: moment.Moment) => void;
+  children: React.ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>;
+}
+
+class PrevMonthButton extends React.PureComponent<PrevMonthButtonProps, {}> {
+  render() {
+    const disabled: boolean = this.props.disableBefore !== undefined
+      && this.props.date.isSameOrBefore(this.props.disableBefore, 'month');
+    const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {};
+    
+    if (!disabled) {
+      buttonProps.onClick = () => this.props.onClick(this.props.date.clone().subtract(1, 'month'));
+    } else {
+      buttonProps.disabled = true;
+    }
+    
+    return React.cloneElement(this.props.children, buttonProps);
+  }
+}
+
+class NextMonthButton extends React.PureComponent<NextMonthButtonProps, {}> {
+  render() {
+    const disabled: boolean = this.props.disableAfter !== undefined
+      && this.props.date.isSameOrAfter(this.props.disableAfter, 'month');
+    const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {};
+    
+    if (!disabled) {
+      buttonProps.onClick = () => this.props.onClick(this.props.date.clone().add(1, 'month'));
+    } else {
+      buttonProps.disabled = true;
+    }
+    
+    return React.cloneElement(this.props.children, buttonProps);
+  }
 }

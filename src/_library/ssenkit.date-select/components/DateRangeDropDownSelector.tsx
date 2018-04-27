@@ -1,6 +1,7 @@
-import DropDownAnchor from 'ssenkit.dropdown-anchor';
 import * as moment from 'moment';
 import * as React from 'react';
+import DropDownAnchor from 'ssenkit.dropdown-anchor';
+import { ContextState, withConsumer } from '../context';
 import { DateRange } from '../types';
 import { DatePresetSelectorProps } from './DatePresetSelectorProps';
 import './DateRangeDropDownSelector.scss';
@@ -9,40 +10,47 @@ import { DateRangeDropDownSelectorButtonProps } from './DateRangeDropDownSelecto
 import DateRangeSelector from './DateRangeSelector';
 
 export interface Props {
-  className?: string;
   dateRange: DateRange;
   onChange: (date: DateRange) => void;
   
   button?: React.ReactElement<DateRangeDropDownSelectorButtonProps>;
   children?: React.ReactElement<DatePresetSelectorProps>;
   
-  disableBefore?: moment.MomentInput;
-  disableAfter?: moment.MomentInput;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
   
   useAlternatePosition?: boolean;
 }
 
-export interface State {
-  progressiveDateRange?: DateRange;
+interface InternalProps extends ContextState {
 }
 
-export default class extends React.Component<Props, State> {
-  private anchor: DropDownAnchor;
+interface State {
+  progressiveDateRange: DateRange | null;
+}
+
+class Component extends React.PureComponent<Props & InternalProps, State> {
+  static displayName: string = 'DateRangeDropDownSelector';
   
-  static defaultProps: object = {
-    className: '',
+  private anchorRef: React.RefObject<DropDownAnchor> = React.createRef();
+  
+  static defaultProps: Partial<Props> = {
     button: <DateRangeDropDownSelectorButton/>,
     useAlternatePosition: true,
   };
   
-  state: State = {
-    progressiveDateRange: null,
-  };
+  constructor(props: Props & InternalProps) {
+    super(props);
+    
+    this.state = {
+      progressiveDateRange: null,
+    };
+  }
   
   render() {
     return (
-      <DropDownAnchor ref={r => this.anchor = r}
-                      className={'DateRangeDropDownSelector ' + this.props.className}
+      <DropDownAnchor ref={this.anchorRef}
+                      className={'DateRangeDropDownSelector ' + this.props.config.dateRangeDropDownSelectorClassName}
                       useOutboundClick={true}
                       useAlternatePosition={this.props.useAlternatePosition}
                       button={React.cloneElement(this.props.button as JSX.Element, {
@@ -63,21 +71,38 @@ export default class extends React.Component<Props, State> {
   }
   
   onChange = (progressiveDateRange: DateRange) => {
-    this.setState({progressiveDateRange});
+    this.setState({
+      progressiveDateRange,
+    });
   };
   
   onComplete = (dateRange: DateRange) => {
-    this.setState({progressiveDateRange: null});
+    this.setState({
+      progressiveDateRange: null,
+    });
+    
     this.props.onChange(dateRange);
-    this.anchor.close();
+    
+    if (this.anchorRef.current) {
+      this.anchorRef.current.close();
+    }
   };
   
   onCancel = () => {
-    this.setState({progressiveDateRange: null});
-    this.anchor.close();
+    this.setState({
+      progressiveDateRange: null,
+    });
+    
+    if (this.anchorRef.current) {
+      this.anchorRef.current.close();
+    }
   };
   
   onAnchorClose = () => {
-    this.setState({progressiveDateRange: null});
+    this.setState({
+      progressiveDateRange: null,
+    });
   };
 }
+
+export default withConsumer(Component) as React.ComponentType<Props>;

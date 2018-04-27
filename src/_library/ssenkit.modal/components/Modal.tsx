@@ -13,13 +13,13 @@ interface InternalProps {
 }
 
 interface State {
-  modalContainer: Element;
+  modalContainer: Element | null;
 }
 
-class Component extends React.Component<Props & InternalProps, State> {
+class Component extends React.PureComponent<Props & InternalProps, State> {
   static displayName: string = 'Modal';
   
-  private container: Element;
+  private container: Element | null;
   
   static defaultProps: Partial<Props> = {
     dimStyle: {
@@ -27,14 +27,22 @@ class Component extends React.Component<Props & InternalProps, State> {
     },
   };
   
-  state: State = {
-    modalContainer: null,
-  };
+  constructor(props: Props & InternalProps) {
+    super(props);
+    
+    this.state = {
+      modalContainer: null,
+    };
+  }
   
   componentDidMount() {
     this.container = typeof this.props.container === 'string'
       ? document.querySelector(this.props.container)
       : document.body;
+    
+    if (!this.container) {
+      throw new Error(`Container "${this.props.container}" not found.`);
+    }
     
     const modalContainer: Element = document.createElement('div');
     modalContainer.setAttribute('class', '__ssenkit_modal_container__');
@@ -46,7 +54,7 @@ class Component extends React.Component<Props & InternalProps, State> {
   }
   
   componentWillUnmount() {
-    if (this.state.modalContainer) {
+    if (this.container && this.state.modalContainer) {
       this.container.removeChild(this.state.modalContainer);
       this.container = null;
     }
@@ -67,4 +75,4 @@ class Component extends React.Component<Props & InternalProps, State> {
   };
 }
 
-export default Component as React.ComponentClass<Props>;
+export default Component as React.ComponentType<Props>;
