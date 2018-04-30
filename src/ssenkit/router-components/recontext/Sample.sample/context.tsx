@@ -69,17 +69,13 @@ class Provider extends Recontext.Provider<ContextState> {
 }
 
 function withConsumer<Props>(Component: React.ComponentType<Props>): React.ComponentType<Props & ContextState> {
-  return class extends React.PureComponent<Props & ContextState> {
-    render() {
-      return (
-        <Consumer>
-          {
-            state => <Component {...state} {...this.props}/>
-          }
-        </Consumer>
-      );
-    }
-  };
+  return React.forwardRef((props, ref) => (
+    <Consumer>
+      {
+        state => <Component {...state} {...props} ref={ref}/>
+      }
+    </Consumer>
+  ));
 }
 
 export {

@@ -102,9 +102,7 @@ function withConsumer<Props>(Component: React.ComponentClass<Props>): React.Comp
   return React.forwardRef((props, ref) => (
     <Consumer>
       {
-        state => (
-          <Component {...state} {...props} ref={ref}/>
-        )
+        state => <Component {...state} {...props} ref={ref}/>
       }
     </Consumer>
   ));
