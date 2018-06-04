@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 export interface Props {
     menuClassName?: string;
@@ -12,7 +11,7 @@ export interface Props {
     }, response: (data: object) => void) => void;
     children?: React.ReactElement<React.InputHTMLAttributes<HTMLInputElement>>;
 }
-export default class  extends React.PureComponent<Props, {}> {
+export default class extends React.PureComponent<Props, {}> {
     private inputRef;
     private lastDisaptchedText;
     static defaultProps: Partial<Props>;

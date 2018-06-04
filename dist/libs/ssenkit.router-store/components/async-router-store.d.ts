@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import { Route, RouteProps } from 'react-router';
 export interface AsyncRouterStoreConfig {
@@ -9,7 +8,7 @@ export interface AsyncRouterStoreConfig {
         default: React.ComponentType<any>;
     }>;
 }
-export default class  {
+export default class {
     private config;
     private preloadIndex;
     constructor(config: AsyncRouterStoreConfig[]);

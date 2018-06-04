@@ -160,7 +160,7 @@ var Provider = /** @class */ (function (_super) {
 }(React.PureComponent));
 exports.Provider = Provider;
 function withConsumer(Component) {
-    return React.forwardRef(function (props, ref) { return (React.createElement(Consumer, null, function (state) { return (React.createElement(Component, __assign({}, state, props, { ref: ref }))); })); });
+    return React.forwardRef(function (props, ref) { return (React.createElement(Consumer, null, function (state) { return React.createElement(Component, __assign({}, state, props, { ref: ref })); })); });
 }
 exports.withConsumer = withConsumer;
 

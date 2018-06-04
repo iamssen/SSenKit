@@ -1,1 +1,1 @@
-export { Modal as default, openModal, ModalContentProps } from './components';
+export { Modal as default, openModal, ModalContentProps, } from './components';

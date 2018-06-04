@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import { DateRange } from '../types';
 import { DateRangeDropDownSelectorButtonProps } from './DateRangeDropDownSelectorButtonProps';

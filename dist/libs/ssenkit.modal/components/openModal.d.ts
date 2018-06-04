@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { ModalContentProps } from './types';
 import * as React from 'react';
 export interface Options {

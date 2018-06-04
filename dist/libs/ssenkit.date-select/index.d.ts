@@ -12,4 +12,4 @@ export * from './components/FromToDateTimeDropDownSelectorButtonProps';
 export { default as DateRangeDropDownSelector } from './components/DateRangeDropDownSelector';
 export { default as DefaultDateList } from './components/DefaultDateList';
 export * from './types';
-export { Provider as ConfigProvider, Config } from './context';
+export { Provider as ConfigProvider, Config, } from './context';

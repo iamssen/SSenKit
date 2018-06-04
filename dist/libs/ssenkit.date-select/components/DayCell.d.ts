@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as moment from 'moment';
 import * as React from 'react';
 export interface Props {
@@ -11,7 +10,7 @@ export interface Props {
     disableAfter: moment.Moment | Date | undefined;
     onClick: (date: moment.Moment) => void;
 }
-export default class  extends React.PureComponent<Props, {}> {
+export default class extends React.PureComponent<Props, {}> {
     static displayName: string;
     render(): JSX.Element;
 }

@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as moment from 'moment';
 import * as React from 'react';
 import './DateSelector.scss';

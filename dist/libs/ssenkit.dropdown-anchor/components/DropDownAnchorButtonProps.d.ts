@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 export default interface DropDownAnchorButtonProps {
     role?: string;

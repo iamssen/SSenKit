@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 export declare type Teardown = () => void;
 export declare type Action<ContextState> = (contextState: ContextState) => (Teardown | void);

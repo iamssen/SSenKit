@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import './DropDownAnchor.scss';
 import DropDownAnchorButtonProps from './DropDownAnchorButtonProps';
@@ -15,7 +14,7 @@ export interface Props {
 export interface State {
     open: boolean;
 }
-export default class  extends React.PureComponent<Props, State> {
+export default class extends React.PureComponent<Props, State> {
     private contentContainerRef;
     private anchorButtonRef;
     private outboundClickSubscription;

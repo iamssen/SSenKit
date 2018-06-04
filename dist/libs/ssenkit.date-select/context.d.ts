@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 interface Config {
     timeInputClassName: string;
@@ -34,4 +33,4 @@ declare class Provider extends React.PureComponent<Props, {}> {
     render(): JSX.Element;
 }
 declare function withConsumer<Props>(Component: React.ComponentClass<Props>): React.ComponentType<ContextState & Props>;
-export { Provider, Consumer, withConsumer, ContextState, Config, Props };
+export { Provider, Consumer, withConsumer, ContextState, Config, Props, };

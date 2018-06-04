@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import { Route, RouteProps } from 'react-router';
 export interface SyncRouterStoreConfig {
@@ -7,7 +6,7 @@ export interface SyncRouterStoreConfig {
     strict?: boolean;
     component: React.ComponentType<any>;
 }
-export default class  {
+export default class {
     private config;
     constructor(config: SyncRouterStoreConfig[]);
     getRoute: (path: string) => React.ComponentElement<Readonly<{

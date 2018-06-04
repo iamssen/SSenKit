@@ -133,6 +133,7 @@ var Provider = /** @class */ (function (_super) {
         };
         // tslint:disable
         _this.updateStore = function (prevStore, nextStore) {
+            var _a;
             var key = Object.keys(_this.state.contextState).find(function (key) {
                 return prevStore === _this.state.contextState[key];
             });
@@ -141,46 +142,45 @@ var Provider = /** @class */ (function (_super) {
                     contextState: Object.assign({}, _this.state.contextState, (_a = {}, _a[key] = nextStore, _a)),
                 });
             }
-            var _a;
         };
         return _this;
         // tslint:enable
     }
     Provider.prototype.componentDidUpdate = function (prevProps, prevState) {
+        var e_1, _a;
         if (prevState.contextState !== this.state.contextState && this.subscriptions.size > 0) {
             try {
-                for (var _a = __values(this.subscriptions), _b = _a.next(); !_b.done; _b = _a.next()) {
-                    var subscription = _b.value;
+                for (var _b = __values(this.subscriptions), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var subscription = _c.value;
                     subscription(this.state.contextState, prevState.contextState);
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
                 finally { if (e_1) throw e_1.error; }
             }
         }
-        var e_1, _c;
     };
     Provider.prototype.componentWillUnmount = function () {
+        var e_2, _a;
         try {
-            for (var _a = __values(this.teardowns), _b = _a.next(); !_b.done; _b = _a.next()) {
-                var teardown = _b.value;
+            for (var _b = __values(this.teardowns), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var teardown = _c.value;
                 teardown();
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
             finally { if (e_2) throw e_2.error; }
         }
         this.teardowns.clear();
         this.subscriptions.clear();
-        var e_2, _c;
     };
     Provider.displayName = 'Recontext.Provider';
     return Provider;
