@@ -1,11 +1,4 @@
 {
-  "style": {
-    "themes": {
-      "module": {
-        "cssModule": true
-      }
-    }
-  },
   "web": {
     "entry": {
       "init": [
@@ -13,13 +6,6 @@
       ],
       "app": "./src/_boot/client/app",
       "html-app": "./src/_boot/client/html-app"
-    },
-    "dll": {
-      "name": "dll",
-      "entry": [
-        "./src/_boot/client/vendor",
-        "./src/_boot/client/polyfills"
-      ]
     },
     "externals": {},
     "static": [

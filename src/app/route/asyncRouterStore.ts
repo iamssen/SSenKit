@@ -4,30 +4,30 @@ export default new AsyncRouterStore([
   {
     path: '/',
     exact: true,
-    component: () => System.import('app/router-components/main'),
+    component: () => import('app/router-components/main'),
   },
   {
     path: '/ssenkit/autocomplete-text-input',
-    component: () => System.import('ssenkit/router-components/autocomplete-text-input'),
+    component: () => import('ssenkit/router-components/autocomplete-text-input'),
   },
   {
     path: '/ssenkit/date-select',
-    component: () => System.import('ssenkit/router-components/date-select'),
+    component: () => import('ssenkit/router-components/date-select'),
   },
   {
     path: '/ssenkit/dropdown-anchor',
-    component: () => System.import('ssenkit/router-components/dropdown-anchor'),
+    component: () => import('ssenkit/router-components/dropdown-anchor'),
   },
   {
     path: '/ssenkit/modal',
-    component: () => System.import('ssenkit/router-components/modal'),
+    component: () => import('ssenkit/router-components/modal'),
   },
   {
     path: '/ssenkit/restricted-text-input',
-    component: () => System.import('ssenkit/router-components/restricted-text-input'),
+    component: () => import('ssenkit/router-components/restricted-text-input'),
   },
   {
     path: '/ssenkit/recontext',
-    component: () => System.import('ssenkit/router-components/recontext'),
+    component: () => import('ssenkit/router-components/recontext'),
   },
 ]);
