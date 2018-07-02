@@ -1,5 +1,11 @@
 import produce from 'immer';
 
+/***
+ * 결론
+ * 1. array, object만 사용할 수 있다 (primitive는 사실 상 의미없으니...)
+ * 2. Set, Map은 new Set(otherSet)과 같은 형태로 대체해야 한다 (immutable object)
+ */
+
 describe('immer', () => {
   it('Test Set, Map', () => {
     // immer는 primitive, object, array만 지원하기 때문에 에러가 발생한다
@@ -34,21 +40,21 @@ describe('immer', () => {
   it('Test basic', () => {
     const arr: string[] = ['a', 'b', 'c'];
     expect(produce(arr, draft => {
-      draft.push('d', 'e');
+      draft.push('d', 'e'); // ['a', 'b', 'c', 'd', 'e']
       return draft;
     })).toEqual(['a', 'b', 'c', 'd', 'e']);
     
     const obj: object = {a: 1, b: 2, c: 3};
     expect(produce(obj, draft => {
-      draft['a'] = 3;
-      delete draft['c'];
-      draft['d'] = 100;
+      draft['a'] = 3; // {a: 3, b: 2, c: 3}
+      delete draft['c']; // {a: 3, b: 2}
+      draft['d'] = 100; // {a: 3, b: 2, d: 100}
       return draft;
     })).toEqual({a: 3, b: 2, d: 100});
     
     const str: string = 'a';
     expect(produce(str, draft => {
-      return draft + 'ccc';
+      return draft + 'ccc'; // 'accc'
     })).toEqual('accc');
   });
   
@@ -65,10 +71,10 @@ describe('immer', () => {
   it('Test deep', () => {
     const arr: (string | string[])[] = ['a', ['b', 'c']];
     expect(produce(arr, draft => {
-      (draft[1] as string[]).splice(1, 1);
-      (draft[1] as string[]).push('d');
-      draft.push(['e']);
-      draft.push('f');
+      (draft[1] as string[]).splice(1, 1); // ['a', ['b']]
+      (draft[1] as string[]).push('d'); // ['a', ['b', 'd']]
+      draft.push(['e']); // ['a', ['b', 'd'], ['e']]
+      draft.push('f'); // ['a', ['b', 'd'], ['e'], 'f']
     })).toEqual(['a', ['b', 'd'], ['e'], 'f']);
     
     const obj: object = {
@@ -82,10 +88,10 @@ describe('immer', () => {
     };
     
     expect(produce(obj, draft => {
-      delete draft['a']['b'];
-      draft['a']['c']['d'] = 5;
-      draft['a']['c']['f'] = {};
-      draft['a']['c']['f']['g'] = 4;
+      delete draft['a']['b']; // {a: {c: {d: 2}}, e: 3}
+      draft['a']['c']['d'] = 5; // {a: {c: {d: 5}}, e: 3}
+      draft['a']['c']['f'] = {}; // {a: {c: {d: 5, f: {}}}, e: 3}
+      draft['a']['c']['f']['g'] = 4; // {a: {c: {d: 5, f: {g: 4}}}, e: 3}
     })).toEqual({
       a: {
         c: {
