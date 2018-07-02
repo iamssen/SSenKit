@@ -6,5 +6,25 @@ export interface Props {
     availableCharacterPattern: RegExp;
     children?: JSX.Element;
 }
-declare const _default: React.ComponentType<Props>;
-export default _default;
+interface InternalProps {
+}
+interface State {
+}
+declare class Component extends React.PureComponent<Props & InternalProps, State> {
+    static displayName: string;
+    private inputRef;
+    static defaultProps: Partial<Props>;
+    render(): React.ReactElement<any>;
+    onChange: (event: React.ChangeEvent<{
+        value: string;
+    }>) => void;
+    onKeyPress: (event: React.KeyboardEvent<{
+        value: string;
+    }>) => void;
+    onKeyDown: (event: React.KeyboardEvent<{
+        value: string;
+    }>) => void;
+    componentDidUpdate(): void;
+    text: string;
+}
+export default Component;

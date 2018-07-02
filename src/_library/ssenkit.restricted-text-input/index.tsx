@@ -81,11 +81,11 @@ class Component extends React.PureComponent<Props & InternalProps, State> {
   }
   
   set text(value: string) {
-    if (this.inputRef.current) {
+    if (this.inputRef.current && this.inputRef.current.value !== value) {
       this.inputRef.current.value = value;
       this.props.onChange(value);
     }
   }
 }
 
-export default Component as React.ComponentType<Props>;
+export default Component;
