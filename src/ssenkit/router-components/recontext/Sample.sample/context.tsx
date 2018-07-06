@@ -2,7 +2,7 @@ import produce from 'immer';
 import * as React from 'react';
 import * as Recontext from 'recontext';
 import { init } from './actions';
-import { test } from './data';
+import { Test, updateX, updateY } from './data';
 
 type ContextState = Recontext.ContextState<{
   a: number;
@@ -10,7 +10,9 @@ type ContextState = Recontext.ContextState<{
   c: number;
   updateA: (a: number) => void;
   updateB: (b: number) => void;
-  test: test.Store;
+  test: Test;
+  updateX: (x: number) => void;
+  updateY: (y: number) => void;
 }>;
 
 // @ts-ignore
@@ -28,11 +30,13 @@ class Provider extends Recontext.Provider<ContextState> {
         updateB: this.updateB,
         dispatch: this.dispatch,
         subscribe: this.subscribe,
-        test: test.createStore(this, {
+        test: {
           x: 10,
           y: 20,
           z: 30,
-        }),
+        },
+        updateX: this.bindReducer(({test}) => test)(updateX)(test => ({test})),
+        updateY: this.bindReducer(({test}) => test)(updateY)(test => ({test})),
       },
     };
   }

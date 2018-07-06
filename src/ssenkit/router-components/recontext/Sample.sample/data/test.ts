@@ -1,40 +1,21 @@
-import * as Recontext from 'recontext';
+import produce from 'immer';
 
-module test {
-  interface State {
-    x: number;
-    y: number;
-    z: number;
-  }
-  
-  interface Actions {
-    updateX: (x: number) => void;
-    updateY: (y: number) => void;
-  }
-  
-  export type Store = State & Actions;
-  
-  export const createStore: Recontext.CreateStore<State, Actions> = Recontext.createStore<State, Actions>(
-    {
-      x: 1,
-      y: 2,
-      z: 3,
-    },
-    setState => ({
-      updateX: ({y}) => x => {
-        setState({
-          x,
-          z: x + y,
-        });
-      },
-      updateY: ({x}) => y => {
-        setState({
-          y,
-          z: x + y,
-        });
-      },
-    }),
-  );
+export interface Test {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export default test;
+export const updateX: (test: Test) => (x: number) => Test = test => x => {
+  return produce(test, draft => {
+    draft.x = x;
+    draft.z = x + draft.y;
+  });
+};
+
+export const updateY: (test: Test) => (y: number) => Test = test => y => {
+  return produce(test, draft => {
+    draft.y = y;
+    draft.z = draft.x + y;
+  });
+};

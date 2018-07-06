@@ -4,7 +4,7 @@ export default new AsyncRouterStore([
   {
     path: '/',
     exact: true,
-    component: () => import('app/router-components/main'),
+    component: () => import('seed/router-components/main'),
   },
   {
     path: '/ssenkit/autocomplete-text-input',

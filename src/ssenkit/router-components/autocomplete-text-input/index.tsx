@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Description, Source } from 'common/components/showcase';
+import { Description, Source } from 'seed/components';
 import MultipleAutoCompleteTextInput from './MultipleAutoCompleteTextInput.sample';
 import SingleAutoCompleteTextInput from './SingleAutoCompleteTextInput.sample';
 

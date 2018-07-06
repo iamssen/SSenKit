@@ -24,7 +24,7 @@ class Component extends React.PureComponent<Props & InternalProps, State> {
   }
   
   update = () => {
-    this.props.test.updateY(Math.floor(Math.random() * 10000));
+    this.props.updateY(Math.floor(Math.random() * 10000));
   };
 }
 

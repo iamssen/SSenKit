@@ -30,4 +30,4 @@ class Component extends React.PureComponent<Props & InternalProps, State> {
   }
 }
 
-export default Component as React.ComponentType<Props>;
+export default Component as React.ComponentClass<Props>;

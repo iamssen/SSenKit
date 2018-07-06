@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Description, Source } from 'common/components/showcase';
+import { Description, Source } from 'seed/components';
 import DateInput from './DateInput.sample';
 import DateRangeDropDownSelector from './DateRangeDropDownSelector.sample';
 import DateRangeSelector from './DateRangeSelector.sample';

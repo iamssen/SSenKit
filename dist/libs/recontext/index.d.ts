@@ -19,10 +19,5 @@ export declare class Provider<ContextState, Props = {}, State = {}> extends Reac
     protected setContextState: (stateOrProducer: Partial<ContextState> | ((contextState: ContextState) => Partial<ContextState>)) => void;
     protected dispatch: (action: Action<ContextState>) => Teardown;
     protected subscribe: (subscription: (state: ContextState, prevState: ContextState) => void) => Teardown;
-    updateStore: (prevStore: any, nextStore: any) => void;
+    protected bindReducer: (getState?: (contextState: ContextState) => any) => (reducer: Function) => (setState: (result: any) => Partial<ContextState>) => any;
 }
-export declare type CreateStore<State, Actions> = (provider: Provider<{}>, initialState?: Partial<State>) => State & Actions;
-export declare type ActionsInput<State, Actions> = {
-    [A in keyof Actions]: (state: State) => Actions[A];
-};
-export declare function createStore<State, Actions>(defaultInitialState: State, config: (setState: (state: Partial<State>) => State & Actions) => ActionsInput<State, Actions>): CreateStore<State, Actions>;

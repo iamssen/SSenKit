@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Description, Source } from 'common/components/showcase';
+import { Description, Source } from 'seed/components';
 import Modal from './Modal.sample';
 import OpenModal from './openModal.sample';
 

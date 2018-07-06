@@ -4,7 +4,7 @@ export default new SyncRouterStore([
   {
     path: '/',
     exact: true,
-    component: require('app/router-components/main').default,
+    component: require('seed/router-components/main').default,
   },
   {
     path: '/ssenkit/autocomplete-text-input',
