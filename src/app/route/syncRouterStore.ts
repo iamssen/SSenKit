@@ -30,4 +30,8 @@ export default new SyncRouterStore([
     path: '/ssenkit/recontext',
     component: require('ssenkit/router-components/recontext').default,
   },
+  {
+    path: '/research/numeral',
+    component: require('research/numeral').default,
+  },
 ]);

@@ -44,4 +44,12 @@ router.get('/sample', (req, res) => {
   }));
 });
 
+router.get('/ssenkit/*', (req, res) => {
+  res.send(render(req, {}));
+});
+
+router.get('/research/*', (req, res) => {
+  res.send(render(req, {}));
+});
+
 export default router;

@@ -30,4 +30,8 @@ export default new AsyncRouterStore([
     path: '/ssenkit/recontext',
     component: () => import('ssenkit/router-components/recontext'),
   },
+  {
+    path: '/research/numeral',
+    component: () => import('research/numeral'),
+  },
 ]);

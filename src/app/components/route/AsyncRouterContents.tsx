@@ -25,6 +25,7 @@ class Component extends React.Component<Props & InternalProps, State> {
         {routerStore.getRoute('/ssenkit/modal')}
         {routerStore.getRoute('/ssenkit/restricted-text-input')}
         {routerStore.getRoute('/ssenkit/recontext')}
+        {routerStore.getRoute('/research/numeral')}
       </React.Fragment>
     );
   }

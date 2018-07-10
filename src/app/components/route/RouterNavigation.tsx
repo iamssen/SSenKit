@@ -25,6 +25,7 @@ class Component extends React.PureComponent<Props & InternalProps, State> {
         <Link to="/ssenkit/modal">Modal</Link>
         <Link to="/ssenkit/restricted-text-input">Restricted Text Input</Link>
         <Link to="/ssenkit/recontext">ReContext</Link>
+        <Link to="/research/numeral">Numeral.js</Link>
       </React.Fragment>
     );
   }
