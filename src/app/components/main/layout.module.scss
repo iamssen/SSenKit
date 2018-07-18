@@ -1,0 +1,60 @@
+.header {
+
+}
+
+.content {
+  display: flex;
+  flex-flow: row;
+}
+
+.nav {
+  min-width: 150px;
+  flex: 1;
+  
+  padding: 20px;
+  
+  > ul {
+    padding-left: 0;
+    
+    li {
+      list-style: none;
+      vertical-align: bottom;
+      line-height: 140%;
+    }
+    
+    a {
+      text-decoration: none;
+    }
+    
+    h3 {
+      margin: 0;
+      font-size: 1.1em;
+    }
+    
+    svg {
+      font-size: 0.8em;
+      transform: translateY(-0.2em);
+    }
+    
+    ul {
+      padding-left: 1.25em; // is font-awsome icon width
+      
+      li {
+        ::before {
+          display: inline;
+          content: '\00a0';
+        }
+      }
+    }
+    
+    > :not(:first-child) {
+      h3 {
+        margin-top: 0.5em;
+      }
+    }
+  }
+}
+
+.body {
+  flex: 7;
+}

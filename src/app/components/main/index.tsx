@@ -1,7 +1,8 @@
 import RouterNavigation from 'app/components/route/RouterNavigation';
 import * as React from 'react';
-import { LanguageChangeButton, SignButton, TimezoneChangeSelect } from 'seed/components';
+import { LanguageChangeButton, TimezoneChangeSelect } from 'seed/components';
 import './index.scss';
+import * as styles from './layout.module.scss';
 
 export interface Props {
   routerContents: React.ReactElement<{}>;
@@ -19,17 +20,24 @@ class Component extends React.Component<Props & InternalProps, State> {
   render() {
     return (
       <React.Fragment>
-        <div>
-          <LanguageChangeButton/>
-          <SignButton/>
-          <TimezoneChangeSelect/>
-        </div>
-        <div>
-          <RouterNavigation/>
-        </div>
-        <div>
-          {this.props.children}
-          {this.props.routerContents}
+        {/*<div className={styles.header}>*/}
+        {/*<LanguageChangeButton/>*/}
+        {/*<SignButton/>*/}
+        {/*<TimezoneChangeSelect/>*/}
+        {/*</div>*/}
+        
+        <div className={styles.content}>
+          <div className={styles.nav}>
+            <RouterNavigation/>
+            <hr/>
+            <LanguageChangeButton/>
+            <TimezoneChangeSelect/>
+          </div>
+          
+          <div className={styles.body}>
+            {this.props.children}
+            {this.props.routerContents}
+          </div>
         </div>
       </React.Fragment>
     );
