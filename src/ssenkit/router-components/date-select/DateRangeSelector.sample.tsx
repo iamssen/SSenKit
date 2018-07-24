@@ -1,22 +1,22 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { DateRange, DateRangeSelector } from 'ssenkit.date-select';
 
 interface State {
   progressiveDateRange: DateRange | null;
   dateRange: DateRange;
-  disableBefore?: moment.Moment | Date;
-  disableAfter?: moment.Moment | Date;
+  disableBefore?: DateTime;
+  disableAfter?: DateTime;
 }
 
 export default class extends React.PureComponent<{}, State> {
   state: State = {
     progressiveDateRange: null,
     dateRange: {
-      from: moment().subtract(3, 'days').toDate(),
+      from: DateTime.local().minus({days: 3}).toJSDate(),
     },
-    disableBefore: moment().subtract(4, 'years'),
-    disableAfter: moment().add(1, 'years'),
+    disableBefore: DateTime.local().minus({years: 4}),
+    disableAfter: DateTime.local().plus({years: 1}),
   };
   
   render() {

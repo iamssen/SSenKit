@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { ContextState, withConsumer } from '../context';
 import { DateRange, FromTo, isFromTo } from '../types';
@@ -13,8 +13,8 @@ export interface Props {
   onCancel: () => void;
   onComplete: (dateRange: DateRange) => void;
   
-  disableBefore?: moment.Moment | Date;
-  disableAfter?: moment.Moment | Date;
+  disableBefore?: DateTime;
+  disableAfter?: DateTime;
   
   children?: React.ReactElement<DatePresetSelectorProps>;
 }
@@ -87,7 +87,7 @@ class Component extends React.Component<Props & InternalProps, State> {
               <div role="selector">
                 <FromToDateTimeSelector fromTo={this.state.progressiveDateRange as FromTo}
                                         disableBefore={this.props.disableBefore}
-                                        disableAfter={this.props.disableAfter || moment().endOf('day').toDate()}
+                                        disableAfter={this.props.disableAfter || DateTime.local().endOf('day')}
                                         onChange={this.onDateChange}/>
                 <div role="buttons">
                   {
@@ -128,8 +128,8 @@ class Component extends React.Component<Props & InternalProps, State> {
   onTabChange = (tabIndex: number) => {
     if (tabIndex === 1) {
       this.onDateChange({
-        from: moment().startOf('day').toDate(),
-        to: moment().toDate(),
+        from: DateTime.local().startOf('day').toJSDate(),
+        to: new Date,
       });
     }
     

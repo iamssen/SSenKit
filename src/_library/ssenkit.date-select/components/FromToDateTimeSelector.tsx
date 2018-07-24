@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { ContextState, withConsumer } from '../context';
 import { FromTo } from '../types';
@@ -9,16 +9,16 @@ export interface Props {
   fromTo: FromTo;
   onChange: (fromTo: FromTo) => void;
   
-  disableBefore?: moment.Moment | Date;
-  disableAfter?: moment.Moment | Date;
+  disableBefore?: DateTime;
+  disableAfter?: DateTime;
 }
 
 interface InternalProps extends ContextState {
 }
 
 export interface State {
-  from: moment.Moment;
-  to: moment.Moment;
+  from: DateTime;
+  to: DateTime;
 }
 
 class Component extends React.Component<Props & InternalProps, State> {
@@ -28,39 +28,40 @@ class Component extends React.Component<Props & InternalProps, State> {
     super(props);
     
     this.state = {
-      from: moment(props.fromTo.from),
-      to: moment(props.fromTo.to),
+      from: DateTime.fromJSDate(props.fromTo.from),
+      to: DateTime.fromJSDate(props.fromTo.to),
     };
   }
   
   render() {
-    const {from, to} = this.state;
-    const {disableBefore, disableAfter} = this.props;
-    const toDisableBefore: moment.Moment | Date = !disableBefore || (from && from.isAfter(disableBefore, 'day'))
-      ? from.toDate()
+    const disableBefore: DateTime = this.props.disableBefore || this.props.config.disableBefore;
+    const disableAfter: DateTime = this.props.disableAfter || this.props.config.disableAfter;
+    
+    const toDisableBefore: DateTime = this.state.from.startOf('day') > disableBefore.startOf('day')
+      ? this.state.from
       : disableBefore;
     
     return (
       <div className={'FromToDateTimeSelector ' + this.props.config.fromToDateTimeSelectorClassName}>
-        <DateTimeSelector date={from.toDate()}
+        <DateTimeSelector date={this.state.from}
                           disableBefore={disableBefore}
                           disableAfter={disableAfter}
-                          onChange={newFrom => this.changeFrom(newFrom)}/>
+                          onChange={this.changeFrom}/>
         
-        <DateTimeSelector date={to.toDate()}
+        <DateTimeSelector date={this.state.to}
                           disableBefore={toDisableBefore}
                           disableAfter={disableAfter}
-                          onChange={newTo => this.changeTo(newTo)}/>
+                          onChange={this.changeTo}/>
       </div>
     );
   }
   
   static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> | null {
-    if (!prevState.from.isSame(nextProps.fromTo.from, 'second')
-      || !prevState.to.isSame(nextProps.fromTo.to, 'second')) {
+    if (!prevState.from.hasSame(DateTime.fromJSDate(nextProps.fromTo.from), 'second')
+      || !prevState.to.hasSame(DateTime.fromJSDate(nextProps.fromTo.to), 'second')) {
       return {
-        from: moment(nextProps.fromTo.from),
-        to: moment(nextProps.fromTo.to),
+        from: DateTime.fromJSDate(nextProps.fromTo.from),
+        to: DateTime.fromJSDate(nextProps.fromTo.to),
       };
     }
     
@@ -77,38 +78,44 @@ class Component extends React.Component<Props & InternalProps, State> {
       || prevProps.disableAfter !== nextProps.disableAfter;
   }
   
-  private changeFrom(fromDate: Date) {
-    if (!this.state.from.isSame(fromDate, 'second')) {
-      if (this.state.to.isBefore(fromDate)) {
+  changeFrom = (from: DateTime) => {
+    if (!this.state.from.hasSame(from, 'second')) {
+      if (this.state.to < from) {
         this.setState({
-          from: moment(fromDate),
-          to: moment(fromDate),
+          from,
+          to: from,
         });
         
         this.props.onChange({
-          from: fromDate,
-          to: fromDate,
+          from: from.toJSDate(),
+          to: from.toJSDate(),
         });
       } else {
         this.setState({
-          from: moment(fromDate),
+          from,
         });
         
         this.props.onChange({
-          from: fromDate,
-          to: this.state.to.toDate(),
+          from: from.toJSDate(),
+          to: this.state.to.toJSDate(),
         });
       }
     }
     
-  }
+  };
   
-  private changeTo(to: Date) {
-    if (!this.state.to.isSame(to, 'second')) {
-      this.setState({to: moment(to)});
-      this.props.onChange({from: this.state.from.toDate(), to});
+  changeTo = (to: DateTime) => {
+    if (!this.state.to.hasSame(to, 'second')) {
+      this.setState({
+        to,
+      });
+      
+      this.props.onChange({
+        from: this.state.from.toJSDate(),
+        to: to.toJSDate(),
+      });
     }
-  }
+  };
 }
 
 export default withConsumer(Component) as React.ComponentType<Props>;
