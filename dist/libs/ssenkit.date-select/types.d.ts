@@ -20,11 +20,3 @@ export declare function isFromTo(obj: any): boolean;
 export declare function isFrom(obj: any): boolean;
 export declare function isPeriod(obj: any): boolean;
 export declare function isLatest(obj: any): boolean;
-export interface paramRange {
-    startTime: string;
-    endTime: string;
-}
-export declare function dateRangeToParamRange(dateRange: DateRange): {
-    startTime: string;
-    endTime: string;
-};
