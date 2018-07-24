@@ -17,7 +17,7 @@
     "start": "npm run messages.build && sh scripts.sh start",
     "test": "jest",
     "coverage": "jest --coverage",
-    "web.git.publish": "git subtree push --prefix dist/web origin subtree/web",
+    "web.git.publish": "git subtree push --prefix dist/web origin subtree/web && git subtree push --prefix dist/web origin gh-pages",
     "web.server.git.publish": "git subtree push --prefix dist/server origin subtree/server",
     "git.publish": "npm run web.git.publish && npm run web.server.git.publish",
     "lint": "tslint 'src/**/!(*.spec|*.test).ts?(x)'",
