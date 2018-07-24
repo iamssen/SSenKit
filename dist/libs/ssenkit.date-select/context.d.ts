@@ -1,7 +1,11 @@
+import { DateTime } from 'luxon';
 import * as React from 'react';
 interface Config {
+    disableBefore: DateTime;
+    disableAfter: DateTime;
     timeInputClassName: string;
     dateInputClassName: string;
+    dateTimeInputClassName: string;
     monthSelectorClassName: string;
     monthSelectorYearLabelFunction: (year: number) => string;
     monthSelectorMonthLabelFunction: (month: number) => string;

@@ -1,11 +1,11 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import './MonthSelector.scss';
 export interface Props {
-    date: moment.Moment | Date;
+    date: DateTime;
     onChange: (year: number, month: number) => void;
-    disableBefore?: moment.Moment | Date;
-    disableAfter?: moment.Moment | Date;
+    disableBefore: DateTime;
+    disableAfter: DateTime;
 }
 declare const _default: React.ComponentType<Props>;
 export default _default;
