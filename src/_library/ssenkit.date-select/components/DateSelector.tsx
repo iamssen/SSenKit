@@ -1,5 +1,5 @@
 import { range } from 'd3-array';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { ContextState, withConsumer } from '../context';
 import './DateSelector.scss';
@@ -7,26 +7,20 @@ import DayCell, { Props as DayCellProps } from './DayCell';
 import MonthSelector from './MonthSelector';
 
 export interface Props {
-  date: moment.Moment | Date;
-  onChange: (date: Date) => void;
+  date: DateTime;
+  onChange: (date: DateTime) => void;
   
-  disableBefore?: moment.Moment | Date;
-  disableAfter?: moment.Moment | Date;
+  disableBefore?: DateTime;
+  disableAfter?: DateTime;
 }
 
 interface InternalProps extends ContextState {
 }
 
 interface State {
-  view: moment.Moment; // Month on calendar
-  date: moment.Moment; // Selected day
-  
-  disableBefore: moment.Moment;
-  disableAfter: moment.Moment;
+  view: DateTime; // Month on calendar
+  date: DateTime; // Selected day
 }
-
-const defaultDisableBefore: moment.Moment = moment().subtract(10, 'years').startOf('year');
-const defaultDisableAfter: moment.Moment = moment().add(10, 'years').endOf('year');
 
 class Component extends React.Component<Props & InternalProps, State> {
   static displayName: string = 'DateSelector';
@@ -35,46 +29,41 @@ class Component extends React.Component<Props & InternalProps, State> {
     super(props);
     
     this.state = {
-      view: moment(props.date),
-      date: moment(props.date),
-      disableBefore: props.disableBefore
-        ? moment(props.disableBefore)
-        : defaultDisableBefore,
-      disableAfter: props.disableAfter
-        ? moment(props.disableAfter)
-        : defaultDisableAfter,
+      view: props.date,
+      date: props.date,
     };
   }
   
   render() {
-    const {view, date: selectedDay, disableBefore, disableAfter} = this.state;
-    const today: moment.Moment = moment();
-    const startDayOfMonth: moment.Moment = view.clone().startOf('month');
-    const endDayOfMonth: moment.Moment = view.clone().endOf('month');
+    const {view, date: selectedDay} = this.state;
+    const today: DateTime = DateTime.local();
+    const startDayOfMonth: DateTime = view.startOf('month');
+    const endDayOfMonth: DateTime = view.endOf('month');
     
-    const itr: moment.Moment = startDayOfMonth.clone().startOf('week');
+    let itr: DateTime = startDayOfMonth.startOf('week');
     
     let row: React.ReactElement<DayCellProps>[] = []; // of <DayCell>
     const rows: JSX.Element[] = []; // of <tr>
     
-    while (itr.isSameOrBefore(endDayOfMonth.clone().endOf('week'), 'day')) {
+    while (itr.startOf('day') <= endDayOfMonth.endOf('week')) {
+      //while (itr.isSameOrBefore(endDayOfMonth.clone().endOf('week'), 'day')) {
       // Create Day Cell
       row.push(
-        <DayCell key={itr.format('YYYYMMDD')}
-                 date={itr.clone()}
+        <DayCell key={itr.toFormat('yyyyLLdd')}
+                 date={itr}
                  selectedDay={selectedDay}
                  startDay={startDayOfMonth}
                  endDay={endDayOfMonth}
                  today={today}
-                 disableBefore={disableBefore}
-                 disableAfter={disableAfter}
+                 disableBefore={this.props.disableBefore}
+                 disableAfter={this.props.disableAfter}
                  onClick={this.onDayClick}/>,
       );
       
       // Week break
-      if (itr.day() === 6) {
+      if (itr.weekday === 6) {
         rows.push((
-          <tr key={itr.format('W')}>
+          <tr key={itr.toFormat('ccccc')}>
             {row}
           </tr>
         ));
@@ -82,7 +71,7 @@ class Component extends React.Component<Props & InternalProps, State> {
         row = [];
       }
       
-      itr.add(1, 'day');
+      itr = itr.plus({days: 1});
     }
     
     range(rows.length, 6).forEach(i => {
@@ -103,18 +92,18 @@ class Component extends React.Component<Props & InternalProps, State> {
       <div className={'DateSelector ' + this.props.config.dateSelectorClassName}>
         <div role="header">
           <PrevMonthButton date={view}
-                           disableBefore={disableBefore}
+                           disableBefore={this.props.disableBefore || this.props.config.disableBefore}
                            onClick={this.changeView}>
             {this.props.config.dateSelectorPrevMonthButton}
           </PrevMonthButton>
           
           <MonthSelector date={view}
-                         disableBefore={disableBefore}
-                         disableAfter={disableAfter}
+                         disableBefore={this.props.disableBefore || this.props.config.disableBefore}
+                         disableAfter={this.props.disableAfter || this.props.config.disableAfter}
                          onChange={this.onMonthChange}/>
           
           <NextMonthButton date={view}
-                           disableAfter={disableAfter}
+                           disableAfter={this.props.disableAfter || this.props.config.disableAfter}
                            onClick={this.changeView}>
             {this.props.config.dateSelectorNextMonthButton}
           </NextMonthButton>
@@ -158,22 +147,9 @@ class Component extends React.Component<Props & InternalProps, State> {
   static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> {
     const state: Partial<State> = {};
     
-    if (!prevState.date.isSame(nextProps.date, 'day')) {
-      state.view = moment(nextProps.date);
-      state.date = moment(nextProps.date);
-    }
-    
-    
-    if (!prevState.disableBefore.isSame(nextProps.disableBefore, 'day')) {
-      state.disableBefore = nextProps.disableBefore
-        ? moment(nextProps.disableBefore)
-        : defaultDisableBefore;
-    }
-    
-    if (!prevState.disableAfter.isSame(nextProps.disableAfter, 'day')) {
-      state.disableAfter = nextProps.disableAfter
-        ? moment(nextProps.disableAfter)
-        : defaultDisableAfter;
+    if (!prevState.date.hasSame(nextProps.date, 'day')) {
+      state.view = nextProps.date;
+      state.date = nextProps.date;
     }
     
     return state;
@@ -182,11 +158,12 @@ class Component extends React.Component<Props & InternalProps, State> {
   shouldComponentUpdate(nextProps: Readonly<Props & InternalProps>, nextState: Readonly<State>) {
     return this.state.view !== nextState.view
       || this.state.date !== nextState.date
-      || this.state.disableBefore !== nextState.disableBefore
-      || this.state.disableAfter !== nextState.disableAfter;
+      || this.props.disableBefore !== nextProps.disableBefore
+      || this.props.disableAfter !== nextProps.disableAfter
+      || this.props.config !== nextProps.config;
   }
   
-  changeView = (newMonth: moment.Moment) => {
+  changeView = (newMonth: DateTime) => {
     this.setState({
       view: newMonth,
     });
@@ -194,39 +171,39 @@ class Component extends React.Component<Props & InternalProps, State> {
   
   onMonthChange = (year: number, month: number) => {
     this.setState({
-      view: this.state.view.clone().year(year).month(month - 1),
+      view: this.state.view.set({year, month}),
     });
   };
   
-  onDayClick = (newDate: moment.Moment) => {
-    this.props.onChange(newDate.toDate());
+  onDayClick = (newDate: DateTime) => {
+    this.props.onChange(newDate);
   };
 }
 
 export default withConsumer(Component) as React.ComponentType<Props>;
 
 interface PrevMonthButtonProps {
-  date: moment.Moment;
-  disableBefore: moment.Moment | Date | undefined;
-  onClick: (date: moment.Moment) => void;
+  date: DateTime;
+  disableBefore: DateTime;
+  onClick: (date: DateTime) => void;
   children: React.ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>;
 }
 
 interface NextMonthButtonProps {
-  date: moment.Moment;
-  disableAfter: moment.Moment | Date | undefined;
-  onClick: (date: moment.Moment) => void;
+  date: DateTime;
+  disableAfter: DateTime;
+  onClick: (date: DateTime) => void;
   children: React.ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>;
 }
 
 class PrevMonthButton extends React.PureComponent<PrevMonthButtonProps, {}> {
   render() {
     const disabled: boolean = this.props.disableBefore !== undefined
-      && this.props.date.isSameOrBefore(this.props.disableBefore, 'month');
+      && this.props.date.startOf('month') <= this.props.disableBefore.startOf('month');
     const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {};
     
     if (!disabled) {
-      buttonProps.onClick = () => this.props.onClick(this.props.date.clone().subtract(1, 'month'));
+      buttonProps.onClick = () => this.props.onClick(this.props.date.minus({months: 1}));
     } else {
       buttonProps.disabled = true;
     }
@@ -238,11 +215,11 @@ class PrevMonthButton extends React.PureComponent<PrevMonthButtonProps, {}> {
 class NextMonthButton extends React.PureComponent<NextMonthButtonProps, {}> {
   render() {
     const disabled: boolean = this.props.disableAfter !== undefined
-      && this.props.date.isSameOrAfter(this.props.disableAfter, 'month');
+      && this.props.date.startOf('month') >= this.props.disableAfter.startOf('month');
     const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {};
     
     if (!disabled) {
-      buttonProps.onClick = () => this.props.onClick(this.props.date.clone().add(1, 'month'));
+      buttonProps.onClick = () => this.props.onClick(this.props.date.plus({months: 1}));
     } else {
       buttonProps.disabled = true;
     }

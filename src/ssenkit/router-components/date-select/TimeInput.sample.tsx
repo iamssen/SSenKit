@@ -1,6 +1,6 @@
-import { TimeInput } from 'ssenkit.date-select';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
+import { TimeInput } from 'ssenkit.date-select';
 
 interface State {
   time: string;
@@ -8,13 +8,14 @@ interface State {
 
 export default class extends React.PureComponent<{}, State> {
   state: State = {
-    time: moment().format('HH:mm:ss'),
+    time: DateTime.local().toFormat('HH:mm:ss'),
   };
   
   render() {
     return (
       <div>
-        <TimeInput time={this.state.time} onChange={this.onChange}/>
+        <TimeInput time={this.state.time}
+                   onChange={this.onChange}/>
         <span>Selected: {this.state.time}</span>
       </div>
     );

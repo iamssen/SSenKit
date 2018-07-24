@@ -1,25 +1,25 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { ContextState, withConsumer } from '../context';
 import './MonthSelector.scss';
 
 export interface Props {
-  date: moment.Moment | Date;
+  date: DateTime;
   onChange: (year: number, month: number) => void;
   
-  disableBefore?: moment.Moment | Date;
-  disableAfter?: moment.Moment | Date;
+  disableBefore: DateTime;
+  disableAfter: DateTime;
 }
 
 interface InternalProps extends ContextState {
 }
 
 interface State {
-  date: moment.Moment,
+  date: DateTime,
   source: Map<number, number[]>, // of <year, months>
   
-  prevDisableBefore: moment.Moment | Date | undefined,
-  prevDisableAfter: moment.Moment | Date | undefined,
+  prevDisableBefore: DateTime | undefined,
+  prevDisableAfter: DateTime | undefined,
 }
 
 class Component extends React.Component<Props & InternalProps, State> {
@@ -29,7 +29,7 @@ class Component extends React.Component<Props & InternalProps, State> {
     super(props);
     
     this.state = {
-      date: moment(props.date),
+      date: props.date,
       source: parseSource(props),
       prevDisableBefore: props.disableBefore,
       prevDisableAfter: props.disableAfter,
@@ -38,8 +38,8 @@ class Component extends React.Component<Props & InternalProps, State> {
   
   
   render() {
-    const year: number = this.state.date.year();
-    const month: number = this.state.date.month() + 1;
+    const year: number = this.state.date.year;
+    const month: number = this.state.date.month;
     const years: number[] = Array.from<number>(this.state.source.keys());
     const months: number[] = this.state.source.get(year) as number[];
     
@@ -82,8 +82,8 @@ class Component extends React.Component<Props & InternalProps, State> {
       state.source = parseSource(nextProps);
     }
     
-    if (!prevState.date.isSame(nextProps.date, 'month')) {
-      state.date = moment(nextProps.date);
+    if (!prevState.date.hasSame(nextProps.date, 'month')) {
+      state.date = nextProps.date;
     }
     
     return state;
@@ -97,7 +97,7 @@ class Component extends React.Component<Props & InternalProps, State> {
   onYearChange = (event: React.ChangeEvent<{value: string}>) => {
     const year: number = Number(event.target.value);
     const months: number[] = this.state.source.get(year) as number[];
-    const currentMonth: number = this.state.date.month() + 1;
+    const currentMonth: number = this.state.date.month;
     const month: number = months.indexOf(currentMonth) > -1
       ? currentMonth
       : months[months.length - 1];
@@ -106,7 +106,7 @@ class Component extends React.Component<Props & InternalProps, State> {
   };
   
   onMonthChange = (event: React.ChangeEvent<{value: string}>) => {
-    const year: number = this.state.date.year();
+    const year: number = this.state.date.year;
     const month: number = Number(event.target.value);
     
     this.props.onChange(year, month);
@@ -116,28 +116,29 @@ class Component extends React.Component<Props & InternalProps, State> {
 export default withConsumer(Component) as React.ComponentType<Props>;
 
 function parseSource({disableBefore, disableAfter}: Props): Map<number, number[]> {
-  let from: moment.Moment, to: moment.Moment;
+  let from: DateTime, to: DateTime;
   
   if (disableBefore && disableAfter) {
-    from = moment(disableBefore);
-    to = moment(disableAfter);
+    from = disableBefore;
+    to = disableAfter;
   } else if (disableBefore) {
-    from = moment(disableBefore);
-    to = moment().add(10, 'year').endOf('year');
+    from = disableBefore;
+    to = DateTime.local().plus({years: 10}).endOf('year');
   } else if (disableAfter) {
-    from = moment().subtract(10, 'year').startOf('year');
-    to = moment(disableAfter);
+    from = DateTime.local().minus({years: 10}).startOf('year');
+    to = disableAfter;
   } else {
-    from = moment().subtract(10, 'year').startOf('year');
-    to = moment().add(10, 'year').endOf('year');
+    from = DateTime.local().minus({years: 10}).startOf('year');
+    to = DateTime.local().plus({years: 10}).endOf('year');
   }
   
   const source: Map<number, number[]> = new Map<number, number[]>();
-  const itr: moment.Moment = from.clone();
+  let itr: DateTime = from;
   
-  while (itr.isSameOrBefore(to, 'month')) {
-    const year: number = itr.year();
-    const month: number = itr.month() + 1;
+  while (itr.startOf('month') <= to.startOf('month')) {
+    //while (itr.isSameOrBefore(to, 'month')) {
+    const year: number = itr.year;
+    const month: number = itr.month;
     
     if (!source.has(year)) {
       source.set(year, []);
@@ -145,7 +146,8 @@ function parseSource({disableBefore, disableAfter}: Props): Map<number, number[]
     
     (source.get(year) as number[]).push(month);
     
-    itr.add(1, 'month');
+    itr = itr.plus({months: 1});
+    //itr.add(1, 'month');
   }
   
   return source;

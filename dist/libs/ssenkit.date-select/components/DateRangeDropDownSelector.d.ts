@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { DateRange } from '../types';
 import { DatePresetSelectorProps } from './DatePresetSelectorProps';
@@ -9,8 +9,8 @@ export interface Props {
     onChange: (date: DateRange) => void;
     button?: React.ReactElement<DateRangeDropDownSelectorButtonProps>;
     children?: React.ReactElement<DatePresetSelectorProps>;
-    disableBefore?: moment.Moment | Date;
-    disableAfter?: moment.Moment | Date;
+    disableBefore?: DateTime;
+    disableAfter?: DateTime;
     useAlternatePosition?: boolean;
 }
 declare const _default: React.ComponentType<Props>;

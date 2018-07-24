@@ -1,6 +1,6 @@
-import { FromTo, FromToDateTimeSelector } from 'ssenkit.date-select';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
+import { FromTo, FromToDateTimeSelector } from 'ssenkit.date-select';
 
 interface State {
   fromTo: FromTo;
@@ -9,7 +9,7 @@ interface State {
 export default class extends React.PureComponent<{}, State> {
   state: State = {
     fromTo: {
-      from: moment().subtract(4, 'days').startOf('day').toDate(),
+      from: DateTime.local().minus({days: 4}).startOf('day').toJSDate(),
       to: new Date(),
     },
   };
@@ -18,7 +18,7 @@ export default class extends React.PureComponent<{}, State> {
     return (
       <div>
         <FromToDateTimeSelector fromTo={this.state.fromTo} onChange={this.onChange}/>
-        <span>Selected: {moment(this.state.fromTo.from).format('YYYY-MM-DD HH:mm:ss')} ~ {moment(this.state.fromTo.to).format('YYYY-MM-DD HH:mm:ss')}</span>
+        <span>Selected: {DateTime.fromJSDate(this.state.fromTo.from).toFormat('yyyy-LL-dd HH:mm:ss')} ~ {DateTime.fromJSDate(this.state.fromTo.to).toFormat('yyyy-LL-dd HH:mm:ss')}</span>
       </div>
     );
   }

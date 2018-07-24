@@ -1,9 +1,9 @@
 import { range } from 'd3-array';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { ContextState, withConsumer } from '../context';
 
-const format: string = 'YYYY-MM-DD';
+const format: string = 'yyyy-LL-dd';
 const availableKeyCodes: number[] = [
   ...range(35, 40 + 1), // arrow keys
   8, // backspace
@@ -19,11 +19,11 @@ const availableKeyCodes: number[] = [
 ];
 
 export interface Props {
-  date: moment.Moment | Date;
-  onChange: (date: Date) => void;
+  date: DateTime;
+  onChange: (date: DateTime) => void;
   
-  disableBefore?: moment.Moment | Date;
-  disableAfter?: moment.Moment | Date;
+  disableBefore?: DateTime;
+  disableAfter?: DateTime;
 }
 
 interface InternalProps extends ContextState {
@@ -35,15 +35,15 @@ interface State {
 
 function getFormat(dateString: string): string {
   if (/[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(dateString)) {
-    return 'YYYY-MM-DD';
+    return 'yyyy-LL-dd';
   } else if (/[0-9]{4}.[0-9]{2}.[0-9]{2}/.test(dateString)) {
-    return 'YYYY.MM.DD';
+    return 'yyyy.LL.dd';
   } else if (/[0-9]{4}\/[0-9]{2}\/[0-9]{2}/.test(dateString)) {
-    return 'YYYY/MM/DD';
+    return 'yyyy/LL/dd';
   } else if (/[0-9]{8}/.test(dateString)) {
-    return 'YYYYMMDD';
+    return 'yyyyLLdd';
   }
-  return 'YYYY-MM-DD';
+  return 'yyyy-LL-dd';
 }
 
 class Component extends React.Component<Props & InternalProps, State> {
@@ -55,7 +55,7 @@ class Component extends React.Component<Props & InternalProps, State> {
     super(props);
     
     this.state = {
-      dateString: moment(props.date).format(format),
+      dateString: props.date.toFormat(format),
     };
   }
   
@@ -70,9 +70,9 @@ class Component extends React.Component<Props & InternalProps, State> {
     );
   }
   
-  static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> | null {
+  static getDerivedStateFromProps(nextProps: Props & InternalProps): Partial<State> | null {
     return {
-      dateString: moment(nextProps.date).format(format),
+      dateString: nextProps.date.toFormat(format),
     };
   }
   
@@ -104,23 +104,18 @@ class Component extends React.Component<Props & InternalProps, State> {
   private commitString(prevDateString: string, nextDateString: string) {
     if (prevDateString === nextDateString) return;
     
-    const nextDate: moment.Moment = moment(nextDateString.replace(/\s/g, ''), getFormat(nextDateString), true);
+    const nextDate: DateTime = DateTime.fromFormat(nextDateString.replace(/\s/g, ''), getFormat(nextDateString));
     
-    const isBefore: boolean = this.props.disableBefore
-      ? nextDate.isBefore(this.props.disableBefore)
-      : false;
+    const isBefore: boolean = nextDate.startOf('day') < (this.props.disableBefore || this.props.config.disableBefore).startOf('day');
+    const isAfter: boolean = nextDate.startOf('day') > (this.props.disableAfter || this.props.config.disableAfter).startOf('day');
     
-    const isAfter: boolean = this.props.disableAfter
-      ? nextDate.isAfter(this.props.disableAfter)
-      : false;
-    
-    const isValid: boolean = nextDate.isValid() && !isBefore && !isAfter;
+    const isValid: boolean = nextDate.isValid && !isBefore && !isAfter;
     
     if (isValid) {
       this.setState({
         dateString: nextDateString,
       });
-      this.props.onChange(nextDate.toDate());
+      this.props.onChange(nextDate);
     } else {
       if (this.inputRef.current) {
         this.inputRef.current.value = prevDateString;

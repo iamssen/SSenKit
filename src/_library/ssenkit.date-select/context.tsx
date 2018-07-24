@@ -1,9 +1,12 @@
-import * as deepAssign from 'deep-assign';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 
 interface Config {
+  disableBefore: DateTime;
+  disableAfter: DateTime;
   timeInputClassName: string;
   dateInputClassName: string;
+  dateTimeInputClassName: string;
   monthSelectorClassName: string;
   monthSelectorYearLabelFunction: (year: number) => string;
   monthSelectorMonthLabelFunction: (month: number) => string;
@@ -33,30 +36,33 @@ interface ContextState {
 }
 
 const defaultConfig: Config = {
+  disableBefore: DateTime.local().minus({years: 10}).startOf('year'),
+  disableAfter: DateTime.local().plus({years: 10}).endOf('year'),
   dateInputClassName: '',
   timeInputClassName: '',
+  dateTimeInputClassName: '',
   monthSelectorClassName: '',
-  monthSelectorYearLabelFunction: (year: number) => year.toString() + '년',
-  monthSelectorMonthLabelFunction: (month: number) => month.toString() + '월',
+  monthSelectorYearLabelFunction: (year: number) => year.toString(),
+  monthSelectorMonthLabelFunction: (month: number) => month.toString(),
   dateSelectorClassName: '',
   dateSelectorPrevMonthButton: <button>←</button>,
   dateSelectorNextMonthButton: <button>→</button>,
   dateSelectorDayLabelFunction: (day: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat') => {
     switch (day) {
       case 'sun':
-        return '일';
+        return 'S';
       case 'mon':
-        return '월';
+        return 'M';
       case 'tue':
-        return '화';
+        return 'T';
       case 'wed':
-        return '수';
+        return 'W';
       case 'thu':
-        return '목';
+        return 'T';
       case 'fri':
-        return '금';
+        return 'F';
       case 'sat':
-        return '토';
+        return 'S';
       default:
         throw new Error('Unknown day');
     }
@@ -64,13 +70,13 @@ const defaultConfig: Config = {
   dateTimeSelectorClassName: '',
   fromToDateTimeSelectorClassName: '',
   fromToDateTimeDropDownSelectorClassName: '',
-  fromToDateTimeDropDownSelectorCancelButton: <button>취소</button>,
-  fromToDateTimeDropDownSelectorApplyButton: <button>적용</button>,
+  fromToDateTimeDropDownSelectorCancelButton: <button>Cancel</button>,
+  fromToDateTimeDropDownSelectorApplyButton: <button>Apply</button>,
   dateRangeSelectorClassName: '',
-  dateRangeSelectorDateTabLabel: '기간 입력',
-  dateRangeSelectorListTabLabel: '기간 리스트',
-  dateRangeSelectorCancleButton: <button>취소</button>,
-  dateRangeSelectorApplyButton: <button>적용</button>,
+  dateRangeSelectorDateTabLabel: 'By Date',
+  dateRangeSelectorListTabLabel: 'By List',
+  dateRangeSelectorCancleButton: <button>Cancel</button>,
+  dateRangeSelectorApplyButton: <button>Apply</button>,
   dateRangeDropDownSelectorClassName: '',
 };
 
@@ -83,15 +89,20 @@ class Provider extends React.PureComponent<Props, {}> {
     return (
       <Consumer>
         {
-          ({config}) => (
-            <ReactProvider value={{
-              config: this.props.config
-                ? deepAssign(config, this.props.config)
-                : config,
-            }}>
-              {this.props.children}
-            </ReactProvider>
-          )
+          ({config}) => {
+            if (this.props.config) {
+              config = {
+                ...config,
+                ...this.props.config,
+              };
+            }
+            
+            return (
+              <ReactProvider value={{config}}>
+                {this.props.children}
+              </ReactProvider>
+            );
+          }
         }
       </Consumer>
     );

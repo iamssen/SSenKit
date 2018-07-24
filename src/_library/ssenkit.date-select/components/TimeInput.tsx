@@ -100,12 +100,12 @@ class Component extends React.Component<Props & InternalProps, State> {
     }
     
     const times: string[] = nextTimeString.split(':');
-    const HH: number = Number(times[0]);
+    const hh: number = Number(times[0]);
     const mm: number = Number(times[1]);
     const ss: number = Number(times[2]);
     
-    if (!isNaN(HH) && HH >= 0 && HH < 24
-      && !isNaN(mm) && mm >= 0 && HH < 60
+    if (!isNaN(hh) && hh >= 0 && hh < 24
+      && !isNaN(mm) && mm >= 0 && hh < 60
       && !isNaN(ss) && ss >= 0 && ss < 60
     ) {
       this.setState({

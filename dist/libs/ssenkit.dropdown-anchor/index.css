@@ -1,3 +1,3 @@
-.DropDownAnchor{position:relative;display:inline-block}.DropDownAnchor>[role=toggle]{width:100%;cursor:pointer}.DropDownAnchor>[role=container]{position:absolute;z-index:1000;-webkit-box-shadow:1px 1px 2px 0 hsla(0,0%,43%,.1);box-shadow:1px 1px 2px 0 hsla(0,0%,43%,.1)}
+.DropDownAnchor{display:inline-block;position:relative}.DropDownAnchor>[role=toggle]{cursor:pointer;width:100%}.DropDownAnchor>[role=container]{-webkit-box-shadow:1px 1px 2px 0 hsla(0,0%,43.1%,.1);box-shadow:1px 1px 2px 0 hsla(0,0%,43.1%,.1);position:absolute;z-index:1000}
 
 /*# sourceMappingURL=index.css.map*/
