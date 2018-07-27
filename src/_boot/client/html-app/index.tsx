@@ -4,8 +4,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { App } from './components';
 
-console.log('index.tsx..() ????', );
-
 class AppProvider extends React.PureComponent<{}, AppProps> {
   render() {
     return (

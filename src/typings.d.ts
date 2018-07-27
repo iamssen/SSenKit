@@ -25,9 +25,3 @@ interface Window {
   __INITIAL_STATE__: any;
   // tslint:enable
 }
-
-declare class System {
-  // tslint:disable
-  static import(path: string): Promise<any>;
-  // tslint:enable
-}
