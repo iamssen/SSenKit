@@ -25,3 +25,7 @@ interface Window {
   __INITIAL_STATE__: any;
   // tslint:enable
 }
+
+// tslint:disable
+declare const hljs:any;
+// tslint:enable
