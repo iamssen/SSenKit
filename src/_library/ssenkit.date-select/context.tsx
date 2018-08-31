@@ -1,9 +1,9 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 
 interface Config {
-  disableBefore: DateTime;
-  disableAfter: DateTime;
+  disableBefore: moment.Moment | Date;
+  disableAfter: moment.Moment | Date;
   timeInputClassName: string;
   dateInputClassName: string;
   dateTimeInputClassName: string;
@@ -36,8 +36,8 @@ interface ContextState {
 }
 
 const defaultConfig: Config = {
-  disableBefore: DateTime.local().minus({years: 10}).startOf('year'),
-  disableAfter: DateTime.local().plus({years: 10}).endOf('year'),
+  disableBefore: moment().subtract(10, 'years').startOf('year'),
+  disableAfter: moment().add(10, 'years').endOf('year'),
   dateInputClassName: '',
   timeInputClassName: '',
   dateTimeInputClassName: '',

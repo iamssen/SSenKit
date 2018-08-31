@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export interface FromTo {
   from: Date;
   to: Date;
@@ -25,11 +27,11 @@ export type DateRange = FromTo | From | Period | Latest;
 // param의 type이 맞는지 확인하기 위한 validator.
 // 들어오는 param은 any 이어야 한다.
 export function isFromTo(obj: any): boolean {
-  return obj.from instanceof Date && obj.to instanceof Date;
+  return moment.isDate(obj.from) && moment.isDate(obj.to);
 }
 
 export function isFrom(obj: any): boolean {
-  return obj.from instanceof Date;
+  return moment.isDate(obj.from);
 }
 
 export function isPeriod(obj: any): boolean {

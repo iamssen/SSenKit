@@ -1,14 +1,14 @@
+import * as moment from 'moment';
 import * as React from 'react';
-import { DateTime } from 'luxon';
 export interface Props {
-    date: DateTime;
-    selectedDay: DateTime;
-    startDay: DateTime;
-    endDay: DateTime;
-    today: DateTime;
-    disableBefore: DateTime | undefined;
-    disableAfter: DateTime | undefined;
-    onClick: (date: DateTime) => void;
+    date: moment.Moment;
+    selectedDay: moment.Moment | Date;
+    startDay: moment.Moment | Date;
+    endDay: moment.Moment | Date;
+    today: moment.Moment | Date;
+    disableBefore: moment.Moment | Date | undefined;
+    disableAfter: moment.Moment | Date | undefined;
+    onClick: (date: moment.Moment) => void;
 }
 export default class extends React.PureComponent<Props, {}> {
     static displayName: string;

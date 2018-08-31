@@ -4,8 +4,8 @@ Drop Down 형태로 기간을 선택한다.
 
 Props
 - `dateRange: DateRange`
-- `disableBefore?: DateTime`
-- `disableAfter?: DateTime`
+- `disableBefore?: moment.Moment | Date`
+- `disableAfter?: moment.Moment | Date`
 - `onChange: (dateRange: DateRange) => void`
 - `children: ReactElement<{dateRange: DateRange, onSelect: (dateRange: DateRange) => void}>`
 - `button?: ReactElement<DateRangeDropDownSelectorButtonProps>`

@@ -5,5 +5,5 @@ From/To 기간을 입력할 수 있는 Date Selector
 Props
 - `fromTo: FromTo`
 - `onChange: (fromTo: FromTo) => void`
-- `disableBefore?: DateTime`
-- `disableAfter?: DateTime`
+- `disableBefore?: moment.Moment | Date`
+- `disableAfter?: moment.Moment | Date`

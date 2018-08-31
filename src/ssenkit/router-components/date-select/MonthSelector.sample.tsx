@@ -1,18 +1,18 @@
-import { DateTime } from 'luxon';
-import * as React from 'react';
 import { MonthSelector } from 'ssenkit.date-select';
+import * as moment from 'moment';
+import * as React from 'react';
 
 interface State {
-  date: DateTime;
-  disableBefore: DateTime;
-  disableAfter: DateTime;
+  date: Date;
+  disableBefore: moment.Moment | Date;
+  disableAfter: moment.Moment | Date;
 }
 
 export default class extends React.PureComponent<{}, State> {
   state: State = {
-    date: DateTime.local(),
-    disableBefore: DateTime.local().minus({years: 10}),
-    disableAfter: DateTime.local().plus({years: 5}),
+    date: new Date,
+    disableBefore: moment().subtract(10, 'years'),
+    disableAfter: moment().add(5, 'years'),
   };
   
   render() {
@@ -22,14 +22,17 @@ export default class extends React.PureComponent<{}, State> {
                        disableBefore={this.state.disableBefore}
                        disableAfter={this.state.disableAfter}
                        onChange={this.onChange}/>
-        <span>Selected: {this.state.date.toFormat('yyyy-LL')}</span>
+        <span>Selected: {moment(this.state.date).format('YYYY-MM')}</span>
       </div>
     );
   }
   
   onChange = (year: number, month: number) => {
     this.setState({
-      date: DateTime.local(year, month),
+      date: moment(this.state.date).clone()
+        .year(year)
+        .month(month - 1)
+        .toDate(),
     });
   };
 }

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 import DropDownAnchor from 'ssenkit.dropdown-anchor';
 import { ContextState, withConsumer } from '../context';
@@ -12,8 +12,8 @@ export interface Props {
   fromTo: FromTo;
   onChange: (fromTo: FromTo) => void;
   
-  disableBefore?: DateTime;
-  disableAfter?: DateTime;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
   
   button?: React.ReactElement<FromToDateTimeDropDownSelectorButtonProps>;
   

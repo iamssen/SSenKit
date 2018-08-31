@@ -3,7 +3,7 @@
 년/월을 선택한다.
 
 Props
-- `date: DateTime`
+- `date: moment.Moment | Date`
 - `onChange: (year:number, month:number) => void`
-- `disableBefore?: DateTime`
-- `disableAfter?: DateTime`
+- `disableBefore?: moment.Moment | Date`
+- `disableAfter?: moment.Moment | Date`

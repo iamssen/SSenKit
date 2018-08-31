@@ -1,14 +1,14 @@
-import { DateTime } from 'luxon';
-import * as React from 'react';
 import { DateInput } from 'ssenkit.date-select';
+import * as moment from 'moment';
+import * as React from 'react';
 
 interface State {
-  date: DateTime;
+  date: Date;
 }
 
 export default class extends React.PureComponent<{}, State> {
   state: State = {
-    date: DateTime.local(),
+    date: new Date,
   };
   
   render() {
@@ -16,12 +16,14 @@ export default class extends React.PureComponent<{}, State> {
       <div>
         <DateInput date={this.state.date}
                    onChange={this.onChange}/>
-        <span>Selected: {this.state.date.toFormat('yyyy-LL-dd HH:mm:ss')}</span>
+        <span>Selected: {moment(this.state.date).format('YYYY-MM-DD HH:mm:ss')}</span>
       </div>
     );
   }
   
-  onChange = (date: DateTime) => {
-    this.setState({date});
+  onChange = (date: Date) => {
+    this.setState({
+      date
+    });
   };
 }
