@@ -3,7 +3,7 @@
 날짜와 시간을 선택한다.
 
 Props
-- `date: DateTime`
-- `onChange: (date: DateTime) => void`
-- `disableBefore?: DateTime`
-- `disableAfter?: DateTime`
+- `date: moment.Moment | Date`
+- `onChange: (date: Date) => void`
+- `disableBefore?: moment.Moment | Date`
+- `disableAfter?: moment.Moment | Date`

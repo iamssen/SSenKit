@@ -8,6 +8,11 @@ case ${1} in
     eval $(ssenpack libs.publish);
     ;;
   start)
+    if which wslpath >/dev/null; then
+      cmd.exe /c start bash -c -i "cd $CURRENT_PATH; npm run web.server.dev.build.watch";
+      cmd.exe /c start bash -c -i "cd $CURRENT_PATH; npm run web.dev.start";
+      cmd.exe /c start bash -c -i "cd $CURRENT_PATH; npm run web.server.dev.start";
+    else
     osascript << EOT
       tell application "iTerm"
         set ITERM to (create window with default profile)
@@ -27,6 +32,7 @@ case ${1} in
         activate
       end tell
 EOT
+    fi
     ;;
   start-electron)
     osascript << EOT

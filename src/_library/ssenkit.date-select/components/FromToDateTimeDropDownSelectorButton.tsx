@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 import { FromTo, isFromTo } from '../types';
 import { FromToDateTimeDropDownSelectorButtonProps } from './FromToDateTimeDropDownSelectorButtonProps';
@@ -9,7 +9,7 @@ export function dateRangeToString(fromTo: FromTo | undefined, format: string): s
   if (typeof fromTo.description === 'string') {
     return fromTo.description;
   } else if (isFromTo(fromTo)) {
-    return DateTime.fromJSDate(fromTo.from).toFormat(format) + ' ~ ' + DateTime.fromJSDate(fromTo.to).toFormat(format);
+    return moment(fromTo.from).format(format) + ' ~ ' + moment(fromTo.to).format(format);
   }
   
   throw new Error(`${fromTo} is not FromTo.`);
@@ -28,7 +28,7 @@ class Component extends React.PureComponent<FromToDateTimeDropDownSelectorButton
         {
           dateRangeToString(
             progressiveFromTo || fromTo,
-            'F',
+            'LLLL', // TODO date format 점검
           )
         }
       </button>

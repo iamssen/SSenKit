@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 import { DateRange, From, FromTo, isFrom, isFromTo, isLatest, Latest } from '../types';
 import { DateRangeDropDownSelectorButtonProps } from './DateRangeDropDownSelectorButtonProps';
@@ -15,11 +15,11 @@ export function dateRangeToString(dateRange: DateRange | undefined, format: stri
   }
   else if (isFromTo(dateRange)) {
     const fromTo: FromTo = dateRange as FromTo;
-    return DateTime.fromJSDate(fromTo.from).toFormat(format) + ' ~ ' + DateTime.fromJSDate(fromTo.to).toFormat(format);
+    return moment(fromTo.from).format(format) + ' ~ ' + moment(fromTo.to).format(format);
   }
   else if (isFrom(dateRange)) {
     const from: From = dateRange as From;
-    return DateTime.fromJSDate(from.from).toFormat(format) + ' ~';
+    return moment(from.from).format(format) + ' ~';
   }
   
   //if (isPeriod(dateRange)) {
@@ -42,7 +42,7 @@ class Component extends React.PureComponent<DateRangeDropDownSelectorButtonProps
         {
           dateRangeToString(
             progressiveDateRange || dateRange,
-            'F',
+            'LLLL', // TODO format 확인 필요
           )
         }
       </button>

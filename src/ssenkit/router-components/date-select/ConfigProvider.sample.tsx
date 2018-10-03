@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
 import * as React from 'react';
+import * as moment from 'moment';
 import { Config, ConfigProvider, DateSelector } from 'ssenkit.date-select';
 
 const ko: Partial<Config> = {
@@ -36,14 +36,14 @@ interface InternalProps {
 }
 
 interface State {
-  date: DateTime;
+  date: Date;
 }
 
 class Component extends React.PureComponent<Props & InternalProps, State> {
   static displayName: string = 'ConfigProvider.sample';
   
   state: State = {
-    date: DateTime.local(),
+    date: new Date,
   };
   
   render() {
@@ -59,13 +59,16 @@ class Component extends React.PureComponent<Props & InternalProps, State> {
                           onChange={this.onChange}/>
           </div>
         </ConfigProvider>
-        <span>Selected: {this.state.date.toFormat('yyyy-LL-dd HH:mm:ss')}</span>
+        
+        <span>Selected: {moment(this.state.date).format('YYYY-MM-DD HH:mm:ss')}</span>
       </div>
     );
   }
   
-  onChange = (date: DateTime) => {
-    this.setState({date});
+  onChange = (date: Date) => {
+    this.setState({
+      date
+    });
   };
 }
 

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 import { ContextState, withConsumer } from '../context';
 import DateSelector from './DateSelector';
@@ -6,18 +6,18 @@ import DateTimeInput from './DateTimeInput';
 import './DateTimeSelector.scss';
 
 export interface Props {
-  date: DateTime;
-  onChange: (date: DateTime) => void;
+  date: moment.Moment | Date;
+  onChange: (date: Date) => void;
   
-  disableBefore?: DateTime;
-  disableAfter?: DateTime;
+  disableBefore?: moment.Moment | Date;
+  disableAfter?: moment.Moment | Date;
 }
 
 interface InternalProps extends ContextState {
 }
 
 interface State {
-  date: DateTime;
+  date: moment.Moment;
 }
 
 class Component extends React.Component<Props & InternalProps, State> {
@@ -27,7 +27,7 @@ class Component extends React.Component<Props & InternalProps, State> {
     super(props);
     
     this.state = {
-      date: props.date,
+      date: moment(props.date),
     };
   }
   
@@ -50,9 +50,9 @@ class Component extends React.Component<Props & InternalProps, State> {
   }
   
   static getDerivedStateFromProps(nextProps: Props & InternalProps, prevState: State): Partial<State> | null {
-    if (!prevState.date.hasSame(nextProps.date, 'seconds')) {
+    if (!prevState.date.isSame(nextProps.date, 'seconds')) {
       return {
-        date: nextProps.date,
+        date: moment(nextProps.date),
       };
     }
     return null;
@@ -65,27 +65,33 @@ class Component extends React.Component<Props & InternalProps, State> {
       || this.props.config !== nextProps.config;
   }
   
-  onDateTimeChange = (newDate: DateTime) => {
+  onDateTimeChange = (newDate: Date) => {
     this.setState({
-      date: newDate,
+      date: moment(newDate),
     });
     
     this.props.onChange(newDate);
   };
   
-  onDateChange = (newDate: DateTime) => {
-    const {hour, minute, second} = this.state.date;
-    const date: DateTime = newDate.set({
-      hour,
-      minute,
-      second,
-    });
+  onDateChange = (newDate: Date) => {
+    //const {hour, minute, second} = this.state.date;
+    
+    const date: moment.Moment = moment(newDate)
+      .hour(this.state.date.hour())
+      .minute(this.state.date.minute())
+      .second(this.state.date.second());
+    
+    //const date: moment.Moment = newDate.set({
+    //  hour,
+    //  minute,
+    //  second,
+    //});
     
     this.setState({
       date,
     });
     
-    this.props.onChange(date);
+    this.props.onChange(date.toDate());
   };
 }
 

@@ -7,7 +7,7 @@ Child Element는 우측 탭 선택시의 "미리 지정된 기간"의 구현에 
 
 Props
 - `dateRange: DateRange`
-- `disableBefore?: DateTime`
-- `disableAfter?: DateTime`
+- `disableBefore?: moment.Moment | Date`
+- `disableAfter?: moment.Moment | Date`
 - `onChange: (dateRange: DateRange) => void`
 - `children: ReactElement<{dateRange: DateRange, onSelect: (dateRange: DateRange) => void}>`

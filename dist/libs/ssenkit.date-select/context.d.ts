@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 interface Config {
-    disableBefore: DateTime;
-    disableAfter: DateTime;
+    disableBefore: moment.Moment | Date;
+    disableAfter: moment.Moment | Date;
     timeInputClassName: string;
     dateInputClassName: string;
     dateTimeInputClassName: string;

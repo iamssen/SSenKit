@@ -11,6 +11,7 @@ describe('immer', () => {
     // immer는 primitive, object, array만 지원하기 때문에 에러가 발생한다
     expect(() => {
       produce(new Set(), draft => {
+        // @ts-ignore Error 강제 발생 시킴
         draft.add('foo');
       });
     }).toThrow();

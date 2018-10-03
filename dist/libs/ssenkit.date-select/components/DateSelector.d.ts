@@ -1,11 +1,11 @@
-import { DateTime } from 'luxon';
+import * as moment from 'moment';
 import * as React from 'react';
 import './DateSelector.scss';
 export interface Props {
-    date: DateTime;
-    onChange: (date: DateTime) => void;
-    disableBefore?: DateTime;
-    disableAfter?: DateTime;
+    date: moment.Moment | Date;
+    onChange: (date: Date) => void;
+    disableBefore?: moment.Moment | Date;
+    disableAfter?: moment.Moment | Date;
 }
 declare const _default: React.ComponentType<Props>;
 export default _default;
