@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { updateA, updateB } from '../actions';
+import { updateA, updateB, updateArr } from '../actions';
 import { ContextState, withConsumer } from '../context';
 import { observer } from 'mobx-react';
+import { range } from 'd3-array';
 
 export interface Props {
 }
@@ -38,9 +39,13 @@ class Component extends React.Component<Props & InternalProps, State> {
         <button onClick={this.randomUpdateA}>
           random update a
         </button>
-  
+        
         <button onClick={this.randomUpdateB}>
           random update b
+        </button>
+        
+        <button onClick={this.randomUpdateArr}>
+          random update arr
         </button>
       </div>
     );
@@ -56,11 +61,21 @@ class Component extends React.Component<Props & InternalProps, State> {
   
   randomUpdateA = () => {
     this.props.dispatch(updateA(Math.floor(Math.random() * 10000)));
-  }
+  };
   
   randomUpdateB = () => {
     this.props.dispatch(updateB(Math.floor(Math.random() * 10000)));
-  }
+  };
+  
+  randomUpdateArr = () => {
+    const a: number = 'a'.charCodeAt(0);
+    const z: number = 'z'.charCodeAt(0);
+    const strs: string[] = range(10).map(() => {
+      return String.fromCharCode(Math.floor(Math.random() * (z - a)) + a);
+    });
+    
+    this.props.dispatch(updateArr(strs));
+  };
 }
 
 export default withConsumer(Component) as React.ComponentType<Props>;

@@ -16,6 +16,7 @@ class Component extends React.Component<Props & InternalProps, State> {
   static displayName: string = 'Print';
   
   render() {
+    console.log('Print.tsx..render()', this.props.mobx.arr);
     return (
       <div>
         {this.props.mobx.a}
@@ -27,6 +28,8 @@ class Component extends React.Component<Props & InternalProps, State> {
         =
         {' '}
         {this.props.mobx.c}
+        {' / '}
+        {this.props.mobx.arr.join('')}
       </div>
     );
   }
