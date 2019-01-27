@@ -7,10 +7,6 @@ export const syncRouteStore: RouteStore = new SyncRouteStore([
     component: require('../route-components/main').default,
   },
   {
-    path: '/sample',
-    component: require('../route-components/sample').default,
-  },
-  {
     path: '/react-devdoc',
     component: require('module-samples/react-devdoc').default,
   },

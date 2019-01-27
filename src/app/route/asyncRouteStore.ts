@@ -7,10 +7,6 @@ export const asyncRouteStore: RouteStore = new AsyncRouteStore([
     component: () => import('../route-components/main'),
   },
   {
-    path: '/sample',
-    component: () => import('../route-components/sample'),
-  },
-  {
     path: '/react-devdoc',
     component: () => import('module-samples/react-devdoc'),
   },
