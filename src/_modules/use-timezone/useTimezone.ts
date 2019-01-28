@@ -6,11 +6,11 @@ export interface Result {
   updateTimezone: (timezone: string | Timezone) => void;
 }
 
-export function useTimezone(currentTimezone: string): Result {
+export function useTimezone(currentTimezone: string, cookieKey: string = 'timezone'): Result {
   const [timezone, setTimezone] = useState<Timezone>(getTimezone(currentTimezone));
   
   const updateTimezone: (nextTimezone: string | Timezone) => void = useCallback((nextTimezone: string | Timezone) => {
-    setTimezone(setBrowserTimezone(nextTimezone));
+    setTimezone(setBrowserTimezone(nextTimezone, cookieKey));
   }, [setTimezone]);
   
   return {

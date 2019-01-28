@@ -1,6 +1,6 @@
 {
   "name": "use-timezone",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Timezone hook function for React 16.8",
   "repository": {
     "type": "git",
