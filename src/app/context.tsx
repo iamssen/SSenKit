@@ -23,8 +23,8 @@ export interface AppContextState {
 // @ts-ignore
 const AppContext: Context<AppContextState> = createContext<AppContextState>();
 
-export function AppContextProvider({ children, currentLocale }: AppContextProviderProps) {
-  const { locale, updateLocale } = useLocale(currentLocale);
+export function AppContextProvider({children, currentLocale}: AppContextProviderProps) {
+  const {locale, updateLocale} = useLocale(currentLocale);
   
   return (
     <IntlProvider locale={locale.slice(0, 2)} messages={messages[locale]}>

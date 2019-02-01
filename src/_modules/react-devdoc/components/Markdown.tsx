@@ -7,8 +7,8 @@ export interface MarkdownProps {
   children?: string;
 }
 
-export function Markdown({ text, children }: MarkdownProps) {
+export function Markdown({text, children}: MarkdownProps) {
   return (
-    <ReactMarkdown source={text || children} renderers={{ code: CodeBlock }}/>
+    <ReactMarkdown source={text || children} renderers={{code: CodeBlock}}/>
   );
 }

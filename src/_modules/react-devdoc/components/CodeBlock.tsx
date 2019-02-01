@@ -15,7 +15,7 @@ export interface CodeBlockProps {
   language?: string;
 }
 
-export function CodeBlock({ value, language = 'none' }: CodeBlockProps) {
+export function CodeBlock({value, language = 'none'}: CodeBlockProps) {
   if (['javascript jsx'].indexOf(language)) language = 'jsx';
   if (['typescript jsx'].indexOf(language)) language = 'tsx';
   if (!languages[language]) language = 'none';
@@ -29,7 +29,7 @@ export function CodeBlock({ value, language = 'none' }: CodeBlockProps) {
   
   return (
     <pre className={className}>
-      <code className={className} dangerouslySetInnerHTML={{ __html: html }}/>
+      <code className={className} dangerouslySetInnerHTML={{__html: html}}/>
     </pre>
   );
 }

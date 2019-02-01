@@ -7,7 +7,7 @@ import { SyncRouteStore } from '../components/SyncRouteStore';
 describe('compareRouteOptions', () => {
   it('Should be matched all route options of stores', () => {
     const component: ComponentType<any> = () => <div/>;
-    const asyncComponent: () => Promise<{ default: ComponentType<any> }> = () => Promise.resolve({ default: component });
+    const asyncComponent: () => Promise<{default: ComponentType<any>}> = () => Promise.resolve({default: component});
     
     expect(compareRouteOptions(
       new AsyncRouteStore([
@@ -53,7 +53,7 @@ describe('compareRouteOptions', () => {
         },
       ]).getRouteOptions(),
     )).toBeTruthy();
-  
+    
     expect(compareRouteOptions(
       new AsyncRouteStore([
         {
