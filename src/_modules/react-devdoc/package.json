@@ -1,6 +1,6 @@
 {
   "name": "react-devdoc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Components for writing development documents",
   "keywords": [
     "react",
@@ -9,6 +9,7 @@
     "react-markdown",
     "markdown"
   ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"

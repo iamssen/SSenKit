@@ -1,6 +1,6 @@
 {
   "name": "react-router-store",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "react-router helper",
   "keywords": [
     "react",
@@ -8,6 +8,7 @@
     "ssr",
     "server side rendering"
   ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"

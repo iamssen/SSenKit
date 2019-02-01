@@ -1,6 +1,6 @@
 {
   "name": "use-react-intl",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "react-intl wrapper for React 16.8",
   "keywords": [
     "react",
@@ -10,6 +10,7 @@
     "react hook",
     "hook"
   ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"
