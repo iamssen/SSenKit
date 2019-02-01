@@ -1,7 +1,14 @@
 {
   "name": "use-locale",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Locale hook function for React 16.8",
+  "keywords": [
+    "locale",
+    "language code",
+    "react",
+    "react hook",
+    "hook"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"

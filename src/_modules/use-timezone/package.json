@@ -1,7 +1,13 @@
 {
   "name": "use-timezone",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Timezone hook function for React 16.8",
+  "keywords": [
+    "react",
+    "timezone",
+    "react hook",
+    "hook"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"

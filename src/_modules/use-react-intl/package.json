@@ -1,7 +1,15 @@
 {
   "name": "use-react-intl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "react-intl wrapper for React 16.8",
+  "keywords": [
+    "react",
+    "react-intl",
+    "internationalize",
+    "intl",
+    "react hook",
+    "hook"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/iamssen/ssenkit.git"

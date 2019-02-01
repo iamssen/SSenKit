@@ -13,13 +13,13 @@ npm install use-locale
 
 ```typescript jsx
 import React from 'react';
-import { useLocale } from 'use-locale';
+import { useLocale, getBrowserLocale } from 'use-locale';
 
 type LanguageCode = 'en-US' | 'ko-KR';
 const languageCodes: LanguageCode[] = ['en-US', 'ko-KR'];
 
 export function Component() {
-  const {locale, updateLocale} = useTimezone<LanguageCode>(getBrowserTimezone<LanguageCode>());
+  const {locale, updateLocale} = useLocale<LanguageCode>(getBrowserLocale<LanguageCode>());
   
   return (
     <div>
@@ -116,12 +116,12 @@ import { useSampleContextState } from './sample-context';
 import { LanguageCode, languageCodes } from './locale';
 
 export function Component() {
-  const { timezone, updateLocale } = useSampleContextState();
+  const { locale, updateLocale } = useSampleContextState();
   
   return (
     <div>
       <div>
-        {JSON.stringify(timezone)}
+        {locale}
       </div>
       
       <ul>
