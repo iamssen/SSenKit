@@ -1,4 +1,4 @@
-/// <reference path="react-zeroconfig/configs/typings"/>
+/// <reference types="react-zeroconfig/configs/typings"/>
 
 // tslint:disable:no-any
 interface Window {

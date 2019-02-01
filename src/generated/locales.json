@@ -1,1 +1,8 @@
-{}
+{
+  "en-US": {
+    "app.main.text": "Main"
+  },
+  "ko-KR": {
+    "app.main.text": "메인"
+  }
+}

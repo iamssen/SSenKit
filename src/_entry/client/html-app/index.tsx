@@ -1,16 +1,17 @@
 import { App } from 'app';
 import { AppContextProvider } from 'app/context';
-import { getBrowserLocale } from 'app/data-types/locale';
+import { LanguageCode } from 'app/data-types/locale';
 import { asyncRouteStore } from 'app/route/asyncRouteStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
+import { getBrowserLocale } from 'use-locale';
 import '../polyfills';
 
 function AppProvider() {
   return (
     <HashRouter>
-      <AppContextProvider currentLocale={getBrowserLocale()}>
+      <AppContextProvider currentLocale={getBrowserLocale<LanguageCode>()}>
         <App routeStore={asyncRouteStore}/>
       </AppContextProvider>
     </HashRouter>
