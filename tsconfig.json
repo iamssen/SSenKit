@@ -11,6 +11,7 @@
   },
   "exclude": [
     "dist",
-    "dist-dev"
+    "dist-dev",
+    "*.js"
   ]
 }
