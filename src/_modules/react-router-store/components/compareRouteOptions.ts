@@ -9,9 +9,9 @@ export function compareRouteOptions(...routeOptionsList: RouteOptions[][]): bool
     }
   }
   
-  return firstOptions.every(firstRoute => {
+  return firstOptions.every((firstRoute: RouteOptions) => {
     for (const otherOptions of otherOptionsList) {
-      const otherRoute: RouteOptions | undefined = otherOptions.find(route => firstRoute.path === route.path);
+      const otherRoute: RouteOptions | undefined = otherOptions.find((route: RouteOptions) => firstRoute.path === route.path);
       
       if (
         !otherRoute

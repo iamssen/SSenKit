@@ -16,20 +16,20 @@ export class SyncRouteStore implements RouteStore {
   };
   
   getRoute = (path: string) => {
-    const route: SyncRoute | undefined = this.routes.find(r => r.path === path);
+    const route: SyncRoute | undefined = this.routes.find((r: SyncRoute) => r.path === path);
     
     if (route) {
-      return createElement(Route, { ...route, key: path });
+      return createElement(Route, {...route, key: path});
     } else {
       throw new Error(`Can't find matched path. ${path}`);
     }
   };
   
   getAllRoutes = () => {
-    return this.routes.map(({ path }) => this.getRoute(path));
+    return this.routes.map(({path}: SyncRoute) => this.getRoute(path));
   };
   
   getRouteOptions = () => {
-    return this.routes.map(({ component, ...routeOption }) => routeOption);
+    return this.routes.map(({component, ...routeOption}: SyncRoute) => routeOption);
   };
 }

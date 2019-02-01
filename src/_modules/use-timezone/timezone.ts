@@ -12,7 +12,7 @@ export interface Timezone {
 
 export const timezoneList: Timezone[] = Array.from(timezonedb.zones);
 
-export const timezoneMap: Map<string, Timezone> = timezoneList.reduce((map, timezone) => {
+export const timezoneMap: Map<string, Timezone> = timezoneList.reduce((map: Map<string, Timezone>, timezone: Timezone) => {
   map.set(timezone.zoneName, timezone);
   return map;
 }, new Map());

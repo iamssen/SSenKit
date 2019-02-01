@@ -1,4 +1,4 @@
-import React, { ComponentType, Context, createContext, ReactNode, useContext } from 'react';
+import React, { ComponentType, Context, createContext, ReactElement, ReactNode, useContext } from 'react';
 import { InjectedIntl, injectIntl, IntlProvider as OldIntlProvider } from 'react-intl';
 
 // @ts-ignore
@@ -6,7 +6,7 @@ const IntlContext: Context<InjectedIntl> = createContext<InjectedIntl>();
 
 let _intl: InjectedIntl;
 
-const InjectIntlContext: ComponentType<{}> = injectIntl(({ intl, children }) => {
+const InjectIntlContext: ComponentType<{}> = injectIntl(({intl, children}: {intl: InjectedIntl, children: ReactElement<{}>}) => {
   _intl = intl;
   return (
     <IntlContext.Provider value={intl}>
@@ -15,7 +15,7 @@ const InjectIntlContext: ComponentType<{}> = injectIntl(({ intl, children }) => 
   );
 });
 
-export function IntlProvider({ children, ...intlProps }: OldIntlProvider.Props & { children: ReactNode }) {
+export function IntlProvider({children, ...intlProps}: OldIntlProvider.Props & {children: ReactNode}) {
   return (
     <OldIntlProvider {...intlProps}>
       <InjectIntlContext>
