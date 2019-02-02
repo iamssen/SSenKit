@@ -3,9 +3,8 @@
   <head>
     <meta charset=UTF-8>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <% if (locals.base) { %>
-      <base href="<%- locals.base %>"/>
-    <% } %>
+    <base href="/"/>
+    <link rel="stylesheet" type="text/css" href="vendor.css"/>
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <title>SSENKIT</title>
     <% if (locals.initialState) { %>
@@ -22,5 +21,5 @@
   <script src="vendor.js"></script>
   <script src="style.js"></script>
   <!-- And if you use css themes you need require add their js files. -->
-  <script src="<%- (locals.body ? 'app' : 'html-app') %>.js"></script>
+  <script src="app.js"></script>
 </html>
