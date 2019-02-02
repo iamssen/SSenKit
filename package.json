@@ -65,8 +65,10 @@
     "express": "^4.16.4",
     "history": "^4.7.2",
     "immer": "^1.10.5",
+    "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.0",
     "locale-code": "^2.0.1",
+    "mobx": "^4.9.2",
     "moment": "^2.23.0",
     "moment-timezone": "^0.5.23",
     "node-fetch": "^2.3.0",
@@ -101,7 +103,7 @@
     "@types/numeral": "0.0.25",
     "@types/prismjs": "^1.9.0",
     "@types/prop-types": "^15.5.8",
-    "@types/react": "^16.7.22",
+    "@types/react": "^16.8.1",
     "@types/react-dom": "^16.0.11",
     "@types/react-intl": "^2.3.15",
     "@types/react-router": "^4.4.3",
@@ -111,8 +113,7 @@
     "mkdirp": "^0.5.1",
     "multiplerun": "^0.1.4",
     "pre-commit": "^1.2.2",
-    "react-zeroconfig": "^1.3.9",
-    "ts-jest": "^23.10.5",
+    "react-zeroconfig": "^1.3.11",
     "tslint": "^5.12.1",
     "tslint-ssen-rules": "^1.0.2",
     "typescript": "^3.3.1"
@@ -122,22 +123,6 @@
     "lint"
   ],
   "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
-      "**/?(*.)(spec|test).ts?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src/_modules",
-      "src"
-    ]
+    "preset": "react-zeroconfig/configs"
   }
 }
