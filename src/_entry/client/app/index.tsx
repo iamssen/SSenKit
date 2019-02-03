@@ -2,7 +2,7 @@ import { App } from 'app';
 import { AppContextProvider } from 'app/context';
 import { LanguageCode } from 'app/data-types/locale';
 import { asyncRouteStore } from 'app/route/asyncRouteStore';
-import React, { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { getBrowserLocale } from 'use-locale';
@@ -10,13 +10,11 @@ import '../polyfills';
 
 function AppProvider() {
   return (
-    <StrictMode>
-      <BrowserRouter>
-        <AppContextProvider currentLocale={getBrowserLocale<LanguageCode>()}>
-          <App routeStore={asyncRouteStore}/>
-        </AppContextProvider>
-      </BrowserRouter>
-    </StrictMode>
+    <BrowserRouter>
+      <AppContextProvider currentLocale={getBrowserLocale<LanguageCode>()}>
+        <App routeStore={asyncRouteStore}/>
+      </AppContextProvider>
+    </BrowserRouter>
   );
 }
 

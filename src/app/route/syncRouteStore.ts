@@ -7,8 +7,24 @@ export const syncRouteStore: RouteStore = new SyncRouteStore([
     component: require('../route-components/main').default,
   },
   {
-    path: '/module-samples/react-devdoc',
-    component: require('module-samples/react-devdoc').default,
+    path: '/modules/react-devdoc',
+    component: require('modules/react-devdoc').default,
+  },
+  {
+    path: '/modules/react-router-store',
+    component: require('modules/react-router-store').default,
+  },
+  {
+    path: '/modules/use-locale',
+    component: require('modules/use-locale').default,
+  },
+  {
+    path: '/modules/use-react-intl',
+    component: require('modules/use-react-intl').default,
+  },
+  {
+    path: '/modules/use-timezone',
+    component: require('modules/use-timezone').default,
   },
   {
     path: '/research/immer',

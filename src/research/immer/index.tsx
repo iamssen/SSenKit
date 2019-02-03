@@ -1,7 +1,6 @@
 import React from 'react';
 import { CodeBlock, Markdown } from 'react-devdoc';
 
-// tslint:disable:no-default-export
 export default function () {
   return (
     <div>

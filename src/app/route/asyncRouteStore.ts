@@ -7,8 +7,24 @@ export const asyncRouteStore: RouteStore = new AsyncRouteStore([
     component: () => import('../route-components/main'),
   },
   {
-    path: '/module-samples/react-devdoc',
-    component: () => import('module-samples/react-devdoc'),
+    path: '/modules/react-devdoc',
+    component: () => import('modules/react-devdoc'),
+  },
+  {
+    path: '/modules/react-router-store',
+    component: () => import('modules/react-router-store'),
+  },
+  {
+    path: '/modules/use-locale',
+    component: () => import('modules/use-locale'),
+  },
+  {
+    path: '/modules/use-react-intl',
+    component: () => import('modules/use-react-intl'),
+  },
+  {
+    path: '/modules/use-timezone',
+    component: () => import('modules/use-timezone'),
   },
   {
     path: '/research/immer',

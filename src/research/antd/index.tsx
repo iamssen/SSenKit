@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Sample() {
+export default function () {
   return (
     <div>...</div>
   );

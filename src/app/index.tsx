@@ -1,9 +1,14 @@
-import 'prismjs/themes/prism-okaidia.css';
-import React, { Fragment } from 'react';
+import { Layout } from 'antd';
+import React from 'react';
 import { RouteStore } from 'react-router-store';
-import { LanguageChangeButton } from './components/LanguageChangeButton';
 import { RouterContents } from './components/RouterContents';
 import { RouterNavigation } from './components/RouterNavigation';
+import './index.less';
+import styles from './index.module.less';
+import 'antd/dist/antd.css';
+import 'prismjs/themes/prism-okaidia.css';
+
+const {Content, Header} = Layout;
 
 export interface AppProps {
   routeStore: RouteStore;
@@ -11,16 +16,14 @@ export interface AppProps {
 
 export function App({routeStore}: AppProps) {
   return (
-    <Fragment>
-      <div>
-        <LanguageChangeButton/>
-      </div>
-      <div>
+    <Layout>
+      <Header className={styles.header}>
         <RouterNavigation/>
-      </div>
-      <div>
+      </Header>
+      
+      <Content className={styles.content}>
         <RouterContents routeStore={routeStore}/>
-      </div>
-    </Fragment>
+      </Content>
+    </Layout>
   );
 }
