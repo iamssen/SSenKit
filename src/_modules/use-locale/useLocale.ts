@@ -7,13 +7,17 @@ export interface Result<LanguageCode> {
   updateLocale: (languageCode: LanguageCode) => void;
 }
 
-export function useLocale<LanguageCode extends string>(currentLocale: LanguageCode): Result<LanguageCode> {
+export interface UseLocaleOptions<LanguageCode> {
+  cookieKey?: string;
+}
+
+export function useLocale<LanguageCode extends string>(currentLocale: LanguageCode, {cookieKey = 'locale'}: UseLocaleOptions<LanguageCode> = {}): Result<LanguageCode> {
   const [locale, setLocale] = useState<LanguageCode>(currentLocale);
   
   const updateLocale: (nextLanguageCode: LanguageCode) => void = useCallback((nextLanguageCode: LanguageCode) => {
     if (LocaleCode.validate(nextLanguageCode)) {
       setLocale(nextLanguageCode);
-      setBrowserLocale(nextLanguageCode);
+      setBrowserLocale(nextLanguageCode, {cookieKey});
     }
   }, []);
   

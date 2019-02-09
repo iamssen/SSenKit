@@ -1,6 +1,7 @@
 import { App } from 'app';
 import { AppContextProvider } from 'app/context';
-import { LanguageCode } from 'app/data-types/locale';
+import { cookieKeys } from 'app/data-types/cookie';
+import { LanguageCode, languageCodes } from 'app/data-types/locale';
 import { asyncRouteStore } from 'app/route/asyncRouteStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -11,7 +12,10 @@ import '../polyfills';
 function AppProvider() {
   return (
     <BrowserRouter>
-      <AppContextProvider currentLocale={getBrowserLocale<LanguageCode>()}>
+      <AppContextProvider currentLocale={getBrowserLocale<LanguageCode>({
+        cookieKey: cookieKeys.locale,
+        fallbackLanguageCodes: languageCodes,
+      })}>
         <App routeStore={asyncRouteStore}/>
       </AppContextProvider>
     </BrowserRouter>

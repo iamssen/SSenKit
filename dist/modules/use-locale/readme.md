@@ -6,8 +6,8 @@ npm install use-locale
 
 # API
 
-- `getBrowserLocale: <LanguageCode extends string>(cookieKey: string = 'locale') => LanguageCode`
-- `useLocale: <LanguageCode extends string>(currentLocale: LanguageCode) => { locale: LanguageCode, updateLocale: (locale: LanguageCode) => void }`
+- `getBrowserLocale: ({cookieKey = 'locale', fallbackLanguageCodes = []}) => string`
+- `useLocale: (currentLocale: string, {cookieKey = 'locale'}) => { locale: string, updateLocale: (locale: string) => void }`
 
 # Basic usage
 
@@ -146,12 +146,12 @@ Additionally, the locale information in SSR (Server Side Rendering) can be obtai
 
 ```typescript jsx
 import express, { Express, Request, Response } from 'express';
-import { LanguageCode } from './locale';
+import { LanguageCode, languageCodes } from './locale';
 
 const app: Express = express();
 
 app.get('/', (req, res) => {
-  const locale: LanguageCode = req.cookies['locale'] || 'en-US';
+  const locale: LanguageCode = req.cookies['locale'] || req.acceptsLanguages(...languageCodes) || languageCodes[0];
   
   // res.send(ssr processed html text)
 });
