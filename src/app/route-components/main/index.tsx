@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'use-react-intl';
 
-export default function () {
+export default function Main() {
   const {formatMessage} = useIntl();
   
   return (
