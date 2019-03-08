@@ -9,7 +9,8 @@ import 'prismjs/components/prism-scss.min';
 import 'prismjs/components/prism-tsx.min';
 import 'prismjs/components/prism-typescript.min';
 export interface CodeBlockProps {
-    value: string;
+    value?: string;
     language?: string;
+    children?: string;
 }
-export declare function CodeBlock({ value, language }: CodeBlockProps): JSX.Element;
+export declare function CodeBlock({ value, children, language }: CodeBlockProps): JSX.Element | null;

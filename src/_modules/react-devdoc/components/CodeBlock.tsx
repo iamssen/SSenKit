@@ -11,11 +11,14 @@ import 'prismjs/components/prism-typescript.min';
 import React from 'react';
 
 export interface CodeBlockProps {
-  value: string;
+  value?: string;
   language?: string;
+  children?: string;
 }
 
-export function CodeBlock({value, language = 'none'}: CodeBlockProps) {
+export function CodeBlock({value, children, language = 'none'}: CodeBlockProps) {
+  if (!children && !value) return null;
+  
   if (['javascript jsx'].indexOf(language)) language = 'jsx';
   if (['typescript jsx'].indexOf(language)) language = 'tsx';
   if (!languages[language]) language = 'none';
@@ -24,7 +27,7 @@ export function CodeBlock({value, language = 'none'}: CodeBlockProps) {
     ? languages[language]
     : languages.js;
   
-  const html: string = highlight(value, grammar);
+  const html: string = highlight(children || value!, grammar);
   const className: string = 'language-' + language;
   
   return (
