@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { getBrowserLocale } from 'use-locale';
-import '../polyfills';
+import 'shared/polyfills';
 
 function AppProvider() {
   return (

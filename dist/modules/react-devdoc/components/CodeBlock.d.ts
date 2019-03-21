@@ -8,6 +8,8 @@ import 'prismjs/components/prism-sass.min';
 import 'prismjs/components/prism-scss.min';
 import 'prismjs/components/prism-tsx.min';
 import 'prismjs/components/prism-typescript.min';
+import 'prismjs/components/prism-diff.min';
+import 'prismjs/components/prism-markdown.min';
 export interface CodeBlockProps {
     value?: string;
     language?: string;

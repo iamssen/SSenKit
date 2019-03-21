@@ -1,1 +1,1 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[11],{478:function(e,n,t){"use strict";t.r(n);var a=t(1),i=t.n(a),r=t(157);n.default=function(){var e=Object(r.b)().formatMessage;return i.a.createElement("div",null,e({id:"app.main.text"}))}}}]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[11],{479:function(n,e,t){"use strict";t.r(e),t.d(e,"default",function(){return u});var a=t(1),r=t.n(a),i=t(156);function u(){var n=Object(i.b)().formatMessage;return r.a.createElement("div",null,n({id:"app.main.text"}))}}}]);
