@@ -8,6 +8,8 @@ import 'prismjs/components/prism-sass.min';
 import 'prismjs/components/prism-scss.min';
 import 'prismjs/components/prism-tsx.min';
 import 'prismjs/components/prism-typescript.min';
+import 'prismjs/components/prism-diff.min';
+import 'prismjs/components/prism-markdown.min';
 import React from 'react';
 
 export interface CodeBlockProps {
@@ -21,6 +23,7 @@ export function CodeBlock({value, children, language = 'none'}: CodeBlockProps) 
   
   if (['javascript jsx'].indexOf(language)) language = 'jsx';
   if (['typescript jsx'].indexOf(language)) language = 'tsx';
+  if (['sh'].indexOf(language)) language = 'bash';
   if (!languages[language]) language = 'none';
   
   const grammar: LanguageDefinition = languages[language]
