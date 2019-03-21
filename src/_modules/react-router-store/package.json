@@ -1,6 +1,6 @@
 {
   "name": "react-router-store",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "react-router helper",
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "react": "^16.8.0-alpha.0",
-    "react-router": "^4.4.0-alpha.1"
+    "react": "^16.8.0",
+    "react-router": "^5.0.0"
   }
 }

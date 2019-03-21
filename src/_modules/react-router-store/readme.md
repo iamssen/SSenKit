@@ -120,7 +120,7 @@ if (window.__INITIAL_STATE__) {
 For client, preloads the route component before running the app.
 
 ```typescript jsx
-// ssr.tsx
+// server.tsx
 import React from 'react';
 import { StaticRouter } from 'react-router';
 import express, { Express, Request, Response } from 'express';
