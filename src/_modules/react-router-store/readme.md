@@ -56,11 +56,15 @@ Add `<Route/>`
 ```typescript jsx
 // main.tsx
 import React from 'react';
-import { RouteStore } from 'react-router-store';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { RouteStore, Suspense } from 'react-router-store';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 
 interface MainProps {
   routeStore: RouteStore;
+}
+
+function LoadingMessage() {
+  return <div>Loading...</div>;
 }
 
 export function Main({ routeStore }: MainProps) {
@@ -76,10 +80,13 @@ export function Main({ routeStore }: MainProps) {
       </ul>
       
       <div id="content">
-        {/*<Route exact path="/" component={}/>*/}
-        {/*<Route path="/sample" component={}/>*/}
-        {routeStore.getRoute('/')}
-        {routeStore.getRoute('/sample')}
+        <Suspense fallback={<LoadingMessage/>}>
+          <Switch>
+            {/*<Route exact path="/" component={}/>*/}
+            {/*<Route path="/sample" component={}/>*/}
+            {routeStore.getAllRoutes()}
+          </Switch>
+        </Suspense>
       </div>
     </div>
   )

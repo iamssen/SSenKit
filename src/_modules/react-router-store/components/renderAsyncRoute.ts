@@ -1,5 +1,6 @@
 import { ComponentType, createElement, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { useSuspenseContextState } from './Suspense';
 
 // tslint:disable:no-any
 interface Props {
@@ -9,10 +10,14 @@ interface Props {
 
 function AsyncRouteRenderer({load, props}: Props) {
   const [component, setComponent] = useState<ReactElement<any> | null>(null);
+  const {setLoading} = useSuspenseContextState();
   
   useEffect(() => {
+    setLoading(true);
+    
     load.then(({default: Component}: {default: ComponentType<any>}) => {
       setComponent(createElement(Component, props));
+      setLoading(false);
     });
   }, []);
   

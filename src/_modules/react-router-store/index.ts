@@ -3,3 +3,4 @@ export * from './components/AsyncRouteStore';
 export * from './components/SyncRouteStore';
 export * from './components/renderAsyncRoute';
 export * from './components/compareRouteOptions';
+export { Suspense } from './components/Suspense';
