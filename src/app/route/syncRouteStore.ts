@@ -27,6 +27,10 @@ export const syncRouteStore: RouteStore = new SyncRouteStore([
     component: require('modules/use-timezone').default,
   },
   {
+    path: '/modules/use-restricted-input',
+    component: require('modules/use-restricted-input').default,
+  },
+  {
     path: '/research/immer',
     component: require('research/immer').default,
   },

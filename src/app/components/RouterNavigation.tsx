@@ -36,6 +36,7 @@ export function RouterNavigation() {
             'use-react-intl',
             'use-locale',
             'use-timezone',
+            'use-restricted-input',
           ].map((name: string) => (
             <Item key={'/modules/' + name}>
               <Link to={'/modules/' + name}>

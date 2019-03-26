@@ -27,6 +27,10 @@ export const asyncRouteStore: RouteStore = new AsyncRouteStore([
     component: () => import('modules/use-timezone'),
   },
   {
+    path: '/modules/use-restricted-input',
+    component: () => import('modules/use-restricted-input'),
+  },
+  {
     path: '/research/immer',
     component: () => import('research/immer'),
   },
