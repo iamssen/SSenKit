@@ -83,6 +83,7 @@
     "react-markdown": "^4.0.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
+    "resize-observer-polyfill": "^1.5.1",
     "url-search-params-polyfill": "^5.0.0",
     "use-react-router": "^1.0.5"
   },

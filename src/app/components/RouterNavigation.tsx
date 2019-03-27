@@ -37,6 +37,7 @@ export function RouterNavigation() {
             'use-locale',
             'use-timezone',
             'use-restricted-input',
+            'react-virtual-scroller',
           ].map((name: string) => (
             <Item key={'/modules/' + name}>
               <Link to={'/modules/' + name}>

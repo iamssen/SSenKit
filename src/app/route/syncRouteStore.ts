@@ -31,6 +31,10 @@ export const syncRouteStore: RouteStore = new SyncRouteStore([
     component: require('modules/use-restricted-input').default,
   },
   {
+    path: '/modules/react-virtual-scroller',
+    component: require('modules/react-virtual-scroller').default,
+  },
+  {
     path: '/research/immer',
     component: require('research/immer').default,
   },

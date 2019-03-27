@@ -31,6 +31,10 @@ export const asyncRouteStore: RouteStore = new AsyncRouteStore([
     component: () => import('modules/use-restricted-input'),
   },
   {
+    path: '/modules/react-virtual-scroller',
+    component: () => import('modules/react-virtual-scroller'),
+  },
+  {
     path: '/research/immer',
     component: () => import('research/immer'),
   },
