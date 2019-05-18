@@ -2,28 +2,21 @@ import { Layout } from 'antd';
 import 'antd/dist/antd.css';
 import 'prismjs/themes/prism-okaidia.css';
 import React from 'react';
-import { RouteStore } from 'react-router-store';
-import { RouterContents } from './components/RouterContents';
-import { RouterNavigation } from './components/RouterNavigation';
-import './index.less';
-import styles from './index.module.less';
+import { RouterContents } from './router-components/RouterContents';
+import { RouterNavigation } from './router-components/RouterNavigation';
+import './style.less';
+import styles from './style.module.less';
 
-const {Content, Header} = Layout;
-
-export interface AppProps {
-  routeStore: RouteStore;
-}
-
-export function App({routeStore}: AppProps) {
+export function App() {
   return (
     <Layout>
-      <Header className={styles.header}>
+      <Layout.Header className={styles.header}>
         <RouterNavigation/>
-      </Header>
+      </Layout.Header>
       
-      <Content className={styles.content}>
-        <RouterContents routeStore={routeStore}/>
-      </Content>
+      <Layout.Content className={styles.content}>
+        <RouterContents/>
+      </Layout.Content>
     </Layout>
   );
 }

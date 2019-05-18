@@ -1,0 +1,8 @@
+{
+  "en-US": {
+    "home.text": "HOME ({locale})"
+  },
+  "ko-KR": {
+    "home.text": "홈 ({locale})"
+  }
+}

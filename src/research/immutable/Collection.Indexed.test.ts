@@ -1,4 +1,4 @@
-import { Collection, isIndexed, isKeyed, List } from 'immutable';
+import { Collection, List } from 'immutable';
 
 describe('Collection.Indexed', () => {
   //it('Conversion to Seq', () => {

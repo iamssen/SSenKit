@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{346:function(e,n,t){"use strict";t.r(n),t.d(n,"default",function(){return u});var a=t(1),c=t.n(a),o=t(179),r=t(328);function u(){var e=Object(r.b)().locale,n=Object(o.b)().formatMessage;return c.a.createElement("div",null,n({id:"home.text"},{locale:e}))}}}]);
